@@ -1,5 +1,4 @@
-import Calender from "@/components/Calender"
-import calcStreak from "@/lib/calcStreak"
+import TaskPage from "@/components/TaskPage"
 import { Task } from "@/typing"
 
 interface TaskPagProps {
@@ -13,9 +12,9 @@ const task: Task = {
     {
       date: "7/1/2023",
     },
-    {
-      date: "7/2/2023",
-    },
+    // {
+    //   date: "7/2/2023",
+    // },
     {
       date: "3/6/2023",
     },
@@ -44,13 +43,5 @@ const task: Task = {
 }
 
 export default function page({ params }: TaskPagProps) {
-  return (
-    <div className="container flex flex-col items-center justify-center">
-      <p>{params.slug}</p>
-      <Calender dates={task.dates} />
-      <p>completed: {task.dates.length}</p>
-      <p>current streak: {calcStreak(task.dates)}</p>
-      <p>best streak: {task.dates.length}</p>
-    </div>
-  )
+  return <TaskPage task={task} />
 }

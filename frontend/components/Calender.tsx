@@ -61,17 +61,21 @@ export default function Calender({ dates }: CalenderProps) {
   }
 
   return (
-    <div className="w-fit m-3 p-5 rounded-xl border-4">
-      <div className="flex mb-3 gap-2 items-center justify-center">
+    <div className="w-fit m-3 mt-5 p-5 rounded-xl bg-[#202020] text-[#6b6b6b]">
+      <div className="flex px-3 mb-4 gap-2 items-center justify-center">
         <div
-          className="w-3 h-3 bg-black"
+          className=" select-none border-8 border-amber-500 border-y-transparent border-s-transparent cursor-pointer"
           onClick={() => {
             setMonthIndex((p) => (p > 0 ? p - 1 : 11))
           }}
         ></div>
-        <p className="w-20 text-center">{months[monthIndex]}</p>
+        <div className="w-full flex justify-center">
+          <p className="px-4 py-1 w-fit bg-[#2c2c2c] rounded-full text-center text-white font-bold">
+            {months[monthIndex]}
+          </p>
+        </div>
         <div
-          className="arrow w-3 h-3 bg-black"
+          className=" select-none border-8 border-amber-500 border-y-transparent border-e-transparent cursor-pointer"
           onClick={() => {
             setMonthIndex((p) => (p < 11 ? p + 1 : 0))
             console.log(monthIndex)
@@ -94,16 +98,18 @@ export default function Calender({ dates }: CalenderProps) {
               rounded-full
               w-8
               h-8
+              font-semibold
+              select-none
               ${check(
                 completedDays,
                 i + 1,
                 completedMonths,
                 monthIndex + 1,
-                "!bg-black !text-white"
+                "!bg-[#2c2c2c] !text-amber-500"
               )}
               ${
                 +currentDay === i + 1 && +currentMonth - 1 === monthIndex
-                  ? "bg-black bg-opacity-20 text-black"
+                  ? "bg-[#2c2c2c]"
                   : ""
               }
             `}

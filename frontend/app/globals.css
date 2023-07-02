@@ -5,6 +5,9 @@
 html {
 	overflow-x: hidden;
 }
+body {
+	background: #000000;
+}
 
 /* container  */
 .container {
