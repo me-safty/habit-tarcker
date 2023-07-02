@@ -16,18 +16,24 @@ export default function Tasks({ tasks }: TasksProps) {
         const isCompleted = checkTheTaskIfCompleted(task.dates)
         return (
           <Link key={i} href={`task/${task.name}`}>
-            <div className="border border-black rounded-xl my-3 p-3 flex items-center justify-between gap-5">
+            <div className="text-white border border-white rounded-xl my-3 p-3 flex items-center justify-between gap-5">
               <p>{task.name}</p>
+              <p>total Days: {task.dates.length}</p>
               <div
                 style={{
-                  background: isCompleted ? "black" : "",
+                  background: isCompleted ? "white" : "",
                 }}
-                className="w-4 h-4 border border-black rounded-full"
+                className="w-4 h-4 border border-white rounded-full"
               ></div>
             </div>
           </Link>
         )
       })}
+      <Link href={"/create-habit"}>
+        <button className=" bg-amber-500 text-white text-2xl flex items-center justify-center rounded-full w-10 h-10">
+          +
+        </button>
+      </Link>
     </div>
   )
 }

@@ -4,7 +4,6 @@ import calcStreak from "@/lib/calcStreak"
 
 interface TaskPageProps {
   task: Task
-
 }
 export default function TaskPage({ task }: TaskPageProps) {
   return (
