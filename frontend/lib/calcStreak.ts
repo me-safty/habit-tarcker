@@ -55,7 +55,10 @@ export default function calcStreak(
         streak++
       } else if (nextDay - day === 1) {
         streak++
-      } else if (nextDay === 1 && (day === 30 || day === 31)) {
+      } else if (
+        nextDay === 1 &&
+        (day === 28 || day === 29 || day === 30 || day === 31)
+      ) {
         streak++
       } else {
         break
