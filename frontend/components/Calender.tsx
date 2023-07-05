@@ -42,19 +42,24 @@ export default function Calender({ dates }: CalenderProps) {
   const currentYear = currentDate[2]
   const [monthIndex, setMonthIndex] = useState<number>(+currentMonth - 1)
 
+  const [year, setYear] = useState<number>(+currentYear)
+
   const completedDates = dates.map((date) => date.date.split("/"))
   const completedDays = completedDates.map((date) => +date[1])
   const completedMonths = completedDates.map((date) => +date[0])
+  const completedYears = completedDates.map((date) => +date[2])
 
   function check(
     days: number[],
     index: number,
     months: number[],
     monthI: number,
+    years: number[],
+    yearI: number,
     style: string
   ) {
     for (let i = 0; i < days.length; i++) {
-      if (days[i] === index && months[i] === monthI) {
+      if (days[i] === index && months[i] === monthI && years[i] === yearI) {
         return style
       }
     }
@@ -66,21 +71,44 @@ export default function Calender({ dates }: CalenderProps) {
         <div
           className=" select-none border-8 border-amber-500 border-y-transparent border-s-transparent cursor-pointer"
           onClick={() => {
-            setMonthIndex((p) => (p > 0 ? p - 1 : 11))
+            setMonthIndex((p) => {
+              if (p > 0) {
+                return p - 1
+              } else {
+                setYear((p) => p - 1)
+                return 11
+              }
+            })
           }}
-        ></div>
+        />
         <div className="w-full flex justify-center">
-          <p className="px-4 py-1 w-fit bg-[#2c2c2c] rounded-full text-center text-white font-bold">
+          <p className="px-4 py-1 select-none w-fit bg-[#2c2c2c] rounded-full text-center text-white font-bold"
+            onDoubleClick={() => {
+              setMonthIndex(+currentMonth - 1)
+              setYear(+currentYear)
+            }}
+          >
             {months[monthIndex]}
+            {year !== +currentYear ? ` ${year}` : ""}
           </p>
         </div>
-        <div
-          className=" select-none border-8 border-amber-500 border-y-transparent border-e-transparent cursor-pointer"
-          onClick={() => {
-            setMonthIndex((p) => (p < 11 ? p + 1 : 0))
-            console.log(monthIndex)
-          }}
-        ></div>
+        {year === +currentYear && +currentMonth === monthIndex + 1 ? (
+          <div className="w-[16px] h-[16px]" />
+        ) : (
+          <div
+            className=" select-none border-8 border-amber-500 border-y-transparent border-e-transparent cursor-pointer"
+            onClick={() => {
+              setMonthIndex((p) => {
+                if (p < 11) {
+                  return p + 1
+                } else {
+                  setYear((p) => p + 1)
+                  return 0
+                }
+              })
+            }}
+          />
+        )}
       </div>
       <div className="grid grid-cols-7 gap-2">
         {daysOfTheWeek.map((day) => (
@@ -105,10 +133,14 @@ export default function Calender({ dates }: CalenderProps) {
                 i + 1,
                 completedMonths,
                 monthIndex + 1,
+                completedYears,
+                year,
                 "!bg-[#2c2c2c] !text-amber-500"
               )}
               ${
-                +currentDay === i + 1 && +currentMonth - 1 === monthIndex
+                +currentDay === i + 1 &&
+                +currentMonth - 1 === monthIndex &&
+                +currentYear === year
                   ? "bg-[#2c2c2c]"
                   : ""
               }

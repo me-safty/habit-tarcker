@@ -1,7 +1,7 @@
 import calcStreak from "@/lib/calcStreak"
 import { TaskByDate } from "@/typing"
 
-describe("add", () => {
+describe("teat the calcStreak functionality", () => {
   const currentDate = ["7", "5", "2023"]
 
   it("calc the streak", () => {
@@ -19,6 +19,7 @@ describe("add", () => {
     const streak = calcStreak(dates, currentDate)
     expect(streak).toEqual(3)
   })
+
   it("if the streak equal to 1 and it separated with big streak", () => {
     const dates: TaskByDate[] = [
       {
@@ -37,6 +38,7 @@ describe("add", () => {
     const streak = calcStreak(dates, currentDate)
     expect(streak).toEqual(0)
   })
+
   it("if the streak is separated with the current day more than one day ", () => {
     const dates: TaskByDate[] = [
       {
