@@ -4,6 +4,7 @@ import { FormEvent } from "react";
 export default function Page() {
   function submitHandler(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    console.log(e)
   }
   return (
     <div className="container text-white">

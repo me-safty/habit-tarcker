@@ -5,7 +5,9 @@ import calcStreak from "@/lib/calcStreak"
 interface TaskPageProps {
   task: Task
 }
+
 export default function TaskPage({ task }: TaskPageProps) {
+  const currentDate = new Date().toLocaleString().split(",")[0].split("/")
   return (
     <div className="container flex flex-col items-center justify-center">
       <Calender dates={task.dates} />
@@ -19,13 +21,13 @@ export default function TaskPage({ task }: TaskPageProps) {
         <div className="p-3 bg-[#363636] bg-opacity-50 rounded-lg text-white">
           <p className="text-sm text-[#999999]">Current Streak</p>
           <p className="font-bold text-xl">
-            {calcStreak(task.dates)} <span className="text-sm">Days</span>
+            {calcStreak(task.dates, currentDate)} <span className="text-sm">Days</span>
           </p>
         </div>
         <div className="p-3 bg-[#363636] bg-opacity-50 rounded-lg text-white">
           <p className="text-sm text-[#999999]">Best Streak</p>
           <p className="font-bold text-xl">
-            {calcStreak(task.dates)} <span className="text-sm">Days</span>
+            {task.bestStreak} <span className="text-sm">Days</span>
           </p>
         </div>
       </div>
