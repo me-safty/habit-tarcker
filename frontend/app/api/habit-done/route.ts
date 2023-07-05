@@ -11,25 +11,27 @@ const config = {
 
 const sanityClint = createClient(config)
 
-export async function POST(request: Request) {
-  const { name } = await request.json()
+export async function PUT(request: Request) {
+  const { name, _id, bestStreak, currentStreak, slug, dates } =
+    await request.json()
 
   try {
-    await sanityClint.create({
+    await sanityClint.createOrReplace({
+      _id,
       _type: "habit",
       name,
-      bestStreak: 0,
-      currentStreak: 0,
+      bestStreak,
+      currentStreak,
       slug: {
         _type: "slug",
-        current: name.toLowerCase().split(" ").join("-"),
+        current: slug,
       },
-      dates: [],
+      dates,
     })
   } catch (error) {
     console.log(error)
-    return NextResponse.json({ message: "Could't create the habit", error })
+    return NextResponse.json({ message: "Could't mark the habit done", error })
   }
-  console.log("habit created")
-  return NextResponse.json({ message: "Habit Created" })
+  console.log("habit done")
+  return NextResponse.json({ message: "Habit Done" })
 }

@@ -3,6 +3,7 @@ export interface Task {
   _createdAt: string
   name: string
   bestStreak: number
+  currentStreak: number
   dates: TaskByDate[]
   slug: {
     current: string

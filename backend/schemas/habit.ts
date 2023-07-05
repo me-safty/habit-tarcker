@@ -16,6 +16,11 @@ export default defineType({
       type: 'number',
     }),
     defineField({
+      name: 'currentStreak',
+      title: 'CurrentStreak',
+      type: 'number',
+    }),
+    defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',

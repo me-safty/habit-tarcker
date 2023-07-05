@@ -8,27 +8,32 @@ interface TasksProps {
 }
 
 export default function Tasks({ tasks }: TasksProps) {
-  console.log(new Date().toLocaleString().split(",")[0] === "7/1/2023")
-
   return (
-    <div className="p-3">
-      {tasks.map((task, i) => {
-        const isCompleted = checkTheTaskIfCompleted(task.dates)
-        return (
-          <Link key={i} href={`task/${task.slug.current}`}>
-            <div className="text-white border border-white rounded-xl my-3 p-3 flex items-center justify-between gap-5">
-              <p>{task.name}</p>
-              <p>total Days: {task.dates.length}</p>
-              <div
-                style={{
-                  background: isCompleted ? "white" : "",
-                }}
-                className="w-4 h-4 border border-white rounded-full"
-              ></div>
-            </div>
-          </Link>
-        )
-      })}
+    <div className="my-3 max-w-[400px]">
+      <div className="my-3 rounded-xl p-1 bg-[#202020]">
+        {tasks.map((task, i) => {
+          const isCompleted = checkTheTaskIfCompleted(task.dates)
+          return (
+            <Link key={i} href={`task/${task.slug.current}`}>
+              <div className="text-white my-1 p-2 flex items-center justify-between gap-5">
+                <div className="flex gap-3 justify-center items-center">
+                <div
+                  style={{
+                    background: isCompleted ? "rgb(245, 158, 11)" : "",
+                  }}
+                  className="w-5 h-5 border border-amber-500 rounded-full"
+                />
+                  <p className="text-lg">{task.name}</p>
+                </div>
+                  <p className="flex flex-col text-sm items-end">
+                    {task.currentStreak}
+                    <span className="text-sm text-[#999999]">current streak</span>
+                  </p>
+              </div>
+            </Link>
+          )
+        })}
+      </div>
       <Link href={"/create-habit"}>
         <button className=" bg-amber-500 text-white text-2xl flex items-center justify-center rounded-full w-10 h-10">
           +

@@ -31,6 +31,7 @@ export default function TaskPage({ task }: TaskPageProps) {
           </p>
         </div>
       </div>
+      <button className="text-white p-2 bg-amber-500 my-3 rounded-lg w-full max-w-[315px]">Done</button>
     </div>
   )
 }

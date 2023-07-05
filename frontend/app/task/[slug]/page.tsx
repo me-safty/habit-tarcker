@@ -55,6 +55,7 @@ async function getHabit(slug: string) {
       _createdAt,
       name,
       bestStreak,
+      currentStreak,
       dates,
       slug,
     }

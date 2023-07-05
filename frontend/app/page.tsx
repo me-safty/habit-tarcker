@@ -10,6 +10,7 @@ async function getHabits() {
       _id,
       _createdAt,
       name,
+      currentStreak,
       bestStreak,
       dates,
       slug,
@@ -20,6 +21,7 @@ async function getHabits() {
 
 export default async function Home() {
   const habits: Task[] = await getHabits()
+  console.log(habits)
   return (
     <main className="container">
       <Tasks tasks={habits} />
