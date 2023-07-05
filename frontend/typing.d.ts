@@ -1,7 +1,12 @@
 export interface Task {
+  _id: string
+  _createdAt: string
   name: string
   bestStreak: number
   dates: TaskByDate[]
+  slug: {
+    current: string
+  }
 }
 export interface TaskByDate {
   date: string

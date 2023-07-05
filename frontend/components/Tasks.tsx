@@ -15,7 +15,7 @@ export default function Tasks({ tasks }: TasksProps) {
       {tasks.map((task, i) => {
         const isCompleted = checkTheTaskIfCompleted(task.dates)
         return (
-          <Link key={i} href={`task/${task.name}`}>
+          <Link key={i} href={`task/${task.slug.current}`}>
             <div className="text-white border border-white rounded-xl my-3 p-3 flex items-center justify-between gap-5">
               <p>{task.name}</p>
               <p>total Days: {task.dates.length}</p>

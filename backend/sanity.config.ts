@@ -8,7 +8,7 @@ const devOnlyPlugins = [getStartedPlugin()]
 
 export default defineConfig({
   name: 'default',
-  title: 'cyan-dolphin',
+  title: 'habit-tracker',
 
   projectId: 'gm0kqnz9',
   dataset: 'production',

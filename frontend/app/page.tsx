@@ -1,62 +1,28 @@
+import { sanityClint } from "@/client"
+import { groq } from "next-sanity"
 import Tasks from "@/components/Tasks"
 import { Task } from "@/typing"
 
-const tasks: Task[] = [
-  {
-    name: "brush",
-    bestStreak: 10,
-    dates: [
-      {
-        date: "7/2/2023",
-      },
-      {
-        date: "7/1/2023",
-      },
-      {
-        date: "8/6/2023",
-      },
-      {
-        date: "9/6/2023",
-      },
-    ],
-  },
-  {
-    name: "play",
-    bestStreak: 10,
-    dates: [
-      {
-        date: "7/6/2023",
-      },
-      {
-        date: "7/1/2023",
-      },
-      {
-        date: "9/6/2023",
-      },
-    ],
-  },
-  {
-    name: "salah",
-    bestStreak: 10,
-    dates: [
-      {
-        date: "7/6/2023",
-      },
-      {
-        date: "8/6/2023",
-      },
-      {
-        date: "9/6/2023",
-      },
-    ],
-  },
-]
+async function getHabits() {
+  return sanityClint.fetch(
+    groq`
+    *[_type == "habit"] {
+      _id,
+      _createdAt,
+      name,
+      bestStreak,
+      dates,
+      slug,
+    }
+  `
+  )
+}
 
-export default function Home() {
+export default async function Home() {
+  const habits: Task[] = await getHabits()
   return (
     <main className="container">
-      {/* @ts-ignore */}
-      <Tasks tasks={tasks} />
+      <Tasks tasks={habits} />
     </main>
   )
 }
