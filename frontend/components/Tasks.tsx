@@ -17,18 +17,18 @@ export default function Tasks({ tasks }: TasksProps) {
             <Link key={i} href={`task/${task.slug.current}`}>
               <div className="text-white my-1 p-2 flex items-center justify-between gap-5">
                 <div className="flex gap-3 justify-center items-center">
-                <div
-                  style={{
-                    background: isCompleted ? "rgb(245, 158, 11)" : "",
-                  }}
-                  className="w-5 h-5 border border-amber-500 rounded-full"
-                />
+                  <div
+                    style={{
+                      background: isCompleted ? "rgb(245, 158, 11)" : "",
+                    }}
+                    className="w-5 h-5 border border-amber-500 rounded-full"
+                  />
                   <p className="text-lg">{task.name}</p>
                 </div>
-                  <p className="flex flex-col text-sm items-end">
-                    {task.currentStreak}
-                    <span className="text-sm text-[#999999]">current streak</span>
-                  </p>
+                <p className="flex flex-col text-sm items-end">
+                  {task.currentStreak}
+                  <span className="text-sm text-[#999999]">current streak</span>
+                </p>
               </div>
             </Link>
           )
