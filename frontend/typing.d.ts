@@ -11,4 +11,6 @@ export interface Task {
 }
 export interface TaskByDate {
   date: string
+  _type: string
+  _key: string
 }

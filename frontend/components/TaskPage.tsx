@@ -18,7 +18,11 @@ export default function TaskPage({ task }: TaskPageProps) {
   async function habitDone() {
     if (isDone === false) {
       const newDates = habit.dates
-      newDates.push({ date: currentDate.join("/") })
+      newDates.push({
+        date: currentDate.join("/"),
+        _type: "dateOfHabit",
+        _key: `${Math.random().toString(32).slice(2)}-${currentDate.join("/")}`,
+      })
       setHabit({ ...habit, dates: newDates })
       setIsDone(habit.dates.some((d) => d.date === currentDate.join("/")))
       await fetch("/api/habit-done", {

@@ -35,7 +35,7 @@ export default function Tasks({ tasks }: TasksProps) {
         })}
       </div>
       <Link href={"/create-habit"}>
-        <button className=" bg-amber-500 text-white text-2xl flex items-center justify-center rounded-full w-10 h-10">
+        <button className=" bg-amber-500 text-white text-3xl flex items-center justify-center rounded-full w-12 h-12">
           +
         </button>
       </Link>
