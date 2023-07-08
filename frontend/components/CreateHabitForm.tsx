@@ -1,7 +1,7 @@
 import { createClient } from "next-sanity"
 import { revalidateTag } from "next/cache"
 
-export default function Page() {
+export default function CreateHabitForm() {
   async function createHabit(e: FormData) {
     "use server"
     const name = e.get("name")?.toString().toLowerCase().split(" ").join("-")
@@ -36,24 +36,22 @@ export default function Page() {
   }
 
   return (
-    <div className="container text-white">
-      <form className="mt-4" action={createHabit}>
-        <div className="bg-[#252525] p-3 rounded-xl">
-          <p className="mb-3">Name</p>
-          <input
-            name="name"
-            placeholder="Daily Check-in"
-            type="text"
-            className=" placeholder:text-[#7a7a7a] px-3 py-2 rounded-lg w-full outline-none caret-amber-500 bg-[#353535]"
-            required
-          />
-        </div>
+    <form action={createHabit} className="text-white mt-4">
+      <div className="bg-[#252525] p-3 rounded-xl">
+        <p className="mb-3">Name</p>
         <input
-          type="submit"
-          value="Submit"
-          className="font-semibold cursor-pointer text-[#eeeeee] w-full bg-amber-500 p-2 mt-3 rounded-lg"
+          name="name"
+          placeholder="Daily Check-in"
+          type="text"
+          className=" placeholder:text-[#7a7a7a] px-3 py-2 rounded-lg w-full outline-none caret-amber-500 bg-[#353535]"
+          required
         />
-      </form>
-    </div>
+      </div>
+      <input
+        type="submit"
+        value="Submit"
+        className="font-semibold cursor-pointer text-[#eeeeee] w-full bg-amber-500 p-2 mt-3 rounded-lg"
+      />
+    </form>
   )
 }

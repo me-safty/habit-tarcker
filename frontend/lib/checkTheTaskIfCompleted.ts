@@ -1,4 +1,4 @@
-import { TaskByDate } from "@/typing"
+import { TaskByDate } from "@/types"
 
 export default function checkTheTaskIfCompleted(dates: TaskByDate[]): boolean {
   const currentDate = new Date().toLocaleString().split(",")[0]

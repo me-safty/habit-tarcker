@@ -1,6 +1,6 @@
 "use client"
 
-import { TaskByDate } from "@/typing"
+import { TaskByDate } from "@/types"
 import { useState } from "react"
 
 const daysOfTheWeek = ["Sat", "Sun", "Mon", "Tue", "Wen", "Thu", "Fri"] as const
@@ -82,7 +82,8 @@ export default function Calender({ dates }: CalenderProps) {
           }}
         />
         <div className="w-full flex justify-center">
-          <p className="px-4 py-1 select-none w-fit bg-[#2c2c2c] rounded-full text-center text-white font-bold"
+          <p
+            className="px-4 py-1 select-none w-fit bg-[#2c2c2c] rounded-full text-center text-white font-bold"
             onDoubleClick={() => {
               setMonthIndex(+currentMonth - 1)
               setYear(+currentYear)

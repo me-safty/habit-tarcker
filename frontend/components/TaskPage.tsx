@@ -1,30 +1,36 @@
 "use client"
-import { Task } from "@/typing"
+import { Task } from "@/types"
 import Calender from "./Calender"
 import calcStreak from "@/lib/calcStreak"
 import { useState } from "react"
 
 interface TaskPageProps {
-  task: Task
+  habitData: Task
 }
 
-export default function TaskPage({ task }: TaskPageProps) {
-  const currentDate = new Date().toLocaleString().split(",")[0].split("/")
-  const [habit, setHabit] = useState<Task>(task)
+export default function TaskPage({ habitData }: TaskPageProps) {
+  const date = new Date()
+  const currentDate = `${
+    date.getMonth() + 1
+  }/${date.getDate()}/${date.getFullYear()}`
+
+  const [habit, setHabit] = useState<Task>(habitData)
   const [isDone, setIsDone] = useState<boolean>(
-    habit.dates.some((d) => d.date === currentDate.join("/"))
+    habit.dates.some((d) => d.date === currentDate)
   )
 
   async function habitDone() {
     if (isDone === false) {
       const newDates = habit.dates
       newDates.push({
-        date: currentDate.join("/"),
+        date: currentDate,
         _type: "dateOfHabit",
-        _key: `${Math.random().toString(32).slice(2)}-${currentDate.join("/")}`,
+        _key: `${Math.random().toString(32).slice(2)}-${currentDate}`,
       })
+
       setHabit({ ...habit, dates: newDates })
-      setIsDone(habit.dates.some((d) => d.date === currentDate.join("/")))
+      setIsDone(habit.dates.some((d) => d.date === currentDate))
+
       await fetch("/api/habit-done", {
         method: "PUT",
         body: JSON.stringify({
@@ -38,7 +44,6 @@ export default function TaskPage({ task }: TaskPageProps) {
       })
     }
   }
-
   return (
     <div className="container flex flex-col items-center justify-center">
       <Calender dates={habit.dates} />
@@ -52,7 +57,7 @@ export default function TaskPage({ task }: TaskPageProps) {
         <div className="p-3 bg-[#363636] bg-opacity-50 rounded-lg text-white">
           <p className="text-sm text-[#999999]">Current Streak</p>
           <p className="font-bold text-xl">
-            {calcStreak(habit.dates, currentDate)}{" "}
+            {calcStreak(habit.dates, currentDate.split("/"))}{" "}
             <span className="text-sm">Days</span>
           </p>
         </div>

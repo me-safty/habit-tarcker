@@ -1,4 +1,4 @@
-import { TaskByDate } from "@/typing"
+import { TaskByDate } from "@/types"
 
 export default function calcStreak(
   dates: TaskByDate[],

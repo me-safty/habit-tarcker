@@ -1,5 +1,5 @@
 import checkTheTaskIfCompleted from "@/lib/checkTheTaskIfCompleted"
-import { Task } from "@/typing"
+import { Task } from "@/types"
 import Link from "next/link"
 import React from "react"
 
