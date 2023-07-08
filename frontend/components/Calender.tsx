@@ -36,7 +36,10 @@ interface CalenderProps {
   dates: TaskByDate[]
 }
 export default function Calender({ dates }: CalenderProps) {
-  const currentDate = new Date().toLocaleString().split(",")[0].split("/")
+  const date = new Date()
+  const currentDate = `${
+    date.getMonth() + 1
+  }/${date.getDate()}/${date.getFullYear()}`.split("/")
   const currentDay = currentDate[1]
   const currentMonth = currentDate[0]
   const currentYear = currentDate[2]

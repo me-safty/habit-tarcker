@@ -48,7 +48,7 @@ export default function TaskPage({ habitData }: TaskPageProps) {
     <div className="container flex flex-col items-center justify-center">
       <div className="bg-white p-3">
         {currentDate}
-        {new Date().toLocaleString()}
+        {/* {new Date().toLocaleString()} */}
       </div>
       <Calender dates={habit.dates} />
       <div className="grid grid-cols-2 gap-3 bg-[#202020] w-[315px] rounded-xl p-3">
