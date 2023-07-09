@@ -1,5 +1,6 @@
 "use client"
 
+import getCurrentDate from "@/lib/getCurrentDate"
 import { TaskByDate } from "@/types"
 import { useState } from "react"
 
@@ -36,10 +37,7 @@ interface CalenderProps {
   dates: TaskByDate[]
 }
 export default function Calender({ dates }: CalenderProps) {
-  const date = new Date()
-  const currentDate = `${
-    date.getMonth() + 1
-  }/${date.getDate()}/${date.getFullYear()}`.split("/")
+  const currentDate = getCurrentDate().split("/")
   const currentDay = currentDate[1]
   const currentMonth = currentDate[0]
   const currentYear = currentDate[2]
@@ -69,7 +67,7 @@ export default function Calender({ dates }: CalenderProps) {
   }
 
   return (
-    <div className="w-[315px] my-3 mt-5 p-5 rounded-xl bg-[#202020] text-[#6b6b6b]">
+    <div className="w-[315px] my-3 p-5 rounded-xl bg-[#202020] text-[#6b6b6b]">
       <div className="flex px-3 mb-4 gap-2 items-center justify-center">
         <div
           className=" select-none border-8 border-amber-500 border-y-transparent border-s-transparent cursor-pointer"

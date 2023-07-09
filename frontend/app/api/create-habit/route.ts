@@ -4,7 +4,7 @@ import { createClient } from "next-sanity"
 const config = {
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
   projectId: process.env.NEXT_PUBLIC_PROJECT_ID as string,
-  apiVersion: "2022-12-17",
+  apiVersion: process.env.NEXT_PUBLIC_API_VERSION,
   token: process.env.SANITY_API_TOKEN,
   useCdn: false,
 }

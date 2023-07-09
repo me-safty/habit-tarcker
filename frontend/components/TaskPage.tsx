@@ -3,52 +3,49 @@ import { Task } from "@/types"
 import Calender from "./Calender"
 import calcStreak from "@/lib/calcStreak"
 import { useState } from "react"
+import getCurrentDate from "@/lib/getCurrentDate"
 
 interface TaskPageProps {
   habitData: Task
 }
 
 export default function TaskPage({ habitData }: TaskPageProps) {
-  const date = new Date()
-  const currentDate = `${
-    date.getMonth() + 1
-  }/${date.getDate()}/${date.getFullYear()}`
+  const currentDate = getCurrentDate()
 
   const [habit, setHabit] = useState<Task>(habitData)
-  const [isDone, setIsDone] = useState<boolean>(
-    habit.dates.some((d) => d.date === currentDate)
-  )
+  // const [isDone, setIsDone] = useState<boolean>(
+  //   habit.dates.some((d) => d.date === currentDate)
+  // )
 
-  async function habitDone() {
-    if (isDone === false) {
-      const newDates = habit.dates
-      newDates.push({
-        date: currentDate,
-        _type: "dateOfHabit",
-        _key: `${Math.random().toString(32).slice(2)}-${currentDate}`,
-      })
+  // async function habitDone() {
+  //   if (isDone === false) {
+  //     const newDates = habit.dates
+  //     newDates.push({
+  //       date: currentDate,
+  //       _type: "dateOfHabit",
+  //       _key: `${Math.random().toString(32).slice(2)}-${currentDate}`,
+  //     })
 
-      setHabit({ ...habit, dates: newDates })
-      setIsDone(habit.dates.some((d) => d.date === currentDate))
+  //     setHabit({ ...habit, dates: newDates })
+  //     setIsDone(habit.dates.some((d) => d.date === currentDate))
 
-      await fetch("/api/habit-done", {
-        method: "PUT",
-        body: JSON.stringify({
-          _id: habit._id,
-          name: habit.name,
-          bestStreak: habit.bestStreak,
-          currentStreak: habit.currentStreak,
-          slug: habit.slug.current,
-          dates: habit.dates,
-        }),
-      })
-    }
-  }
+  //     await fetch("/api/habit-done", {
+  //       method: "PUT",
+  //       body: JSON.stringify({
+  //         _id: habit._id,
+  //         name: habit.name,
+  //         bestStreak: habit.bestStreak,
+  //         currentStreak: habit.currentStreak,
+  //         slug: habit.slug.current,
+  //         dates: habit.dates,
+  //       }),
+  //     })
+  //   }
+  // }
   return (
     <div className="container flex flex-col items-center justify-center">
-      <div className="bg-white p-3">
-        {currentDate}
-        {/* {new Date().toLocaleString()} */}
+      <div className="bg-[#202020] mt-3 w-full text-lg font-semibold text-center rounded-lg p-3 text-white">
+        {habit.name}
       </div>
       <Calender dates={habit.dates} />
       <div className="grid grid-cols-2 gap-3 bg-[#202020] w-[315px] rounded-xl p-3">
@@ -72,7 +69,7 @@ export default function TaskPage({ habitData }: TaskPageProps) {
           </p>
         </div>
       </div>
-      <button
+      {/* <button
         className={`text-white relative p-2 bg-amber-500 my-3 rounded-lg w-full max-w-[315px] ${
           isDone
             ? `
@@ -94,7 +91,7 @@ export default function TaskPage({ habitData }: TaskPageProps) {
         onClick={() => habitDone()}
       >
         Done
-      </button>
+      </button> */}
     </div>
   )
 }

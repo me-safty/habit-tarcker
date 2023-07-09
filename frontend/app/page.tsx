@@ -2,29 +2,20 @@ import { sanityClint } from "@/client"
 import Tasks from "@/components/Tasks"
 import { Task } from "@/types"
 
-export const revalidate = 1 // revalidate every hour
+export const fetchCache = "force-no-store"
 
 async function getHabits() {
-  // const res = fetch(`${process.env.URL}/api/get-habits`, {
-  //   method: "GET",
-  //   cache: "no-store",
-  //   next: {
-  //     tags: ["habits"],
-  //   },
-  // })
-  // return (await res).json()
-
   return await sanityClint.fetch(`
-  *[_type == "habit"] {
-    _id,
-    _createdAt,
-    name,
-    currentStreak,
-    bestStreak,
-    dates,
-    slug,
-  }
-`)
+    *[_type == "habit"] {
+      _id,
+      _createdAt,
+      name,
+      currentStreak,
+      bestStreak,
+      dates,
+      slug,
+    }
+  `)
 }
 
 const habits: Task[] = [

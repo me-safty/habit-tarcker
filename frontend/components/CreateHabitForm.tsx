@@ -1,5 +1,5 @@
 import { createClient } from "next-sanity"
-import { revalidateTag } from "next/cache"
+import { revalidatePath } from "next/cache"
 
 export default function CreateHabitForm() {
   async function createHabit(e: FormData) {
@@ -10,7 +10,7 @@ export default function CreateHabitForm() {
     const config = {
       dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
       projectId: process.env.NEXT_PUBLIC_PROJECT_ID as string,
-      apiVersion: "2022-12-17",
+      apiVersion: process.env.NEXT_PUBLIC_API_VERSION,
       token: process.env.SANITY_API_TOKEN,
       useCdn: false,
     }
@@ -29,29 +29,31 @@ export default function CreateHabitForm() {
         },
         dates: [],
       })
-      revalidateTag("habits")
+      // revalidatePath("/")
     } catch (error) {
       console.log(error)
     }
   }
 
   return (
-    <form action={createHabit} className="text-white mt-4">
-      <div className="bg-[#252525] p-3 rounded-xl">
-        <p className="mb-3">Name</p>
+    <div className="container text-white">
+      <form className="mt-4" action={createHabit}>
+        <div className="bg-[#252525] p-3 rounded-xl">
+          <p className="mb-3">Name</p>
+          <input
+            name="name"
+            placeholder="Daily Check-in"
+            type="text"
+            className=" placeholder:text-[#7a7a7a] px-3 py-2 rounded-lg w-full outline-none caret-amber-500 bg-[#353535]"
+            required
+          />
+        </div>
         <input
-          name="name"
-          placeholder="Daily Check-in"
-          type="text"
-          className=" placeholder:text-[#7a7a7a] px-3 py-2 rounded-lg w-full outline-none caret-amber-500 bg-[#353535]"
-          required
+          type="submit"
+          value="Submit"
+          className="font-semibold cursor-pointer text-[#eeeeee] w-full bg-amber-500 p-2 mt-3 rounded-lg"
         />
-      </div>
-      <input
-        type="submit"
-        value="Submit"
-        className="font-semibold cursor-pointer text-[#eeeeee] w-full bg-amber-500 p-2 mt-3 rounded-lg"
-      />
-    </form>
+      </form>
+    </div>
   )
 }

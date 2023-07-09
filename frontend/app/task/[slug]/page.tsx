@@ -70,16 +70,8 @@ async function getHabit(slug: string) {
   )
 }
 
-// async function getHabit(slug: string) {
-//   const res = fetch(`${process.env.URL}/api/get-habit`, {
-//     method: "GET",
-//     cache: "no-store",
-//     body: JSON.stringify({ slug }),
-//   })
-//   return (await res).json()
-// }
-
 export default async function page({ params }: TaskPagProps) {
   const habit: Task = await getHabit(params.slug)
+  console.log(habit, "fefd")
   return <TaskPage habitData={habit} />
 }
