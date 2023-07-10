@@ -13,7 +13,6 @@ export default function Tasks({ tasks }: TasksProps) {
   const currentDate = getCurrentDate()
 
   const [habits, setHabits] = useState<Task[]>(tasks)
-  console.log(habits)
 
   async function markHabitDone(habit: Task, isDone: boolean) {
     let newHabit: Task = habit
@@ -36,7 +35,6 @@ export default function Tasks({ tasks }: TasksProps) {
       return habits.map((currentHabit) => {
         if (currentHabit._id === habit._id) {
           newHabit = { ...currentHabit, dates: newDates }
-          console.log(newHabit, "new")
           return newHabit
         } else {
           return currentHabit
