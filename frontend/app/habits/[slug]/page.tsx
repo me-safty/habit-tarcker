@@ -1,9 +1,5 @@
-import { sanityClint } from "@/client"
 import HabitPage from "@/components/HabitPage"
-import { store } from "@/store"
-import { setStartupHabits } from "@/store/habitsSlice"
 import { Habit } from "@/types"
-import { groq } from "next-sanity"
 
 interface TaskPagProps {
   params: { slug: string }
@@ -101,60 +97,8 @@ async function getHabit(slug: string) {
   // )
 }
 
-const habits: Habit[] = [
-  {
-    _id: "Grgr",
-    _createdAt: "Ferfwer",
-    name: "dwdwdqd",
-    bestStreak: 10,
-    currentStreak: 0,
-    slug: {
-      current: "dw3e2",
-    },
-    dates: [
-      // {
-      //   date: "11/28/2022",
-      // },
-      // {
-      //   date: "11/29/2022",
-      // },
-      // {
-      //   date: "11/30/2022",
-      // },
-      // {
-      //   date: "11/25/2022",
-      // },
-      // {
-      //   date: "6/29/2023",
-      // },
-      // {
-      //   date: "6/30/2023",
-      // },
-      // {
-      //   date: "7/1/2023",
-      // },
-      // {
-      //   date: "7/2/2023",
-      // },
-      // {
-      //   date: "7/3/2023",
-      // },
-      // {
-      //   date: "7/4/2023",
-      // },
-      // {
-      //   date: "7/5/2023",
-      // },
-    ],
-  },
-]
-
 export default async function page({ params }: TaskPagProps) {
-  // const habit: Habit = await getHabit(params.slug)
-  // const habits2 = store.getState().habits.startupHabits
-  // const habit = habits2.find(
-  //   (habit) => habit.slug.current === params.slug
-  // ) as Habit
-  console.log(store.getState().habits.startupHabits, "fefd")
-  // return <HabitPage habitData={habit} />
+  const habit: Habit = await getHabit(params.slug)
+  console.log(habit, "fefd")
+  return <HabitPage habitData={habit} />
 }

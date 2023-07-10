@@ -1,6 +1,4 @@
 import Habits from "@/components/Habits"
-import { store } from "@/store"
-import { setStartupHabits } from "@/store/habitsSlice"
 import { Habit } from "@/types"
 
 async function getHabits() {
@@ -79,11 +77,10 @@ const habits: Habit[] = [
 
 export default async function Home() {
   const habits: Habit[] = await getHabits()
-  store.dispatch(setStartupHabits(habits))
-  console.log(store.getState().habits.startupHabits, "redux habits")
+  console.log(habits)
   return (
     <main className="container">
-      <Habits tasks={store.getState().habits.startupHabits} />
+      <Habits tasks={habits} />
     </main>
   )
 }
