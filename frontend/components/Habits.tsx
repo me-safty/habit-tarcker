@@ -1,21 +1,22 @@
 "use client"
 import checkTheTaskIfCompleted from "@/lib/checkTheTaskIfCompleted"
 import getCurrentDate from "@/lib/getCurrentDate"
-import { Task, TaskByDate } from "@/types"
+import { Habit, TaskByDate } from "@/types"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import React, { useState } from "react"
 
 interface TasksProps {
-  tasks: Task[]
+  tasks: Habit[]
 }
 
 export default function Tasks({ tasks }: TasksProps) {
   const currentDate = getCurrentDate()
+  const router = useRouter()
+  const [habits, setHabits] = useState<Habit[]>(tasks)
 
-  const [habits, setHabits] = useState<Task[]>(tasks)
-
-  async function markHabitDone(habit: Task, isDone: boolean) {
-    let newHabit: Task = habit
+  async function markHabitDone(habit: Habit, isDone: boolean) {
+    let newHabit: Habit = habit
 
     async function updateHabitToDB() {
       await fetch("/api/habit-done", {
@@ -29,9 +30,11 @@ export default function Tasks({ tasks }: TasksProps) {
           dates: newHabit.dates,
         }),
       })
+
+      router.replace("/")
     }
 
-    function getNewHabits(habits: Task[], newDates: TaskByDate[]): Task[] {
+    function getNewHabits(habits: Habit[], newDates: TaskByDate[]): Habit[] {
       return habits.map((currentHabit) => {
         if (currentHabit._id === habit._id) {
           newHabit = { ...currentHabit, dates: newDates }
@@ -77,7 +80,7 @@ export default function Tasks({ tasks }: TasksProps) {
                 className="w-6 h-6 mx-3 me-4 border border-amber-500 rounded-full"
                 onClick={() => markHabitDone(task, isCompleted)}
               />
-              <Link href={`task/${task.slug.current}`} className="flex-1">
+              <Link href={`habits/${task.slug.current}`} className="flex-1">
                 <div className="flex justify-between items-center">
                   <p className="text-lg">{task.name}</p>
                   <p className="flex flex-col text-sm items-end">

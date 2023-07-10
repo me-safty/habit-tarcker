@@ -1,18 +1,18 @@
 "use client"
-import { Task } from "@/types"
+import { Habit } from "@/types"
 import Calender from "./Calender"
 import calcStreak from "@/lib/calcStreak"
 import { useState } from "react"
 import getCurrentDate from "@/lib/getCurrentDate"
 
 interface TaskPageProps {
-  habitData: Task
+  habitData: Habit
 }
 
 export default function TaskPage({ habitData }: TaskPageProps) {
   const currentDate = getCurrentDate()
 
-  const [habit, setHabit] = useState<Task>(habitData)
+  const [habit, setHabit] = useState<Habit>(habitData)
   // const [isDone, setIsDone] = useState<boolean>(
   //   habit.dates.some((d) => d.date === currentDate)
   // )

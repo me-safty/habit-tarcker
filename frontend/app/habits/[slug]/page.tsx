@@ -1,6 +1,6 @@
 import { sanityClint } from "@/client"
-import TaskPage from "@/components/TaskPage"
-import { Task } from "@/types"
+import HabitPage from "@/components/HabitPage"
+import { Habit } from "@/types"
 import { groq } from "next-sanity"
 
 interface TaskPagProps {
@@ -71,7 +71,7 @@ async function getHabit(slug: string) {
 }
 
 export default async function page({ params }: TaskPagProps) {
-  const habit: Task = await getHabit(params.slug)
+  const habit: Habit = await getHabit(params.slug)
   console.log(habit, "fefd")
-  return <TaskPage habitData={habit} />
+  return <HabitPage habitData={habit} />
 }

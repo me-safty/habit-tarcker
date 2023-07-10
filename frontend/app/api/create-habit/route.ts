@@ -22,10 +22,11 @@ export async function POST(request: Request) {
       currentStreak: 0,
       slug: {
         _type: "slug",
-        current: name.toLowerCase().split(" ").join("-"),
+        current: Date.now(),
       },
       dates: [],
     })
+    console.log("first")
   } catch (error) {
     console.log(error)
     return NextResponse.json({ message: "Could't create the habit", error })

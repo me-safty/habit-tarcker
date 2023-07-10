@@ -11,6 +11,8 @@ const config = {
 
 const sanityClint = createClient(config)
 
+export const fetchCache = "force-no-store"
+
 export async function GET() {
   try {
     const habits = await sanityClint.fetch(`

@@ -19,20 +19,11 @@ const months = [
   "November",
   "December",
 ] as const
-const daysPerMonth = {
-  January: 31,
-  February: 28,
-  March: 31,
-  April: 30,
-  May: 31,
-  June: 30,
-  July: 31,
-  August: 31,
-  September: 30,
-  October: 31,
-  November: 30,
-  December: 31,
+
+function getDaysInMonth(year: number, month: number): number {
+  return new Date(year, month, 0).getDate()
 }
+
 interface CalenderProps {
   dates: TaskByDate[]
 }
@@ -41,9 +32,25 @@ export default function Calender({ dates }: CalenderProps) {
   const currentDay = currentDate[1]
   const currentMonth = currentDate[0]
   const currentYear = currentDate[2]
+
   const [monthIndex, setMonthIndex] = useState<number>(+currentMonth - 1)
 
   const [year, setYear] = useState<number>(+currentYear)
+
+  const daysPerMonth = {
+    January: getDaysInMonth(year, 1),
+    February: getDaysInMonth(year, 2),
+    March: getDaysInMonth(year, 3),
+    April: getDaysInMonth(year, 4),
+    May: getDaysInMonth(year, 5),
+    June: getDaysInMonth(year, 6),
+    July: getDaysInMonth(year, 7),
+    August: getDaysInMonth(year, 8),
+    September: getDaysInMonth(year, 9),
+    October: getDaysInMonth(year, 10),
+    November: getDaysInMonth(year, 11),
+    December: getDaysInMonth(year, 12),
+  }
 
   const completedDates = dates.map((date) => date.date.split("/"))
   const completedDays = completedDates.map((date) => +date[1])

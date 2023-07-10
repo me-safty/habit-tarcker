@@ -1,24 +1,31 @@
 import { sanityClint } from "@/client"
-import Tasks from "@/components/Tasks"
-import { Task } from "@/types"
+import Habits from "@/components/Habits"
+import { Habit } from "@/types"
 
-export const fetchCache = "force-no-store"
+// export const fetchCache = "force-no-store"
 
 async function getHabits() {
-  return await sanityClint.fetch(`
-    *[_type == "habit"] {
-      _id,
-      _createdAt,
-      name,
-      currentStreak,
-      bestStreak,
-      dates,
-      slug,
-    }
-  `)
+  // return await sanityClint.fetch(`
+  //   *[_type == "habit"] {
+  //     _id,
+  //     _createdAt,
+  //     name,
+  //     currentStreak,
+  //     bestStreak,
+  //     dates,
+  //     slug,
+  //   }
+  // `)
+
+  const res = await fetch("https://habit-tarcker.vercel.app/api/get-habits", {
+    method: "GET",
+    cache: "no-store",
+  })
+  const habits = await res.json()
+  return habits
 }
 
-const habits: Task[] = [
+const habits: Habit[] = [
   {
     _id: "Grgr",
     _createdAt: "Ferfwer",
@@ -67,11 +74,11 @@ const habits: Task[] = [
 ]
 
 export default async function Home() {
-  const habits: Task[] = await getHabits()
+  const habits: Habit[] = await getHabits()
   console.log(habits)
   return (
     <main className="container">
-      <Tasks tasks={habits} />
+      <Habits tasks={habits} />
     </main>
   )
 }

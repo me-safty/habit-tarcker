@@ -1,10 +1,9 @@
 import { createClient } from "next-sanity"
-import { revalidatePath } from "next/cache"
 
 export default function CreateHabitForm() {
   async function createHabit(e: FormData) {
     "use server"
-    const name = e.get("name")?.toString().toLowerCase().split(" ").join("-")
+    const name = e.get("name")?.toString()
     if (!name) return
 
     const config = {
@@ -25,11 +24,10 @@ export default function CreateHabitForm() {
         currentStreak: 0,
         slug: {
           _type: "slug",
-          current: name,
+          current: Date.now().toString(),
         },
         dates: [],
       })
-      // revalidatePath("/")
     } catch (error) {
       console.log(error)
     }

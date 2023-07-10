@@ -1,4 +1,4 @@
-export interface Task {
+export interface Habit {
   _id: string
   _createdAt: string
   name: string
