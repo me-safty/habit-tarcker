@@ -1,28 +1,30 @@
-import { sanityClint } from "@/client"
 import Habits from "@/components/Habits"
 import { Habit } from "@/types"
 
-// export const fetchCache = "force-no-store"
-
 async function getHabits() {
-  // return await sanityClint.fetch(`
-  //   *[_type == "habit"] {
-  //     _id,
-  //     _createdAt,
-  //     name,
-  //     currentStreak,
-  //     bestStreak,
-  //     dates,
-  //     slug,
-  //   }
-  // `)
-
-  const res = await fetch("https://habit-tarcker.vercel.app/api/get-habits", {
-    method: "GET",
-    cache: "no-store",
-  })
+  const projectId = process.env.NEXT_PUBLIC_PROJECT_ID
+  const apiVersion = process.env.NEXT_PUBLIC_API_VERSION
+  const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET
+  const query = `
+  *[_type == "habit"] {
+    _id,
+    _createdAt,
+    name,
+    currentStreak,
+    bestStreak,
+    dates,
+    slug,
+  }
+`
+  const res = await fetch(
+    `https://${projectId}.api.sanity.io/v${apiVersion}/data/query/${dataset}?query=${query}`,
+    {
+      method: "GET",
+      cache: "no-store",
+    }
+  )
   const habits = await res.json()
-  return habits
+  return habits.result
 }
 
 const habits: Habit[] = [

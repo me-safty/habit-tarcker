@@ -11,7 +11,8 @@ const config = {
 
 const sanityClint = createClient(config)
 
-export const fetchCache = "force-no-store"
+// export const fetchCache = "force-no-store"
+export const revalidate = false
 
 export async function GET() {
   try {
