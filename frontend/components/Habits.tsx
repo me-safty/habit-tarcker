@@ -1,7 +1,10 @@
 "use client"
 import checkTheTaskIfCompleted from "@/lib/checkTheTaskIfCompleted"
 import getCurrentDate from "@/lib/getCurrentDate"
+import { store } from "@/store"
+import { setStartupHabits } from "@/store/habitsSlice"
 import { Habit, TaskByDate } from "@/types"
+import { revalidatePath, revalidateTag } from "next/cache"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import React, { useState } from "react"
@@ -30,8 +33,8 @@ export default function Tasks({ tasks }: TasksProps) {
           dates: newHabit.dates,
         }),
       })
-
-      router.replace("/")
+      store.dispatch(setStartupHabits(habits))
+      // revalidateTag("habitPage")
     }
 
     function getNewHabits(habits: Habit[], newDates: TaskByDate[]): Habit[] {
@@ -80,7 +83,11 @@ export default function Tasks({ tasks }: TasksProps) {
                 className="w-6 h-6 mx-3 me-4 border border-amber-500 rounded-full"
                 onClick={() => markHabitDone(task, isCompleted)}
               />
-              <Link href={`habits/${task.slug.current}`} className="flex-1">
+              <Link
+                prefetch={false}
+                href={`habits/${task.slug.current}`}
+                className="flex-1"
+              >
                 <div className="flex justify-between items-center">
                   <p className="text-lg">{task.name}</p>
                   <p className="flex flex-col text-sm items-end">
