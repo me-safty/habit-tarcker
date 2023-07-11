@@ -20,7 +20,10 @@ async function getHabits() {
     `https://${projectId}.api.sanity.io/v${apiVersion}/data/query/${dataset}?query=${query}`,
     {
       method: "GET",
-      cache: "no-store",
+      cache: "no-cache",
+      next: {
+        tags: ["habits"],
+      },
     }
   )
   const habits = await res.json()
@@ -38,6 +41,11 @@ const habits: Habit[] = [
       current: "Efef",
     },
     dates: [
+      // {
+      //   date: "7/11/2023",
+      //   _type: "dateOfHabit",
+      //   _key: "jh67hk46rgo-7/11/2023",
+      // },
       // {
       //   date: "11/28/2022",
       // },
@@ -80,7 +88,7 @@ export default async function Home() {
   console.log(habits)
   return (
     <main className="container">
-      <Habits tasks={habits} />
+      <Habits habits={habits} />
     </main>
   )
 }
