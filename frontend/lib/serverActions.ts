@@ -15,15 +15,15 @@ const config = {
 
 const sanityClint = createClient(config)
 
-export default async function markHabit(e: FormData) {
+interface FormDate {
+  habit: Habit
+  isCompleted: boolean
+}
+
+export default async function markHabit(data: FormDate) {
   const currentDate = getCurrentDate()
 
-  interface FormDate {
-    habit: Habit
-    isCompleted: boolean
-  }
-
-  const data: FormDate = JSON.parse(e.get("habit") as string)
+  // const data: FormDate = JSON.parse(e.get("habit") as string)
 
   if (data.isCompleted === false) {
     const newDates = data.habit.dates
@@ -45,8 +45,10 @@ export default async function markHabit(e: FormData) {
       },
       dates: updatedHabit.dates,
     })
+    // await fetch("https://dummyjson.com/todos")
+    //   .then((res) => res.json())
+    //   .then((d) => console.log(d))
     revalidateTag("habits")
-
     console.log("added")
   } else {
     const newDates = data.habit.dates.filter((d) => d.date !== currentDate)
