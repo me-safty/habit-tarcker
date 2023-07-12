@@ -33,6 +33,7 @@ export default function HabitBox({ habit }: { habit: Habit }) {
       <Link
         href={isPending ? "" : `habits/${habit.slug.current}`}
         className="flex-1"
+        prefetch={false}
       >
         <div className="flex justify-between items-center">
           <p className="text-lg">{habit.name}</p>

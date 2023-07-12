@@ -4,6 +4,7 @@ import { revalidateTag } from "next/cache"
 import getCurrentDate from "./getCurrentDate"
 import { Habit } from "@/types"
 import { createClient } from "next-sanity"
+import calcStreak from "./calcStreak"
 
 const config = {
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
@@ -32,7 +33,17 @@ export default async function markHabit(data: FormDate) {
       _type: "dateOfHabit",
       _key: `${Math.random().toString(32).slice(2)}-${currentDate}`,
     })
-    const updatedHabit: Habit = { ...data.habit, dates: newDates }
+    const currentStreak = calcStreak(newDates, currentDate.split("/"))
+    const bestStreak =
+      data.habit.bestStreak > currentStreak
+        ? data.habit.bestStreak
+        : currentStreak
+    const updatedHabit: Habit = {
+      ...data.habit,
+      dates: newDates,
+      currentStreak,
+      bestStreak,
+    }
     await sanityClint.createOrReplace({
       _type: "habit",
       _id: updatedHabit._id,
@@ -45,14 +56,21 @@ export default async function markHabit(data: FormDate) {
       },
       dates: updatedHabit.dates,
     })
-    // await fetch("https://dummyjson.com/todos")
-    //   .then((res) => res.json())
-    //   .then((d) => console.log(d))
     revalidateTag("habits")
     console.log("added")
   } else {
     const newDates = data.habit.dates.filter((d) => d.date !== currentDate)
-    const updatedHabit: Habit = { ...data.habit, dates: newDates }
+    const currentStreak = calcStreak(newDates, currentDate.split("/"))
+    const bestStreak =
+      data.habit.bestStreak > currentStreak
+        ? data.habit.bestStreak
+        : currentStreak
+    const updatedHabit: Habit = {
+      ...data.habit,
+      dates: newDates,
+      currentStreak,
+      bestStreak,
+    }
     await sanityClint.createOrReplace({
       _type: "habit",
       _id: updatedHabit._id,
