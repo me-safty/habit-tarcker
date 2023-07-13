@@ -4,6 +4,10 @@ import Calender from "./Calender"
 import calcStreak from "@/lib/calcStreak"
 import { useState } from "react"
 import getCurrentDate from "@/lib/getCurrentDate"
+import Image from "next/image"
+import dots from "@/public/navigation-more.svg"
+import { deleteHabit } from "@/lib/serverActions"
+import { useRouter } from "next/navigation"
 
 interface TaskPageProps {
   habitData: Habit
@@ -13,39 +17,33 @@ export default function TaskPage({ habitData }: TaskPageProps) {
   const currentDate = getCurrentDate()
 
   const [habit, setHabit] = useState<Habit>(habitData)
-  // const [isDone, setIsDone] = useState<boolean>(
-  //   habit.dates.some((d) => d.date === currentDate)
-  // )
+  const router = useRouter()
 
-  // async function habitDone() {
-  //   if (isDone === false) {
-  //     const newDates = habit.dates
-  //     newDates.push({
-  //       date: currentDate,
-  //       _type: "dateOfHabit",
-  //       _key: `${Math.random().toString(32).slice(2)}-${currentDate}`,
-  //     })
-
-  //     setHabit({ ...habit, dates: newDates })
-  //     setIsDone(habit.dates.some((d) => d.date === currentDate))
-
-  //     await fetch("/api/habit-done", {
-  //       method: "PUT",
-  //       body: JSON.stringify({
-  //         _id: habit._id,
-  //         name: habit.name,
-  //         bestStreak: habit.bestStreak,
-  //         currentStreak: habit.currentStreak,
-  //         slug: habit.slug.current,
-  //         dates: habit.dates,
-  //       }),
-  //     })
-  //   }
-  // }
   return (
     <div className="container flex flex-col items-center justify-center">
-      <div className="bg-[#202020] mt-3 w-full text-lg font-semibold text-center rounded-lg p-3 text-white">
-        {habit.name}
+      <div className="bg-[#202020] relative flex items-center mt-3 w-full text-lg font-semibold text-center rounded-lg p-2 text-white">
+        <p className="flex-1">{habit.name}</p>
+        <div className="hover:bg-[#333] transition bg-opacity-30 p-2 rounded-full">
+          <Image
+            src={dots}
+            width={20}
+            height={20}
+            alt="Picture of the author"
+            className=" rotate-90 invert"
+          />
+        </div>
+        <div className="absolute top-0 right-0 flex flex-col gap-2 p-1 rounded bg-[#313131]">
+          <button className="px-2">edit</button>
+          <button
+            className="px-2"
+            onClick={() => {
+              deleteHabit(habit._id)
+              router.replace("/")
+            }}
+          >
+            delete
+          </button>
+        </div>
       </div>
       <Calender dates={habit.dates} />
       <div className="grid grid-cols-2 gap-3 bg-[#202020] w-[315px] rounded-xl p-3">
@@ -69,29 +67,6 @@ export default function TaskPage({ habitData }: TaskPageProps) {
           </p>
         </div>
       </div>
-      {/* <button
-        className={`text-white relative p-2 bg-amber-500 my-3 rounded-lg w-full max-w-[315px] ${
-          isDone
-            ? `
-          opacity-50
-          before:content-[""]
-          before:absolute
-          before:top-[50%]
-          before:left-[50%]
-          before:-translate-x-[50%]
-          before:-translate-y-[50%]
-          before:w-[100px]
-          before:h-[3px]
-          before:bg-white
-          before:rounded-xl
-          `
-            : ""
-        }`}
-        disabled={isDone}
-        onClick={() => habitDone()}
-      >
-        Done
-      </button> */}
     </div>
   )
 }

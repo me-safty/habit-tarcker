@@ -110,3 +110,13 @@ export async function createHabit(e: FormData) {
     console.log(error)
   }
 }
+
+export async function deleteHabit(id: string) {
+  try {
+    await sanityClint.delete(id)
+    revalidateTag("habits")
+    console.log("deleted")
+  } catch (error) {
+    console.log(error)
+  }
+}
