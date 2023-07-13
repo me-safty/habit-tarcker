@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react"
 import getCurrentDate from "@/lib/getCurrentDate"
 import Image from "next/image"
 import dots from "@/public/navigation-more.svg"
-import { deleteHabit, editHabit } from "@/lib/serverActions"
+import { deleteHabit } from "@/lib/serverActions"
 import { useRouter } from "next/navigation"
 
 interface TaskPageProps {
