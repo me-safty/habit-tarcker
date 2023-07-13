@@ -21,7 +21,7 @@ interface FormDate {
   isCompleted: boolean
 }
 
-export default async function markHabit(data: FormDate) {
+export async function markHabit(data: FormDate) {
   const currentDate = getCurrentDate()
 
   // const data: FormDate = JSON.parse(e.get("habit") as string)
@@ -85,5 +85,28 @@ export default async function markHabit(data: FormDate) {
     })
     revalidateTag("habits")
     console.log("removed")
+  }
+}
+
+export async function createHabit(e: FormData) {
+  const name = e.get("name")?.toString()
+  if (!name) return
+
+  try {
+    await sanityClint.create({
+      _type: "habit",
+      name,
+      bestStreak: 0,
+      currentStreak: 0,
+      slug: {
+        _type: "slug",
+        current: Date.now().toString(),
+      },
+      dates: [],
+    })
+    revalidateTag("habits")
+    console.log("revalidated")
+  } catch (error) {
+    console.log(error)
   }
 }

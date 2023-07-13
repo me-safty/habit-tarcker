@@ -1,5 +1,5 @@
 "use client"
-import markHabit from "@/lib/serverActions"
+import { markHabit } from "@/lib/serverActions"
 import checkTheTaskIfCompleted from "@/lib/checkTheTaskIfCompleted"
 import getCurrentDate from "@/lib/getCurrentDate"
 import { Habit, TaskByDate } from "@/types"

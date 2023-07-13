@@ -1,41 +1,18 @@
-import { createClient } from "next-sanity"
+"use client"
+import { createHabit } from "@/lib/serverActions"
+import { useRouter } from "next/navigation"
 
 export default function CreateHabitForm() {
-  async function createHabit(e: FormData) {
-    "use server"
-    const name = e.get("name")?.toString()
-    if (!name) return
-
-    const config = {
-      dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
-      projectId: process.env.NEXT_PUBLIC_PROJECT_ID as string,
-      apiVersion: process.env.NEXT_PUBLIC_API_VERSION,
-      token: process.env.SANITY_API_TOKEN,
-      useCdn: false,
-    }
-
-    const sanityClint = createClient(config)
-
-    try {
-      await sanityClint.create({
-        _type: "habit",
-        name,
-        bestStreak: 0,
-        currentStreak: 0,
-        slug: {
-          _type: "slug",
-          current: Date.now().toString(),
-        },
-        dates: [],
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
+  const router = useRouter()
   return (
     <div className="container text-white">
-      <form className="mt-4" action={createHabit}>
+      <form
+        className="mt-4"
+        action={(e) => {
+          createHabit(e)
+          router.replace("/")
+        }}
+      >
         <div className="bg-[#252525] p-3 rounded-xl">
           <p className="mb-3">Name</p>
           <input
