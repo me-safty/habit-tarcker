@@ -1,6 +1,6 @@
 "use server"
 
-import { revalidateTag } from "next/cache"
+import { revalidatePath, revalidateTag } from "next/cache"
 import getCurrentDate from "./getCurrentDate"
 import { Habit } from "@/types"
 import { createClient } from "next-sanity"
@@ -120,3 +120,24 @@ export async function deleteHabit(id: string) {
     console.log(error)
   }
 }
+
+// export async function editHabit(editedHabit: Habit) {
+//   try {
+//     await sanityClint.createOrReplace({
+//       _type: "habit",
+//       _id: editedHabit._id,
+//       name: editedHabit.name,
+//       bestStreak: editedHabit.bestStreak,
+//       currentStreak: editedHabit.currentStreak,
+//       slug: {
+//         _type: "slug",
+//         current: editedHabit.slug.current,
+//       },
+//       dates: editedHabit.dates,
+//     })
+//     revalidatePath(`/habits/${editedHabit.slug.current}`)
+//     console.log("edited")
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
