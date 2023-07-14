@@ -3,6 +3,9 @@
 import getCurrentDate from "@/lib/getCurrentDate"
 import { TaskByDate } from "@/types"
 import { useState } from "react"
+import Image from "next/image"
+import arrowLeft from "@/public/keyboard_arrow_left.svg"
+import arrowRight from "@/public/keyboard_arrow_right.svg"
 
 const daysOfTheWeek = ["Sat", "Sun", "Mon", "Tue", "Wen", "Thu", "Fri"] as const
 const months = [
@@ -76,8 +79,12 @@ export default function Calender({ dates }: CalenderProps) {
   return (
     <div className="w-[315px] my-3 p-5 rounded-xl bg-[#202020] text-[#6b6b6b]">
       <div className="flex px-3 mb-4 gap-2 items-center justify-center">
-        <div
-          className=" select-none border-8 border-amber-500 border-y-transparent border-s-transparent cursor-pointer"
+        <Image
+          src={arrowLeft}
+          width={30}
+          height={30}
+          alt="arrow left"
+          className=" select-none cursor-pointer"
           onClick={() => {
             setMonthIndex((p) => {
               if (p > 0) {
@@ -102,10 +109,14 @@ export default function Calender({ dates }: CalenderProps) {
           </p>
         </div>
         {year === +currentYear && +currentMonth === monthIndex + 1 ? (
-          <div className="w-[16px] h-[16px]" />
+          <div className="w-[30px] h-[30px]" />
         ) : (
-          <div
-            className=" select-none border-8 border-amber-500 border-y-transparent border-e-transparent cursor-pointer"
+          <Image
+            src={arrowRight}
+            width={30}
+            height={30}
+            alt="arrow right"
+            className=" select-none cursor-pointer"
             onClick={() => {
               setMonthIndex((p) => {
                 if (p < 11) {
