@@ -16,7 +16,7 @@ export default function Tasks({ habits }: TasksProps) {
       +checkTheTaskIfCompleted(b.dates, currentDate)
   )
   return (
-    <div className="my-3 max-w-[400px]">
+    <div className="my-3 w-[350px] max-w-[400px]">
       <div className="my-3 rounded-xl p-1 bg-[#202020]">
         {sortedHabitByCompetition.map((habit) => (
           <HabitBox habit={habit} key={habit.slug.current} />

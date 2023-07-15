@@ -121,13 +121,7 @@ export async function deleteHabit(id: string) {
   }
 }
 
-export async function editHabit(e: FormData) {
-  const habit: Habit = JSON.parse(e.get("habit") as string)
-  const name = e.get("name")?.toString()
-  if (!habit && !name) return
-
-  const editedHabit = { ...habit, name }
-  console.log(editedHabit)
+export async function editHabit(editedHabit: Habit) {
   try {
     await sanityClint.createOrReplace({
       _type: "habit",
@@ -141,7 +135,7 @@ export async function editHabit(e: FormData) {
       },
       dates: editedHabit.dates,
     })
-    revalidatePath(`/habits/${editedHabit.slug.current}`)
+    revalidateTag("habitPage")
     console.log("edited")
   } catch (error) {
     console.log(error)

@@ -187,7 +187,7 @@ export default async function Home() {
   const habits: Habit[] = await getHabits()
   // console.log(habits)
   return (
-    <main className="container">
+    <main className="container flex justify-center">
       <Habits habits={habits} />
     </main>
   )

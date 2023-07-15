@@ -4,7 +4,7 @@ import checkTheTaskIfCompleted from "@/lib/checkTheTaskIfCompleted"
 import getCurrentDate from "@/lib/getCurrentDate"
 import { Habit, TaskByDate } from "@/types"
 import Link from "next/link"
-import { useState, useTransition } from "react"
+import { useEffect, useState, useTransition } from "react"
 import calcStreak from "@/lib/calcStreak"
 
 export default function HabitBox({ habit }: { habit: Habit }) {
@@ -14,11 +14,11 @@ export default function HabitBox({ habit }: { habit: Habit }) {
   const [isDone, setIsDone] = useState<boolean>(isCompleted)
   const [streak, setStreak] = useState<number>(habit.currentStreak)
 
-  // useEffect(() => {
-  //   const isCompleted = checkTheTaskIfCompleted(habit.dates, currentDate)
-  //   setIsDone(isCompleted)
-  //   setStreak(habit.currentStreak)
-  // }, [habit])
+  useEffect(() => {
+    const isCompleted = checkTheTaskIfCompleted(habit.dates, currentDate)
+    setIsDone(isCompleted)
+    setStreak(habit.currentStreak)
+  }, [habit])
 
   function calcExpectedStreak(dates: TaskByDate[]): number {
     //spared the array to make a new array without the reference to the old one
@@ -37,12 +37,7 @@ export default function HabitBox({ habit }: { habit: Habit }) {
   }
 
   return (
-    <div
-      className="text-white my-1 p-2 flex items-center justify-between"
-      // style={{
-      //   opacity: isPending ? 0.9 : 1,
-      // }}
-    >
+    <div className="text-white my-1 p-2 flex items-center justify-between">
       <button
         style={{
           background: isDone ? "rgb(245, 158, 11)" : "",
@@ -56,13 +51,7 @@ export default function HabitBox({ habit }: { habit: Habit }) {
         type="submit"
         disabled={isPending}
       />
-      <Link
-        href={{
-          pathname: isPending ? null : `habits/${habit.slug.current}`,
-        }}
-        className="flex-1"
-        prefetch={false}
-      >
+      <Link href={`habits/${habit.slug.current}`} className="flex-1">
         <div className="flex justify-between items-center">
           <p className="text-lg">{habit.name}</p>
           <p className="flex flex-col text-sm items-end">

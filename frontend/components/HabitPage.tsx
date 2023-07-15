@@ -27,6 +27,11 @@ export default function TaskPage({ habitData }: TaskPageProps) {
   const router = useRouter()
   const [showPopup, setShowPopup] = useState(false)
   const [showEditPopup, setShowEditPopup] = useState(false)
+  const [input, setInput] = useState<string>(habit.name)
+
+  useEffect(() => {
+    setHabit(habitData)
+  }, [habitData])
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -41,25 +46,41 @@ export default function TaskPage({ habitData }: TaskPageProps) {
     }
     document.addEventListener("mousedown", handleClickOutside)
     return () => document.removeEventListener("mousedown", handleClickOutside)
-  }, [popup])
+  }, [popup, editPopup])
 
-  console.log(popup.current)
   return (
-    <div className="container w-fit flex flex-col items-center justify-center relative">
+    <div className="w-fit relative">
       {showEditPopup && (
         <div
           ref={editPopup}
           style={{ boxShadow: "1px 1px 100vh 100vh #00000066" }}
           className="absolute top-[50%] left-[50%] backdrop:blur-md -translate-x-[50%] -translate-y-[50%] w-[300px] p-3 bg-[#00000041] rounded-xl"
         >
-          <HabitForm
-            actionFunction={(e) => {
-              editHabit(e)
-              setShowEditPopup(false)
-            }}
-            habit={habit}
-            inputValue={habit.name}
-          />
+          <div>
+            <div className="bg-[#252525] p-3 rounded-xl">
+              <p className="mb-3 text-white">Name</p>
+              <input
+                name="name"
+                placeholder="Daily Check-in"
+                type="text"
+                className=" placeholder:text-[#7a7a7a] text-white px-3 py-2 rounded-lg w-full outline-none caret-amber-500 bg-[#353535]"
+                required
+                onChange={(e) => setInput(e.target.value)}
+                value={input ? input : ""}
+              />
+            </div>
+            <button
+              type="submit"
+              onClick={() => {
+                setHabit({ ...habit, name: input })
+                setShowEditPopup(false)
+                editHabit({ ...habit, name: input })
+              }}
+              className="font-semibold cursor-pointer text-[#eeeeee] w-full bg-amber-500 p-2 mt-3 rounded-lg"
+            >
+              edit
+            </button>
+          </div>
         </div>
       )}
       <div className="w-[315px] flex items-center mt-3 text-lg font-semibold rounded-lg text-white">
@@ -72,7 +93,7 @@ export default function TaskPage({ habitData }: TaskPageProps) {
             width={20}
             height={20}
             alt="image"
-            className="invert scale-[1.10]"
+            className="scale-[1.10]"
           />
         </Link>
         <p className="flex-1">{habit.name}</p>
@@ -85,20 +106,20 @@ export default function TaskPage({ habitData }: TaskPageProps) {
             width={20}
             height={20}
             alt="image"
-            className=" rotate-90 invert"
+            className=" rotate-90"
           />
         </div>
         {showPopup && (
           <div
             ref={popup}
-            className="absolute m-4 top-0 font-normal text-base w-[130px] overflow-hidden right-0 items-start flex flex-col rounded bg-[#313131]"
+            className="absolute mt-3 top-0 font-normal text-base w-[130px] overflow-hidden right-0 items-start flex flex-col rounded bg-[#313131]"
           >
             <button
               onClick={() => {
                 setShowEditPopup(true)
                 setShowPopup(false)
               }}
-              className="flex px-3 py-2 gap-2 hover:bg-[#ffffff0e] transition w-full"
+              className="flex items-center px-3 py-2 gap-2 hover:bg-[#ffffff0e] transition w-full"
             >
               <Image
                 src={edit}
@@ -114,7 +135,7 @@ export default function TaskPage({ habitData }: TaskPageProps) {
                 deleteHabit(habit._id)
                 router.replace("/")
               }}
-              className="flex px-3 py-2 gap-2 hover:bg-[#ffffff0e] transition w-full"
+              className="flex items-center px-3 py-2 gap-2 hover:bg-[#ffffff0e] transition w-full"
             >
               <Image
                 src={bin}

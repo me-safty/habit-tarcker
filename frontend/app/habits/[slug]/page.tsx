@@ -84,6 +84,10 @@ async function getHabit(slug: string) {
 
 export default async function page({ params }: TaskPagProps) {
   const habit: Habit = await getHabit(params.slug)
-  console.log(habit, "fefd")
-  return <HabitPage habitData={habit} />
+  console.log(habit, "###===revalidated")
+  return (
+    <main className="container flex flex-col items-center justify-center">
+      <HabitPage habitData={habit} />
+    </main>
+  )
 }
