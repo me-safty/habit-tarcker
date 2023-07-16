@@ -52,34 +52,47 @@ export default function TaskPage({ habitData }: TaskPageProps) {
       {showEditPopup && (
         <div
           ref={editPopup}
-          style={{ boxShadow: "1px 1px 100vh 100vh #00000066" }}
-          className="absolute top-[50%] left-[50%] backdrop:blur-md -translate-x-[50%] -translate-y-[50%] w-[300px] p-3 bg-[#00000041] rounded-xl"
+          style={{
+            boxShadow: "1px 1px 100vh 100vh #00000066",
+            backdropFilter: "blur(4px)",
+          }}
+          className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-[300px] p-3 bg-[#333333] rounded-xl"
         >
-          <div>
-            <div className="bg-[#252525] p-3 rounded-xl">
-              <p className="mb-3 text-white">Name</p>
-              <input
-                name="name"
-                placeholder="Daily Check-in"
-                type="text"
-                className=" placeholder:text-[#7a7a7a] text-white px-3 py-2 rounded-lg w-full outline-none caret-amber-500 bg-[#353535]"
-                required
-                onChange={(e) => setInput(e.target.value)}
-                value={input ? input : ""}
-              />
-            </div>
-            <button
-              type="submit"
-              onClick={() => {
-                setHabit({ ...habit, name: input })
-                setShowEditPopup(false)
-                editHabit({ ...habit, name: input })
-              }}
-              className="font-semibold cursor-pointer text-[#eeeeee] w-full bg-amber-500 p-2 mt-3 rounded-lg"
-            >
-              edit
-            </button>
+          <div className="bg-[#252525] p-3 rounded-xl mb-3">
+            <p className="mb-3 text-white">Name</p>
+            <input
+              name="name"
+              placeholder="Daily Check-in"
+              type="text"
+              className=" placeholder:text-[#7a7a7a] text-white px-3 py-2 rounded-lg w-full outline-none caret-amber-500 bg-[#353535]"
+              required
+              onChange={(e) => setInput(e.target.value)}
+              value={input ? input : ""}
+            />
           </div>
+          <div className="bg-[#252525] p-3 rounded-xl">
+            <p className="mb-3 text-white">Category</p>
+            <input
+              name="name"
+              placeholder="Daily Check-in"
+              type="text"
+              className=" placeholder:text-[#7a7a7a] text-white px-3 py-2 rounded-lg w-full outline-none caret-amber-500 bg-[#353535]"
+              required
+              onChange={(e) => setInput(e.target.value)}
+              value={input ? input : ""}
+            />
+          </div>
+          <button
+            type="submit"
+            onClick={() => {
+              setHabit({ ...habit, name: input })
+              setShowEditPopup(false)
+              editHabit({ ...habit, name: input })
+            }}
+            className="font-semibold cursor-pointer text-[#eeeeee] w-full bg-amber-500 p-2 mt-3 rounded-lg"
+          >
+            edit
+          </button>
         </div>
       )}
       <div className="w-[315px] flex items-center mt-3 text-lg font-semibold rounded-lg text-white">
