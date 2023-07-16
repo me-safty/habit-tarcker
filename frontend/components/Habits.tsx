@@ -4,7 +4,7 @@ import Link from "next/link"
 import HabitBox from "./HabitBox"
 import checkTheTaskIfCompleted from "@/lib/checkTheTaskIfCompleted"
 import getCurrentDate from "@/lib/getCurrentDate"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 interface TasksProps {
   habitsData: Habit[]
@@ -13,6 +13,10 @@ interface TasksProps {
 export default function Tasks({ habitsData }: TasksProps) {
   const currentDate = getCurrentDate()
   const [habits, setHabits] = useState<Habit[]>(habitsData)
+
+  useEffect(() => {
+    setHabits(habits)
+  }, habitsData)
 
   function sortHabits(habits: Habit[]) {
     return habits.sort(
