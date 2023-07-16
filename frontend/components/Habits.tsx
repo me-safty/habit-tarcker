@@ -30,16 +30,18 @@ export default function Tasks({ habitsData }: TasksProps) {
 
   return (
     <div className="my-3 w-[350px] max-w-[400px]">
-      <div className="my-3 rounded-xl p-1 bg-[#202020]">
-        {sortedHabitByCompetition.map((habit) => (
-          <HabitBox
-            habit={habit}
-            habits={habits}
-            sortHabits={sortHabits}
-            setHabits={setHabits}
-            key={habit.slug.current}
-          />
-        ))}
+      <div className="rounded-xl overflow-hidden mb-2">
+        <div className="overflow-y-scroll max-h-[78vh] p-1 bg-[#202020]">
+          {sortedHabitByCompetition.map((habit) => (
+            <HabitBox
+              habit={habit}
+              habits={habits}
+              sortHabits={sortHabits}
+              setHabits={setHabits}
+              key={habit.slug.current}
+            />
+          ))}
+        </div>
       </div>
       <Link href={"/create-habit"}>
         <button className=" bg-amber-500 text-white text-3xl flex items-center justify-center rounded-full w-12 h-12">
