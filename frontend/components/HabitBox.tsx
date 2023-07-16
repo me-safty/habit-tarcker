@@ -4,10 +4,26 @@ import checkTheTaskIfCompleted from "@/lib/checkTheTaskIfCompleted"
 import getCurrentDate from "@/lib/getCurrentDate"
 import { Habit, TaskByDate } from "@/types"
 import Link from "next/link"
-import { useEffect, useState, useTransition } from "react"
+import {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+  useTransition,
+} from "react"
 import calcStreak from "@/lib/calcStreak"
 
-export default function HabitBox({ habit }: { habit: Habit }) {
+export default function HabitBox({
+  habit,
+  habits,
+  setHabits,
+  sortHabits,
+}: {
+  habit: Habit
+  habits: Habit[]
+  setHabits: Dispatch<SetStateAction<Habit[]>>
+  sortHabits: (habits: Habit[]) => Habit[]
+}) {
   const [isPending, startTransition] = useTransition()
   const currentDate = getCurrentDate()
   const isCompleted = checkTheTaskIfCompleted(habit.dates, currentDate)
@@ -20,20 +36,34 @@ export default function HabitBox({ habit }: { habit: Habit }) {
     setStreak(habit.currentStreak)
   }, [habit])
 
-  function calcExpectedStreak(dates: TaskByDate[]): number {
+  function calcExpectedNewDates(dates: TaskByDate[]): TaskByDate[] {
     //spared the array to make a new array without the reference to the old one
-    const newDates = [...dates]
     if (isCompleted === false) {
+      const newDates = [...dates]
       newDates.push({
         date: currentDate,
         _type: "dateOfHabit",
         _key: `${Math.random().toString(32).slice(2)}-${currentDate}`,
       })
-      return calcStreak(newDates, currentDate.split("/"))
+      return newDates
     } else {
-      const newDates = dates.filter((d) => d.date !== currentDate)
-      return calcStreak(newDates, currentDate.split("/"))
+      return dates.filter((d) => d.date !== currentDate)
     }
+  }
+
+  function expectNewHabitsPositions(habits: Habit[]) {
+    const newHabits = habits.map((currentHabit) => {
+      if (currentHabit._id === habit._id) {
+        return {
+          ...currentHabit,
+          dates: calcExpectedNewDates(currentHabit.dates),
+          currentStreak: streak,
+        }
+      } else {
+        return currentHabit
+      }
+    })
+    return sortHabits(newHabits)
   }
 
   return (
@@ -42,10 +72,16 @@ export default function HabitBox({ habit }: { habit: Habit }) {
         style={{
           background: isDone ? "rgb(245, 158, 11)" : "",
         }}
-        className="w-6 h-6 mx-3 me-4 border border-amber-500 rounded-full"
+        className="w-6 h-6 mx-1 me-3 border border-amber-500 rounded-full"
         onClick={() => {
           setIsDone((p) => !p)
-          setStreak(calcExpectedStreak(habit.dates))
+          setStreak(
+            calcStreak(
+              calcExpectedNewDates(habit.dates),
+              currentDate.split("/")
+            )
+          )
+          setHabits(expectNewHabitsPositions(habits))
           startTransition(() => markHabit({ habit, isCompleted }))
         }}
         type="submit"

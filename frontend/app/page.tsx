@@ -188,7 +188,7 @@ export default async function Home() {
   // console.log(habits)
   return (
     <main className="container flex justify-center">
-      <Habits habits={habits} />
+      <Habits habitsData={habits} />
     </main>
   )
 }

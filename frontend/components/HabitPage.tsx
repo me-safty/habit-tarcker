@@ -12,7 +12,6 @@ import arrowBack from "@/public/arrow_back.svg"
 import Link from "next/link"
 import bin from "@/public/trash.svg"
 import edit from "@/public/edit.svg"
-import HabitForm from "./HabitForm"
 
 interface TaskPageProps {
   habitData: Habit
