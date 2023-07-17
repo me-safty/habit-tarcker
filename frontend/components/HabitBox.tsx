@@ -15,14 +15,14 @@ import calcStreak from "@/lib/calcStreak"
 
 export default function HabitBox({
   habit,
-  habits,
-  setHabits,
-  sortHabits,
-}: {
+}: // habits,
+// setHabits,
+// sortHabits,
+{
   habit: Habit
-  habits: Habit[]
-  setHabits: Dispatch<SetStateAction<Habit[]>>
-  sortHabits: (habits: Habit[]) => Habit[]
+  // habits: Habit[]
+  // setHabits: Dispatch<SetStateAction<Habit[]>>
+  // sortHabits: (habits: Habit[]) => Habit[]
 }) {
   const [isPending, startTransition] = useTransition()
   const currentDate = getCurrentDate()
@@ -51,28 +51,28 @@ export default function HabitBox({
     }
   }
 
-  function expectNewHabitsPositions(habits: Habit[]) {
-    const newHabits = habits.map((currentHabit) => {
-      if (currentHabit._id === habit._id) {
-        return {
-          ...currentHabit,
-          dates: calcExpectedNewDates(currentHabit.dates),
-          currentStreak: streak,
-        }
-      } else {
-        return currentHabit
-      }
-    })
-    return sortHabits(newHabits)
-  }
+  // function expectNewHabitsPositions(habits: Habit[]) {
+  //   const newHabits = habits.map((currentHabit) => {
+  //     if (currentHabit._id === habit._id) {
+  //       return {
+  //         ...currentHabit,
+  //         dates: calcExpectedNewDates(currentHabit.dates),
+  //         currentStreak: streak,
+  //       }
+  //     } else {
+  //       return currentHabit
+  //     }
+  //   })
+  //   return sortHabits(newHabits)
+  // }
 
   return (
-    <div className="text-white my-1 p-2 flex items-center justify-between">
+    <div className="text-white rounded-lg bg-[#333] my-1 py-2 flex items-center justify-between">
       <button
         style={{
           background: isDone ? "rgb(245, 158, 11)" : "",
         }}
-        className="w-6 h-6 mx-1 me-3 border border-amber-500 rounded-full"
+        className="w-5 h-5 mx-2 border border-amber-500 rounded-full"
         onClick={() => {
           setIsDone((p) => !p)
           setStreak(
@@ -81,19 +81,29 @@ export default function HabitBox({
               currentDate.split("/")
             )
           )
-          setHabits(expectNewHabitsPositions(habits))
+          // setHabits(expectNewHabitsPositions(habits))
           startTransition(() => markHabit({ habit, isCompleted }))
         }}
         type="submit"
         disabled={isPending}
       />
       <Link href={`habits/${habit.slug.current}`} className="flex-1">
-        <div className="flex justify-between items-center">
-          <p className="text-lg">{habit.name}</p>
-          <p className="flex flex-col text-sm items-end">
+        <div className="flex justify-between items-center overflow-hidden">
+          <p
+            className="text-[15px]"
+            style={{
+              // height: "calc(1 * 1rem * 1.25)",
+              display: "-webkit-box",
+              WebkitBoxOrient: "vertical",
+              WebkitLineClamp: "1",
+            }}
+          >
+            {habit.name}
+          </p>
+          {/* <p className="flex flex-col text-sm items-end">
             {streak}
             <span className="text-sm text-[#999999]">current streak</span>
-          </p>
+          </p> */}
         </div>
       </Link>
     </div>
