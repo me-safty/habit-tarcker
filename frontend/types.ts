@@ -8,6 +8,14 @@ export interface Habit {
   slug: {
     current: string
   }
+  category: Category
+  categories: Category[]
+}
+export interface Category {
+  _rev?: string // = the id of the habit
+  _type?: "category"
+  name: string
+  _id: string // = the _ref of the category
 }
 export interface TaskByDate {
   date: string

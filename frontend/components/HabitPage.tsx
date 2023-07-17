@@ -1,5 +1,5 @@
 "use client"
-import { Habit } from "@/types"
+import { Category, Habit } from "@/types"
 import Calender from "./Calender"
 import calcStreak from "@/lib/calcStreak"
 import { useEffect, useRef, useState } from "react"
@@ -12,6 +12,7 @@ import arrowBack from "@/public/arrow_back.svg"
 import Link from "next/link"
 import bin from "@/public/trash.svg"
 import edit from "@/public/edit.svg"
+import CategorySelectBox from "./categorySelectBox"
 
 interface TaskPageProps {
   habitData: Habit
@@ -19,14 +20,17 @@ interface TaskPageProps {
 
 export default function TaskPage({ habitData }: TaskPageProps) {
   const currentDate = getCurrentDate()
-
   const [habit, setHabit] = useState<Habit>(habitData)
   const popup = useRef<HTMLDivElement>(null)
   const editPopup = useRef<HTMLDivElement>(null)
   const router = useRouter()
-  const [showPopup, setShowPopup] = useState(false)
-  const [showEditPopup, setShowEditPopup] = useState(false)
+  const [showPopup, setShowPopup] = useState<boolean>(false)
+  const [showEditPopup, setShowEditPopup] = useState<boolean>(false)
   const [input, setInput] = useState<string>(habit.name)
+  const [showOptionsBox, setShowOptionsBox] = useState<boolean>(false)
+  const [selectedCategory, setSelectedCategory] = useState<Category>(
+    habit.category
+  )
 
   useEffect(() => {
     setHabit(habitData)
@@ -41,6 +45,9 @@ export default function TaskPage({ habitData }: TaskPageProps) {
         !editPopup.current.contains(e.target as Node)
       ) {
         setShowEditPopup(false)
+        setShowOptionsBox(false)
+        setInput(habit.name)
+        setSelectedCategory(habit.category)
       }
     }
     document.addEventListener("mousedown", handleClickOutside)
@@ -72,14 +79,12 @@ export default function TaskPage({ habitData }: TaskPageProps) {
           </div>
           <div className="bg-[#252525] p-3 rounded-xl">
             <p className="mb-3 text-white">Category</p>
-            <input
-              name="name"
-              placeholder="Daily Check-in"
-              type="text"
-              className=" placeholder:text-[#7a7a7a] text-white px-3 py-2 rounded-lg w-full outline-none caret-amber-500 bg-[#353535]"
-              required
-              onChange={(e) => setInput(e.target.value)}
-              value={input ? input : ""}
+            <CategorySelectBox
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+              categories={habit.categories}
+              showOptionsBox={showOptionsBox}
+              setShowOptionsBox={setShowOptionsBox}
             />
           </div>
           <button

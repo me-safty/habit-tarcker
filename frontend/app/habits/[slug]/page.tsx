@@ -14,6 +14,24 @@ const habit: Habit = {
   slug: {
     current: "Efef",
   },
+  category: {
+    name: "mourning",
+    _id: "5b70e5c2-d43c-4fed-be4c-16be480403dc",
+  },
+  categories: [
+    {
+      _rev: "oT88RoYgRCgDLbhlGiMrv6",
+      _type: "category",
+      name: "morning",
+      _id: "5b70e5c2-d43c-4fed-be4c-16be480403dc",
+    },
+    {
+      _rev: "m2wUiRJct46GQ5hw1wETy3",
+      _type: "category",
+      name: "night",
+      _id: "dd38ca00-e87f-4027-87b8-362f9591e841",
+    },
+  ],
   dates: [
     // {
     //   date: "11/28/2022",
@@ -64,6 +82,8 @@ async function getHabit(slug: string) {
     currentStreak,
     dates,
     slug,
+    category ->,
+    "categories": *[_type == "category" ]
   }
   `
   const res = await fetch(
