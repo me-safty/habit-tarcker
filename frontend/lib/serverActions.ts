@@ -134,6 +134,10 @@ export async function editHabit(editedHabit: Habit) {
         current: editedHabit.slug.current,
       },
       dates: editedHabit.dates,
+      category: {
+        _type: "reference",
+        _ref: editedHabit.category._id,
+      },
     })
     revalidateTag("habitPage")
     console.log("edited")

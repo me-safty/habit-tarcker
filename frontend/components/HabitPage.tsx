@@ -90,9 +90,9 @@ export default function TaskPage({ habitData }: TaskPageProps) {
           <button
             type="submit"
             onClick={() => {
-              setHabit({ ...habit, name: input })
+              setHabit({ ...habit, name: input, category: selectedCategory })
               setShowEditPopup(false)
-              editHabit({ ...habit, name: input })
+              editHabit({ ...habit, name: input, category: selectedCategory })
             }}
             className="font-semibold cursor-pointer text-[#eeeeee] w-full bg-amber-500 p-2 mt-3 rounded-lg"
           >
