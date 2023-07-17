@@ -34,7 +34,10 @@ export default function Tasks({ habitsData }: TasksProps) {
     <div className="my-3 w-[350px] max-w-[400px]">
       <div className="overflow-hidden">
         {categories.map((category) => (
-          <div className=" max-h-[78vh] p-3 bg-[#202020] mb-2 rounded-xl">
+          <div
+            key={category._id}
+            className=" max-h-[78vh] p-3 bg-[#202020] mb-2 rounded-xl"
+          >
             <p className="text-white px-3 py-1 bg-[#333] mb-2 w-fit rounded-md">
               {category.name}
             </p>
