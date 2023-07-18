@@ -4,25 +4,15 @@ import checkTheTaskIfCompleted from "@/lib/checkTheTaskIfCompleted"
 import getCurrentDate from "@/lib/getCurrentDate"
 import { Habit, TaskByDate } from "@/types"
 import Link from "next/link"
-import {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-  useTransition,
-} from "react"
+import { useEffect, useState, useTransition } from "react"
 import calcStreak from "@/lib/calcStreak"
 
 export default function HabitBox({
   habit,
-}: // habits,
-// setHabits,
-// sortHabits,
-{
+  expanded = false,
+}: {
   habit: Habit
-  // habits: Habit[]
-  // setHabits: Dispatch<SetStateAction<Habit[]>>
-  // sortHabits: (habits: Habit[]) => Habit[]
+  expanded?: boolean
 }) {
   const [isPending, startTransition] = useTransition()
   const currentDate = getCurrentDate()
@@ -51,23 +41,12 @@ export default function HabitBox({
     }
   }
 
-  // function expectNewHabitsPositions(habits: Habit[]) {
-  //   const newHabits = habits.map((currentHabit) => {
-  //     if (currentHabit._id === habit._id) {
-  //       return {
-  //         ...currentHabit,
-  //         dates: calcExpectedNewDates(currentHabit.dates),
-  //         currentStreak: streak,
-  //       }
-  //     } else {
-  //       return currentHabit
-  //     }
-  //   })
-  //   return sortHabits(newHabits)
-  // }
-
   return (
-    <div className="text-white rounded-lg bg-[#333] my-1 py-2 flex items-center justify-between">
+    <div
+      className={`${expanded ? "ps-1 pe-2" : ""} ${
+        isDone ? "opacity-60" : "opacity-100"
+      } text-white rounded-lg bg-[#333] py-2 flex items-center justify-between`}
+    >
       <button
         style={{
           background: isDone ? "rgb(245, 158, 11)" : "",
@@ -100,10 +79,12 @@ export default function HabitBox({
           >
             {habit.name}
           </p>
-          {/* <p className="flex flex-col text-sm items-end">
-            {streak}
-            <span className="text-sm text-[#999999]">current streak</span>
-          </p> */}
+          {expanded && (
+            <p className="flex flex-col text-sm items-end">
+              {streak}
+              <span className="text-sm text-[#999999]">current streak</span>
+            </p>
+          )}
         </div>
       </Link>
     </div>

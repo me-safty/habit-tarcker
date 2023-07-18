@@ -55,6 +55,10 @@ export async function markHabit(data: FormDate) {
         current: updatedHabit.slug.current,
       },
       dates: updatedHabit.dates,
+      category: {
+        _type: "reference",
+        _ref: updatedHabit.category._id,
+      },
     })
     revalidateTag("habits")
     console.log("added")
@@ -82,6 +86,10 @@ export async function markHabit(data: FormDate) {
         current: updatedHabit.slug.current,
       },
       dates: updatedHabit.dates,
+      category: {
+        _type: "reference",
+        _ref: updatedHabit.category._id,
+      },
     })
     revalidateTag("habits")
     console.log("removed")
