@@ -31,7 +31,7 @@ export default function CategorySelectBox({
     }
     document.addEventListener("mousedown", handleClickOutside)
     return () => document.removeEventListener("mousedown", handleClickOutside)
-  }, [optionsBox])
+  }, [optionsBox, setShowOptionsBox])
 
   return (
     <div className="relative">

@@ -17,8 +17,8 @@ export default function Tasks({ habitsData }: TasksProps) {
   const [expandedView, setExpandedView] = useState<boolean>(false)
 
   useEffect(() => {
-    setHabits(habits)
-  }, habitsData)
+    setHabits(habitsData)
+  }, [habitsData])
 
   const categoriesWithHabits = habits[0]?.categories
     .map((category) => ({

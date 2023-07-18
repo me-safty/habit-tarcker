@@ -24,7 +24,7 @@ export default function HabitBox({
     const isCompleted = checkTheTaskIfCompleted(habit.dates, currentDate)
     setIsDone(isCompleted)
     setStreak(habit.currentStreak)
-  }, [habit])
+  }, [habit, currentDate])
 
   function calcExpectedNewDates(dates: TaskByDate[]): TaskByDate[] {
     //spared the array to make a new array without the reference to the old one
