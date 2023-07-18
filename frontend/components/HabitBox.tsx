@@ -60,7 +60,6 @@ export default function HabitBox({
               currentDate.split("/")
             )
           )
-          // setHabits(expectNewHabitsPositions(habits))
           startTransition(() => markHabit({ habit, isCompleted }))
         }}
         type="submit"
@@ -69,7 +68,7 @@ export default function HabitBox({
       <Link href={`habits/${habit.slug.current}`} className="flex-1">
         <div className="flex justify-between items-center overflow-hidden">
           <p
-            className="text-[15px]"
+            className={`${expanded ? "text-lg" : "text-[15px]"}`}
             style={{
               // height: "calc(1 * 1rem * 1.25)",
               display: "-webkit-box",

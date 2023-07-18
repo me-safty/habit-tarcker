@@ -3,9 +3,10 @@ import { Habit } from "@/types"
 import Link from "next/link"
 import HabitBox from "./HabitBox"
 import { useEffect, useState } from "react"
+import Image from "next/image"
 import menu from "@/public/menu.svg"
 import boxes from "@/public/view-tile.svg"
-import Image from "next/image"
+import add from "@/public/add.svg"
 
 interface TasksProps {
   habitsData: Habit[]
@@ -28,16 +29,23 @@ export default function Tasks({ habitsData }: TasksProps) {
 
   return (
     <div className="my-3 w-[350px] max-w-[400px]">
-      <button
-        className="my-2 p-2 rounded-lg bg-[#202020] outline-none"
-        onClick={() => setExpandedView((p) => !p)}
-      >
-        {expandedView ? (
-          <Image src={menu} height={20} width={20} alt="expanded view" />
-        ) : (
-          <Image src={boxes} height={20} width={20} alt="boxes view" />
-        )}
-      </button>
+      <div className="flex gap-2">
+        <button
+          className="my-2 p-[10px] rounded-lg bg-[#202020] outline-none"
+          onClick={() => setExpandedView((p) => !p)}
+        >
+          {expandedView ? (
+            <Image src={boxes} height={20} width={20} alt="boxes view" />
+          ) : (
+            <Image src={menu} height={20} width={20} alt="expanded view" />
+          )}
+        </button>
+        <Link href={"/create-habit"} className="w-fit inline-block">
+          <button className="bg-[#202020] p-[10px] my-2 rounded-lg">
+            <Image src={add} height={20} width={20} alt="add habit" />
+          </button>
+        </Link>
+      </div>
       <div className="overflow-hidden">
         {categoriesWithHabits.map((category) => (
           <div
@@ -64,11 +72,6 @@ export default function Tasks({ habitsData }: TasksProps) {
           </div>
         ))}
       </div>
-      <Link href={"/create-habit"} className="w-fit inline-block">
-        <button className=" bg-amber-500 text-white text-3xl flex items-center justify-center rounded-full w-12 h-12">
-          +
-        </button>
-      </Link>
     </div>
   )
 }
