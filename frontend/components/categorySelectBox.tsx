@@ -36,12 +36,16 @@ export default function CategorySelectBox({
   return (
     <div className="relative">
       <div
-        className="text-white flex justify-between px-3 mb-2 py-2 rounded-lg w-full outline-none caret-amber-500 bg-[#353535]"
+        className={`${
+          selectedCategory ?? "text-[#7a7a7a]"
+        } text-white flex justify-between px-3 py-2 rounded-lg w-full outline-none caret-amber-500 bg-[#353535]`}
         onClick={() => {
           setShowOptionsBox((p) => !p)
         }}
       >
-        <p>{selectedCategory.name}</p>
+        <p>
+          {selectedCategory ? selectedCategory.name : "select the category"}
+        </p>
         <Image
           src={arrowLeft}
           width={20}
@@ -66,7 +70,7 @@ export default function CategorySelectBox({
                 transition
                 rounded-md
                 ${
-                  selectedCategory._id === category._id
+                  selectedCategory?._id === category?._id
                     ? "bg-[#272727]"
                     : "hover:bg-[#2e2e2e]"
                 }

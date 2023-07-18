@@ -14,7 +14,7 @@ interface TasksProps {
 
 export default function Tasks({ habitsData }: TasksProps) {
   const [habits, setHabits] = useState<Habit[]>(habitsData)
-  const [expandedView, setExpandedView] = useState<boolean>(true)
+  const [expandedView, setExpandedView] = useState<boolean>(false)
 
   useEffect(() => {
     setHabits(habits)
@@ -50,7 +50,7 @@ export default function Tasks({ habitsData }: TasksProps) {
         {categoriesWithHabits.map((category) => (
           <div
             key={category._id}
-            className="max-h-[78vh] p-3 bg-[#202020] mb-2 rounded-xl"
+            className="max-h-[78vh] p-2 bg-[#202020] mb-2 rounded-xl"
           >
             <p className="text-white px-3 py-1 bg-[#333] mb-2 w-fit rounded-md">
               {category.name}

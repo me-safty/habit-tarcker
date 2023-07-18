@@ -98,7 +98,8 @@ export async function markHabit(data: FormDate) {
 
 export async function createHabit(e: FormData) {
   const name = e.get("name")?.toString()
-  if (!name) return
+  const categoryId = e.get("categoryId")?.toString()
+  if (!name && !categoryId) return
 
   try {
     await sanityClint.create({
@@ -111,6 +112,10 @@ export async function createHabit(e: FormData) {
         current: Date.now().toString(),
       },
       dates: [],
+      category: {
+        _type: "reference",
+        _ref: categoryId,
+      },
     })
     revalidateTag("habits")
     console.log("revalidated")

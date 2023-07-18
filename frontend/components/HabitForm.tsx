@@ -1,10 +1,12 @@
 "use client"
-import { Habit } from "@/types"
+import { Category, Habit } from "@/types"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import CategorySelectBox from "./categorySelectBox"
 
 interface HabitFormProps {
   actionFunction: (e: FormData) => Promise<void> | void
+  categories: Category[]
   redirectPageLink?: string
   habit?: Habit
   inputValue?: string
@@ -12,22 +14,40 @@ interface HabitFormProps {
 
 export default function HabitForm({
   actionFunction,
+  categories,
   redirectPageLink,
-  habit,
   inputValue,
 }: HabitFormProps) {
   const router = useRouter()
   const [input, setInput] = useState<string | undefined>(inputValue)
+  const [showOptionsBox, setShowOptionsBox] = useState<boolean>(false)
+  const [selectedCategory, setSelectedCategory] = useState<Category>()
+  const [showError, setShowError] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (selectedCategory !== undefined) {
+      setShowError(false)
+    }
+  }, [selectedCategory])
+
   return (
     <form
       action={(e) => {
-        actionFunction(e)
-        if (redirectPageLink) {
-          router.replace(redirectPageLink)
+        if (selectedCategory) {
+          actionFunction(e)
+          if (redirectPageLink) {
+            router.replace(redirectPageLink)
+          }
+        } else {
+          setShowError(true)
         }
       }}
     >
-      <input type="hidden" name="habit" value={JSON.stringify(habit)} />
+      <input
+        type="hidden"
+        name="categoryId"
+        value={selectedCategory && selectedCategory._id}
+      />
       <div className="bg-[#252525] p-3 rounded-xl">
         <p className="mb-3 text-white">Name</p>
         <input
@@ -40,9 +60,24 @@ export default function HabitForm({
           value={input ? input : ""}
         />
       </div>
+      <div className="bg-[#252525] p-3 rounded-xl mt-3">
+        <p className="mb-3 text-white">Category</p>
+        <CategorySelectBox
+          selectedCategory={selectedCategory as Category}
+          setSelectedCategory={
+            setSelectedCategory as Dispatch<SetStateAction<Category>>
+          }
+          showOptionsBox={showOptionsBox}
+          setShowOptionsBox={setShowOptionsBox}
+          categories={categories}
+        />
+        {showError && (
+          <p className="m-2 mb-0 text-red-600">please select a category</p>
+        )}
+      </div>
       <input
         type="submit"
-        value="Submit"
+        value="Create a new Habit"
         className="font-semibold cursor-pointer text-[#eeeeee] w-full bg-amber-500 p-2 mt-3 rounded-lg"
       />
     </form>
