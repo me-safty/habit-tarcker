@@ -45,13 +45,13 @@ export default function HabitBox({
     <div
       className={`${expanded ? "ps-1 pe-2" : ""} ${
         isDone ? "opacity-60" : "opacity-100"
-      } text-white rounded-lg bg-[#333] py-2 flex items-center justify-between`}
+      } text-white rounded-lg bg-[color:var(--mainColor)] py-2 flex items-center justify-between`}
     >
       <button
         style={{
-          background: isDone ? "rgb(245, 158, 11)" : "",
+          background: isDone ? "bg-[color:var(--checkColor)]" : "",
         }}
-        className="w-5 h-5 mx-2 border border-amber-500 rounded-full"
+        className="w-5 h-5 mx-2 border border-[color:var(--checkColor)]  rounded-full"
         onClick={() => {
           setIsDone((p) => !p)
           setStreak(

@@ -20,10 +20,10 @@ interface TaskPageProps {
 
 export default function TaskPage({ habitData }: TaskPageProps) {
   const currentDate = getCurrentDate()
-  const [habit, setHabit] = useState<Habit>(habitData)
   const popup = useRef<HTMLDivElement>(null)
   const editPopup = useRef<HTMLDivElement>(null)
   const router = useRouter()
+  const [habit, setHabit] = useState<Habit>(habitData)
   const [showPopup, setShowPopup] = useState<boolean>(false)
   const [showEditPopup, setShowEditPopup] = useState<boolean>(false)
   const [input, setInput] = useState<string>(habit.name)
@@ -52,7 +52,7 @@ export default function TaskPage({ habitData }: TaskPageProps) {
     }
     document.addEventListener("mousedown", handleClickOutside)
     return () => document.removeEventListener("mousedown", handleClickOutside)
-  }, [popup, editPopup])
+  }, [popup, editPopup, habit])
 
   return (
     <div className="w-fit relative">

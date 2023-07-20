@@ -2,11 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --bodyColor: #141414;
+  --mainColor: #333;
+  --secondaryColor: #202020;
+  --checkColor: #f8b400;
+}
+
 html {
   overflow-x: hidden;
 }
 body {
-  background: #000000;
+  background: var(--bodyColor);
 }
 
 *::-webkit-scrollbar-thumb {
