@@ -48,10 +48,9 @@ export default function HabitBox({
       } text-white rounded-lg bg-[color:var(--mainColor)] py-2 flex items-center justify-between`}
     >
       <button
-        style={{
-          background: isDone ? "bg-[color:var(--checkColor)]" : "",
-        }}
-        className="w-5 h-5 mx-2 border border-[color:var(--checkColor)]  rounded-full"
+        className={`w-5 h-5 mx-2 border border-[color:var(--checkColor)] rounded-full ${
+          isDone ? "bg-[color:var(--checkColor)]" : ""
+        }`}
         onClick={() => {
           setIsDone((p) => !p)
           setStreak(
