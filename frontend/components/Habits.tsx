@@ -9,6 +9,7 @@ import boxes from "@/public/view-tile.svg"
 import add from "@/public/add.svg"
 import doneImage from "@/public/done-img.svg"
 import blobs from "@/public/layered-steps-haikei.svg"
+import MiniCalender from "./MiniCalender"
 
 interface TasksProps {
   habitsData: Habit[]
@@ -32,6 +33,7 @@ export default function Tasks({ habitsData }: TasksProps) {
 
   return (
     <div className="my-3 w-[350px] max-w-[400px]">
+      <MiniCalender />
       <div className="flex gap-2">
         <button
           className="my-2 p-[10px] rounded-lg bg-[color:var(--secondaryColor)] outline-none"
@@ -52,7 +54,7 @@ export default function Tasks({ habitsData }: TasksProps) {
           </button>
         </Link>
       </div>
-      <div className="text-white relative flex bg-[color:var(--secondaryColor)] p-3 rounded-lg mb-2">
+      {/* <div className="text-white relative flex bg-[color:var(--secondaryColor)] p-3 rounded-lg mb-2">
         <div className="absolute w-full h-[150px] overflow-hidden top-0 left-0 rounded-xl">
           <Image
             className="-translate-y-1"
@@ -78,7 +80,7 @@ export default function Tasks({ habitsData }: TasksProps) {
             alt="done"
           />
         </div>
-      </div>
+      </div> */}
       {/* <div className="flex gap-2 mb-2">
         <div
           onClick={() => setSelectedCategoryId("all")}

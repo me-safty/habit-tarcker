@@ -44,7 +44,7 @@ export default function HabitBox({
   return (
     <div
       className={`${expanded ? "ps-1 pe-2" : ""} ${
-        isDone ? "opacity-60" : "opacity-100"
+        isDone ? "opacity-80" : "opacity-100"
       } text-white rounded-lg bg-[color:var(--mainColor)] py-2 flex items-center justify-between`}
     >
       <button

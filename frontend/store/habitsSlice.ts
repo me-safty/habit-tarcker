@@ -3,11 +3,11 @@ import type { PayloadAction } from "@reduxjs/toolkit"
 
 import { Habit } from "@/types"
 
-export interface SearchState {
+export interface habitsState {
   startupHabits: Habit[]
 }
 
-const initialState: SearchState = {
+const initialState: habitsState = {
   startupHabits: [],
 }
 

@@ -7,8 +7,16 @@ import Image from "next/image"
 import arrowLeft from "@/public/keyboard_arrow_left.svg"
 import arrowRight from "@/public/keyboard_arrow_right.svg"
 
-const daysOfTheWeek = ["Sat", "Sun", "Mon", "Tue", "Wen", "Thu", "Fri"] as const
-const months = [
+export const daysOfTheWeek = [
+  "Sat",
+  "Sun",
+  "Mon",
+  "Tue",
+  "Wen",
+  "Thu",
+  "Fri",
+] as const
+export const months = [
   "January",
   "February",
   "March",
@@ -23,7 +31,7 @@ const months = [
   "December",
 ] as const
 
-function getDaysInMonth(year: number, month: number): number {
+export function getDaysInMonth(year: number, month: number): number {
   return new Date(year, month, 0).getDate()
 }
 
