@@ -20,15 +20,7 @@ const daysPerMonth = {
   December: getDaysInMonth(year, 12),
 }
 
-export const daysOfTheWeek = [
-  "Sun",
-  "Mon",
-  "Tue",
-  "Wen",
-  "Thu",
-  "Fri",
-  "Sat",
-] as const
+export const daysOfTheWeek = ["Sun", "Mon", "Tue", "Wen", "Thu", "Fri", "Sat"]
 
 function getNameOfDay(i: number): string {
   const dayIndex = new Date(`${month}/${i}/${year}`).getDay()
@@ -37,20 +29,42 @@ function getNameOfDay(i: number): string {
 
 const daysOfTheMonthWithNames = [...Array(daysPerMonth[months[month + 1]])].map(
   (_, i) => ({
-    day: i + 1,
+    dayIndex: i + 1,
     nameOdDay: getNameOfDay(i + 1),
   })
 )
 
-console.log(daysOfTheMonthWithNames)
+const currentWeek: {
+  dayIndex: number
+  nameOdDay: string
+}[] = []
+
+// daysOfTheMonthWithNames.forEach((d) => {
+//   if (d.dayIndex === day) {
+//     currentWeek.push(d)
+//     const dayI = daysOfTheWeek.indexOf(d.nameOdDay)
+//     for (let i = 0; i < 7 - dayI; i++) {
+//       const element = array[i];
+
+//     }
+//   }
+// })
+
+console.log(currentWeek)
 
 export default function MiniCalender() {
   return (
-    <div className="p-2 bg-[color:var(--secondaryColor)] text-white rounded-lg grid grid-cols-7">
-      {daysOfTheWeek.map((day) => (
-        <p className="text-center" key={day}>
-          {day}
-        </p>
+    <div className="p-2 bg-[color:var(--secondaryColor)] overflow-x-scroll text-white rounded-lg flex">
+      {daysOfTheMonthWithNames.map((d) => (
+        <div
+          className={`text-center min-w-[${100 / 7}%]`}
+          style={{ minWidth: "calc(100% / 7)" }}
+          key={d.dayIndex}
+          autoFocus={d.dayIndex === day ? true : false}
+        >
+          <p className="">{d.nameOdDay}</p>
+          <p className="">{d.dayIndex}</p>
+        </div>
       ))}
     </div>
   )

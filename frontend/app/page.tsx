@@ -240,7 +240,7 @@ const habits: Habit[] = [
 ]
 
 export default async function Home() {
-  // const habits: Habit[] = await getHabits()
+  const habits: Habit[] = await getHabits()
   // console.log(habits)
   return (
     <main className="container flex justify-center">
