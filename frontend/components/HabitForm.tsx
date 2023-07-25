@@ -3,6 +3,7 @@ import { Category, Habit } from "@/types"
 import { useRouter } from "next/navigation"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import CategorySelectBox from "./categorySelectBox"
+import { useAppSelector } from "./Habits"
 
 interface HabitFormProps {
   actionFunction: (e: FormData) => Promise<void> | void
@@ -23,6 +24,9 @@ export default function HabitForm({
   const [showOptionsBox, setShowOptionsBox] = useState<boolean>(false)
   const [selectedCategory, setSelectedCategory] = useState<Category>()
   const [showError, setShowError] = useState<boolean>(false)
+
+  const habitsR = useAppSelector((state) => state.habits.habits)
+  console.log(habitsR)
 
   useEffect(() => {
     if (selectedCategory !== undefined) {

@@ -1,4 +1,5 @@
 import { TaskByDate } from "@/types"
+import { useMemo } from "react"
 
 export default function calcStreak(
   dates: TaskByDate[],
@@ -9,47 +10,28 @@ export default function calcStreak(
   // const currentYear = +currentDate[2]
 
   let streak = 0
-  const sortedDates = dates
-    .map((d) => new Date(d.date).getTime())
-    .sort()
-    .map(
-      (d) =>
-        `${new Date(d).getMonth() + 1}/${new Date(d).getDate()}/${new Date(
-          d
-        ).getFullYear()}`
-    )
-    .reverse()
+
+  const sortedDates = useMemo(
+    () =>
+      dates
+        .map((d) => new Date(d.date).getTime())
+        .sort()
+        .map(
+          (d) =>
+            `${new Date(d).getMonth() + 1}/${new Date(d).getDate()}/${new Date(
+              d
+            ).getFullYear()}`
+        )
+        .reverse(),
+    [dates]
+  )
 
   for (let i = 0; i < sortedDates.length; i++) {
     const lastDayInTheStreak = +sortedDates[0].split("/")[1]
     const day = +sortedDates[i].split("/")[1]
     const preDay = +sortedDates[i + 1]?.split("/")[1]
     const nextDay = +sortedDates[i - 1]?.split("/")[1]
-    // const month = +sortedDates[i].split("/")[0]
-    // const prevMonth = +sortedDates[i + 1]?.split("/")[0]
-    // const nextMonth = +sortedDates[i - 1]?.split("/")[0]
-    // const year = +sortedDates[i].split("/")[2]
-    // console.log(
-    //   "lastDayInTheStreak:",
-    //   lastDayInTheStreak,
-    //   "day:",
-    //   day,
-    //   "curreny day:",
-    //   currentDay,
-    //   "preday:",
-    //   preDay,
-    //   "nextDay:",
-    //   nextDay,
-    //   "month:",
-    //   month,
-    //   "premonth:",
-    //   prevMonth,
-    //   "nextmonth:",
-    //   nextMonth,
-    //   "\n",
-    //   sortedDates
-    //   // currentMonth
-    // )
+
     if (
       lastDayInTheStreak === currentDay ||
       lastDayInTheStreak === currentDay - 1
@@ -73,5 +55,6 @@ export default function calcStreak(
   if (streak === 1) {
     return 0
   }
+
   return streak
 }

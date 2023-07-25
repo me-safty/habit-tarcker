@@ -1,4 +1,7 @@
 import Habits from "@/components/Habits"
+import Preloader from "@/components/Preloader"
+import { store } from "@/store"
+import { setHabits } from "@/store/habitsSlice"
 import { Habit } from "@/types"
 
 async function getHabits() {
@@ -241,9 +244,11 @@ const habits: Habit[] = [
 
 export default async function Home() {
   const habits: Habit[] = await getHabits()
+  store.dispatch(setHabits(habits))
   // console.log(habits)
   return (
     <main className="container flex justify-center">
+      <Preloader habits={habits} />
       <Habits habitsData={habits} />
     </main>
   )

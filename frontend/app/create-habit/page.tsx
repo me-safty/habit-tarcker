@@ -2,16 +2,16 @@ import HabitForm from "@/components/HabitForm"
 import { createHabit } from "@/lib/serverActions"
 import { Category } from "@/types"
 
-// const categories = [
-//   {
-//     name: "morning",
-//     _id: "5b70e5c2-d43c-4fed-be4c-16be480403dc",
-//   },
-//   {
-//     name: "night",
-//     _id: "dd38ca00-e87f-4027-87b8-362f9591e841",
-//   },
-// ]
+const categories = [
+  {
+    name: "morning",
+    _id: "5b70e5c2-d43c-4fed-be4c-16be480403dc",
+  },
+  {
+    name: "night",
+    _id: "dd38ca00-e87f-4027-87b8-362f9591e841",
+  },
+]
 
 async function getCategories() {
   const projectId = process.env.NEXT_PUBLIC_PROJECT_ID
@@ -33,6 +33,7 @@ async function getCategories() {
 
 export default async function Page() {
   const categories: Category[] = await getCategories()
+
   return (
     <main className="container text-white">
       <div className="mt-3">

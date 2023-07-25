@@ -2,34 +2,54 @@
 import { Habit } from "@/types"
 import Link from "next/link"
 import HabitBox from "./HabitBox"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Image from "next/image"
 import menu from "@/public/menu.svg"
 import boxes from "@/public/view-tile.svg"
 import add from "@/public/add.svg"
-import doneImage from "@/public/done-img.svg"
-import blobs from "@/public/layered-steps-haikei.svg"
+// import doneImage from "@/public/done-img.svg"
+// import blobs from "@/public/layered-steps-haikei.svg"
 import MiniCalender from "./MiniCalender"
+// import { AppDispatch, RootState } from "@/store"
+// import { useDispatch, useSelector } from "react-redux"
+// import type { TypedUseSelectorHook } from "react-redux"
+// import { setHabits as setHabitsR } from "@/store/habitsSlice"
 
 interface TasksProps {
   habitsData: Habit[]
 }
 
+// export const useAppDispatch: () => AppDispatch = useDispatch
+// export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+
 export default function Tasks({ habitsData }: TasksProps) {
   const [habits, setHabits] = useState<Habit[]>(habitsData)
   const [expandedView, setExpandedView] = useState<boolean>(false)
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string>("all")
+  // const [selectedCategoryId, setSelectedCategoryId] = useState<string>("all")
+
+  // const dispatch = useAppDispatch()
+  // const habitsR = useAppSelector((state) => state.habits.habits)
+  // console.log(habitsR)
 
   useEffect(() => {
     setHabits(habitsData)
+    // dispatch(setHabitsR(habitsData))
   }, [habitsData])
 
-  const categoriesWithHabits = habits[0]?.categories
-    .map((category) => ({
-      ...category,
-      habits: habits.filter((habit) => habit?.category?._id === category._id),
-    }))
-    .reverse()
+  const categoriesWithHabits = useMemo(
+    () =>
+      habits[0]?.categories
+        .map((category) => {
+          return {
+            ...category,
+            habits: habits.filter(
+              (habit) => habit?.category?._id === category._id
+            ),
+          }
+        })
+        .reverse(),
+    [habits]
+  )
 
   return (
     <div className="my-3 w-[350px] max-w-[400px]">

@@ -60,7 +60,7 @@ export default function CategorySelectBox({
         <div
           ref={optionsBox}
           style={{ boxShadow: "0px 1px 5px 0px #000000c2" }}
-          className="text-white p-2 shadow-xl absolute top-3 flex flex-col gap-1 rounded-lg w-full outline-none caret-amber-500 bg-[#353535]"
+          className="text-white p-2 shadow-xl absolute top-11 flex flex-col gap-1 rounded-lg w-full outline-none caret-amber-500 bg-[#353535]"
         >
           {categories?.map((category) => (
             <div

@@ -4,22 +4,22 @@ import type { PayloadAction } from "@reduxjs/toolkit"
 import { Habit } from "@/types"
 
 export interface habitsState {
-  startupHabits: Habit[]
+  habits: Habit[]
 }
 
 const initialState: habitsState = {
-  startupHabits: [],
+  habits: [],
 }
 
 const habitsSlice = createSlice({
   name: "habits",
   initialState,
   reducers: {
-    setStartupHabits: (state, action: PayloadAction<Habit[]>) => {
-      state.startupHabits = action.payload
+    setHabits: (state, action: PayloadAction<Habit[]>) => {
+      state.habits = action.payload
     },
   },
 })
 
-export const { setStartupHabits } = habitsSlice.actions
+export const { setHabits } = habitsSlice.actions
 export default habitsSlice.reducer
