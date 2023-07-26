@@ -29,7 +29,6 @@ export default function Tasks({ habitsData }: TasksProps) {
 
   // const dispatch = useAppDispatch()
   // const habitsR = useAppSelector((state) => state.habits.habits)
-  // console.log(habitsR)
 
   useEffect(() => {
     setHabits(habitsData)
