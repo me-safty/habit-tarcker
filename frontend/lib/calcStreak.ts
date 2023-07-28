@@ -11,20 +11,16 @@ export default function calcStreak(
 
   let streak = 0
 
-  const sortedDates = useMemo(
-    () =>
-      dates
-        .map((d) => new Date(d.date).getTime())
-        .sort()
-        .map(
-          (d) =>
-            `${new Date(d).getMonth() + 1}/${new Date(d).getDate()}/${new Date(
-              d
-            ).getFullYear()}`
-        )
-        .reverse(),
-    [dates]
-  )
+  const sortedDates = dates
+    .map((d) => new Date(d.date).getTime())
+    .sort()
+    .map(
+      (d) =>
+        `${new Date(d).getMonth() + 1}/${new Date(d).getDate()}/${new Date(
+          d
+        ).getFullYear()}`
+    )
+    .reverse()
 
   for (let i = 0; i < sortedDates.length; i++) {
     const lastDayInTheStreak = +sortedDates[0].split("/")[1]

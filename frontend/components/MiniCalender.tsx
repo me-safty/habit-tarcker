@@ -34,23 +34,45 @@ const daysOfTheMonthWithNames = [...Array(daysPerMonth[months[month + 1]])].map(
   })
 )
 
-const currentWeek: {
-  dayIndex: number
-  nameOdDay: string
-}[] = []
+function gatWeekDays() {
+  const currentWeek: {
+    date: string
+    nameOfDay: string
+  }[] = []
 
-// daysOfTheMonthWithNames.forEach((d) => {
-//   if (d.dayIndex === day) {
-//     currentWeek.push(d)
-//     const dayI = daysOfTheWeek.indexOf(d.nameOdDay)
-//     for (let i = 0; i < 7 - dayI; i++) {
-//       const element = array[i];
+  for (let i = 0; i < 7; i++) {
+    let dayOfWeek = day - i
+    const daysOfTheMonth = getDaysInMonth(year, month)
+    let monthOfWeek = month
 
-//     }
-//   }
-// })
+    if (dayOfWeek <= 1) {
+      dayOfWeek = daysOfTheMonth
 
-console.log(currentWeek)
+      if ((monthOfWeek = 12)) {
+        monthOfWeek = 0
+      } else {
+        monthOfWeek -= 1
+      }
+    } else if (dayOfWeek >= daysOfTheMonth) {
+      dayOfWeek = 1
+      monthOfWeek += 1
+    }
+
+    currentWeek.push({
+      date: `${monthOfWeek}/${dayOfWeek}/${year}`,
+      nameOfDay: getNameOfDay(dayOfWeek),
+    })
+  }
+  return currentWeek
+}
+
+daysOfTheMonthWithNames.forEach((d, i) => {
+  if (d.dayIndex === day) {
+    daysOfTheMonthWithNames.splice(i)
+  }
+})
+
+console.log(daysOfTheMonthWithNames)
 
 export default function MiniCalender() {
   return (

@@ -2,7 +2,7 @@
 import { Category, Habit } from "@/types"
 import Calender from "./Calender"
 import calcStreak from "@/lib/calcStreak"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import getCurrentDate from "@/lib/getCurrentDate"
 import Image from "next/image"
 import dots from "@/public/navigation-more.svg"
@@ -53,6 +53,11 @@ export default function TaskPage({ habitData }: TaskPageProps) {
     document.addEventListener("mousedown", handleClickOutside)
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [popup, editPopup, habit])
+
+  const cashedStreak = useMemo(
+    () => calcStreak(habit.dates, currentDate.split("/")),
+    [habit.dates, currentDate]
+  )
 
   return (
     <div className="w-fit relative">
@@ -177,8 +182,7 @@ export default function TaskPage({ habitData }: TaskPageProps) {
         <div className="p-3 bg-[#363636] bg-opacity-50 rounded-lg text-white">
           <p className="text-sm text-[#999999]">Current Streak</p>
           <p className="font-bold text-xl">
-            {calcStreak(habit.dates, currentDate.split("/"))}{" "}
-            <span className="text-sm">Days</span>
+            {cashedStreak} <span className="text-sm">Days</span>
           </p>
         </div>
         <div className="p-3 bg-[#363636] bg-opacity-50 rounded-lg text-white">

@@ -1,6 +1,6 @@
 "use server"
 
-import { revalidatePath, revalidateTag } from "next/cache"
+import { revalidateTag } from "next/cache"
 import getCurrentDate from "./getCurrentDate"
 import { Habit } from "@/types"
 import { createClient } from "next-sanity"
@@ -117,7 +117,7 @@ export async function createHabit(e: FormData) {
         _ref: categoryId,
       },
     })
-    revalidateTag("habits")
+    // revalidateTag("habits")
     console.log("revalidated")
   } catch (error) {
     console.log(error)

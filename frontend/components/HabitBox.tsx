@@ -4,7 +4,7 @@ import checkTheTaskIfCompleted from "@/lib/checkTheTaskIfCompleted"
 import getCurrentDate from "@/lib/getCurrentDate"
 import { Habit, TaskByDate } from "@/types"
 import Link from "next/link"
-import { useEffect, useState, useTransition } from "react"
+import { useEffect, useMemo, useState, useTransition } from "react"
 import calcStreak from "@/lib/calcStreak"
 
 export default function HabitBox({
@@ -41,6 +41,11 @@ export default function HabitBox({
     }
   }
 
+  const cashedStreak = useMemo(
+    () => calcStreak(calcExpectedNewDates(habit.dates), currentDate.split("/")),
+    [habit.dates, currentDate]
+  )
+
   return (
     <div
       className={`${expanded ? "ps-1 pe-2" : ""} ${
@@ -53,12 +58,7 @@ export default function HabitBox({
         }`}
         onClick={() => {
           setIsDone((p) => !p)
-          setStreak(
-            calcStreak(
-              calcExpectedNewDates(habit.dates),
-              currentDate.split("/")
-            )
-          )
+          setStreak(cashedStreak)
           startTransition(() => markHabit({ habit, isCompleted }))
         }}
         type="submit"

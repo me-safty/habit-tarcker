@@ -10,29 +10,31 @@ import add from "@/public/add.svg"
 // import doneImage from "@/public/done-img.svg"
 // import blobs from "@/public/layered-steps-haikei.svg"
 import MiniCalender from "./MiniCalender"
-// import { AppDispatch, RootState } from "@/store"
-// import { useDispatch, useSelector } from "react-redux"
-// import type { TypedUseSelectorHook } from "react-redux"
-// import { setHabits as setHabitsR } from "@/store/habitsSlice"
+import { AppDispatch, RootState } from "@/store"
+import { useDispatch, useSelector } from "react-redux"
+import type { TypedUseSelectorHook } from "react-redux"
+import { setHabits, setExpandView } from "@/store/habitsSlice"
 
 interface TasksProps {
   habitsData: Habit[]
 }
 
-// export const useAppDispatch: () => AppDispatch = useDispatch
-// export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+export const useAppDispatch: () => AppDispatch = useDispatch
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
 export default function Tasks({ habitsData }: TasksProps) {
-  const [habits, setHabits] = useState<Habit[]>(habitsData)
-  const [expandedView, setExpandedView] = useState<boolean>(false)
+  // const [habits, setHabits] = useState<Habit[]>(habitsData)
+  // const [expandedView, setExpandedView] = useState<boolean>(false)
   // const [selectedCategoryId, setSelectedCategoryId] = useState<string>("all")
 
-  // const dispatch = useAppDispatch()
-  // const habitsR = useAppSelector((state) => state.habits.habits)
+  const dispatch = useAppDispatch()
+  const habits = useAppSelector((state) => state.habits.allHabits)
+  const expandView = useAppSelector((state) => state.habits.expandView)
+  console.log(useAppSelector((state) => state.habits))
 
   useEffect(() => {
-    setHabits(habitsData)
-    // dispatch(setHabitsR(habitsData))
+    // setHabits(habitsData)
+    dispatch(setHabits(habitsData))
   }, [habitsData])
 
   const categoriesWithHabits = useMemo(
@@ -56,9 +58,9 @@ export default function Tasks({ habitsData }: TasksProps) {
       <div className="flex gap-2">
         <button
           className="my-2 p-[10px] rounded-lg bg-[color:var(--secondaryColor)] outline-none"
-          onClick={() => setExpandedView((p) => !p)}
+          onClick={() => dispatch(setExpandView(!expandView))}
         >
-          {expandedView ? (
+          {expandView ? (
             <Image src={boxes} height={20} width={20} alt="boxes view" />
           ) : (
             <Image src={menu} height={20} width={20} alt="expanded view" />
@@ -129,14 +131,14 @@ export default function Tasks({ habitsData }: TasksProps) {
             <div className="w-full h-[2px] bg-[color:var(--mainColor)] my-2 rounded-full"></div>
             <div
               className={`${
-                expandedView ? "flex flex-col gap-2" : "grid grid-cols-2 gap-2"
+                expandView ? "flex flex-col gap-2" : "grid grid-cols-2 gap-2"
               }`}
             >
               {category.habits.map((habit) => (
                 <HabitBox
                   habit={habit}
                   key={habit.slug.current}
-                  expanded={expandedView}
+                  expanded={expandView}
                 />
               ))}
             </div>
