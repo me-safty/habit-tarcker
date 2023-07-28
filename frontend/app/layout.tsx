@@ -5,10 +5,10 @@ import Providers from "@/components/Provider"
 
 const inter = Inter({ subsets: ["latin"] })
 
-export const metadata = {
-  title: "Habit Tracker",
-  description: "Habit Tracker to track my daley routine",
-}
+// export const metadata = {
+//   title: "Habit Tracker",
+//   description: "Habit Tracker to track my daley routine",
+// }
 
 export default function RootLayout({
   children,
