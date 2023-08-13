@@ -1,9 +1,9 @@
 import { Habit } from "@/types"
-import getCurrentDate from "./getCurrentDate"
 
-const currentDate = getCurrentDate()
-
-export default function calcDoneHabits(habits: Habit[]): number {
+export default function calcDoneHabits(
+  habits: Habit[],
+  currentDate: string
+): number {
   let doneHabits = 0
   habits.forEach((habit) => {
     habit.dates.forEach((date) => {

@@ -1,6 +1,7 @@
 import Habits from "@/components/Habits"
 import Preloader from "@/components/Preloader"
 import calcDoneHabits from "@/lib/calcDoneHabits"
+import getCurrentDate from "@/lib/getCurrentDate"
 import { store } from "@/store"
 import { setDoneHabits, setHabits } from "@/store/habitsSlice"
 import { Habit } from "@/types"
@@ -244,8 +245,9 @@ const habits: Habit[] = [
 ]
 
 export default async function Home() {
+  const currentDate = getCurrentDate()
   const habits: Habit[] = await getHabits()
-  const doneHabits = calcDoneHabits(habits)
+  const doneHabits = calcDoneHabits(habits, currentDate)
   store.dispatch(setHabits(habits))
   store.dispatch(setDoneHabits(doneHabits))
 

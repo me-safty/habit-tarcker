@@ -22,16 +22,11 @@ export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
 export default function Tasks({ habitsData }: TasksProps) {
-  // const [habits, setHabits] = useState<Habit[]>(habitsData)
-  // const [expandedView, setExpandedView] = useState<boolean>(false)
-  // const [selectedCategoryId, setSelectedCategoryId] = useState<string>("all")
-
   const dispatch = useAppDispatch()
   const habits = useAppSelector((state) => state.habits.allHabits)
   const expandView = useAppSelector((state) => state.habits.expandView)
 
   useEffect(() => {
-    // setHabits(habitsData)
     dispatch(setHabits(habitsData))
   }, [habitsData, dispatch])
 

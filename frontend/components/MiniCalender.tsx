@@ -48,18 +48,24 @@ console.log(gatWeekDays())
 
 export default function MiniCalender() {
   return (
-    <div className="p-2 bg-[color:var(--secondaryColor)] overflow-x-scroll text-white rounded-lg flex">
+    <div className="text-white rounded-lg flex">
       {gatWeekDays().map((d) => (
         <div
-          className={`text-center min-w-[${100 / 7}%] rounded-full p-1 px-2 ${
-            d.date === getCurrentDate() ? "bg-white bg-opacity-20" : ""
-          }`}
+          className={`text-center min-w-[${100 / 7}%] p-1 px-2 `}
           style={{ minWidth: "calc(100% / 7)" }}
           key={d.dayIndex}
           autoFocus={+d.dayIndex === day ? true : false}
         >
-          <p className="">{d.nameOfDay}</p>
-          <p className="">{d.dayIndex}</p>
+          <p className="mb-2 text-white opacity-70">{d.nameOfDay}</p>
+          <div
+            className={`flex justify-center items-center w-9 h-9 rounded-full ${
+              d.date === getCurrentDate()
+                ? "bg-white border-[3px] border-[#0000] bg-opacity-10"
+                : "border-[3px] border-[#7777775e]"
+            }`}
+          >
+            <p>{d.dayIndex}</p>
+          </div>
         </div>
       ))}
     </div>
