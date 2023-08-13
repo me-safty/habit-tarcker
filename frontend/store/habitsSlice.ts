@@ -6,11 +6,13 @@ import { Habit } from "@/types"
 export interface HabitsState {
   allHabits: Habit[]
   expandView: boolean
+  doneHabits: number
 }
 
 const initialState: HabitsState = {
   allHabits: [],
   expandView: false,
+  doneHabits: 0,
 }
 
 const habitsSlice = createSlice({
@@ -23,8 +25,11 @@ const habitsSlice = createSlice({
     setExpandView: (state, action: PayloadAction<boolean>) => {
       state.expandView = action.payload
     },
+    setDoneHabits: (state, action: PayloadAction<number>) => {
+      state.doneHabits = action.payload
+    },
   },
 })
 
-export const { setHabits, setExpandView } = habitsSlice.actions
+export const { setHabits, setExpandView, setDoneHabits } = habitsSlice.actions
 export default habitsSlice.reducer

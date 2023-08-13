@@ -1,7 +1,8 @@
 import Habits from "@/components/Habits"
 import Preloader from "@/components/Preloader"
+import calcDoneHabits from "@/lib/calcDoneHabits"
 import { store } from "@/store"
-import { setHabits } from "@/store/habitsSlice"
+import { setDoneHabits, setHabits } from "@/store/habitsSlice"
 import { Habit } from "@/types"
 
 async function getHabits() {
@@ -244,11 +245,14 @@ const habits: Habit[] = [
 
 export default async function Home() {
   const habits: Habit[] = await getHabits()
+  const doneHabits = calcDoneHabits(habits)
   store.dispatch(setHabits(habits))
+  store.dispatch(setDoneHabits(doneHabits))
+
   // console.log(habits)
   return (
     <main className="container flex justify-center">
-      <Preloader habits={habits} />
+      <Preloader habits={habits} doneHabits={doneHabits} />
       <Habits habitsData={habits} />
     </main>
   )

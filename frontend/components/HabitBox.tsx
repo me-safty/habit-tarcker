@@ -6,6 +6,8 @@ import { Habit, TaskByDate } from "@/types"
 import Link from "next/link"
 import { useEffect, useMemo, useState, useTransition } from "react"
 import calcStreak from "@/lib/calcStreak"
+import { useAppDispatch, useAppSelector } from "./Habits"
+import { setDoneHabits } from "@/store/habitsSlice"
 
 export default function HabitBox({
   habit,
@@ -14,6 +16,9 @@ export default function HabitBox({
   habit: Habit
   expanded?: boolean
 }) {
+  const dispatch = useAppDispatch()
+  let doneHabits = useAppSelector((state) => state.habits.doneHabits)
+
   const [isPending, startTransition] = useTransition()
   const currentDate = getCurrentDate()
   const isCompleted = checkTheTaskIfCompleted(habit.dates, currentDate)
@@ -57,6 +62,7 @@ export default function HabitBox({
         onClick={() => {
           setIsDone((p) => !p)
           setStreak(cashedStreak)
+          dispatch(setDoneHabits(isDone ? doneHabits - 1 : doneHabits + 1))
           startTransition(() => markHabit({ habit, isCompleted }))
         }}
         type="submit"

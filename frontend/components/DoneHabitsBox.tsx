@@ -1,13 +1,13 @@
-import calcDoneHabits from "@/lib/calcDoneHabits"
+"use client"
+
 import doneImage from "@/public/done-img.svg"
 import blobs from "@/public/layered-steps-haikei.svg"
 import Image from "next/image"
-import { useMemo } from "react"
 import { useAppSelector } from "./Habits"
 
 export default function DoneHabitsBox() {
   const habits = useAppSelector((state) => state.habits.allHabits)
-  const doneHabits = useMemo(() => calcDoneHabits(habits), [habits])
+  const doneHabits = useAppSelector((state) => state.habits.doneHabits)
 
   return (
     <div className="text-white relative flex bg-[color:var(--secondaryColor)] p-3 rounded-lg mb-2">
