@@ -22,3 +22,15 @@ export interface TaskByDate {
   _type: string
   _key: string
 }
+
+export interface User {
+  _id: string
+  name: string
+  email: string
+  image: string
+  imglink: string
+  habits: Habit[]
+  slug: {
+    current: string
+  }
+}
