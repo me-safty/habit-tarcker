@@ -2,18 +2,17 @@
 import { Habit } from "@/types"
 import Link from "next/link"
 import HabitBox from "./HabitBox"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo } from "react"
 import Image from "next/image"
 import menu from "@/public/menu.svg"
 import boxes from "@/public/view-tile.svg"
 import add from "@/public/add.svg"
-// import doneImage from "@/public/done-img.svg"
-// import blobs from "@/public/layered-steps-haikei.svg"
 import MiniCalender from "./MiniCalender"
 import { AppDispatch, RootState } from "@/store"
 import { useDispatch, useSelector } from "react-redux"
 import type { TypedUseSelectorHook } from "react-redux"
 import { setHabits, setExpandView } from "@/store/habitsSlice"
+import DoneHabitsBox from "./DoneHabitsBox"
 
 interface TasksProps {
   habitsData: Habit[]
@@ -30,24 +29,21 @@ export default function Tasks({ habitsData }: TasksProps) {
   const dispatch = useAppDispatch()
   const habits = useAppSelector((state) => state.habits.allHabits)
   const expandView = useAppSelector((state) => state.habits.expandView)
-  console.log(useAppSelector((state) => state.habits))
 
   useEffect(() => {
     // setHabits(habitsData)
     dispatch(setHabits(habitsData))
-  }, [habitsData])
+  }, [habitsData, dispatch])
 
   const categoriesWithHabits = useMemo(
     () =>
       habits[0]?.categories
-        .map((category) => {
-          return {
-            ...category,
-            habits: habits.filter(
-              (habit) => habit?.category?._id === category._id
-            ),
-          }
-        })
+        .map((category) => ({
+          ...category,
+          habits: habits.filter(
+            (habit) => habit?.category?._id === category._id
+          ),
+        }))
         .reverse(),
     [habits]
   )
@@ -75,50 +71,7 @@ export default function Tasks({ habitsData }: TasksProps) {
           </button>
         </Link>
       </div>
-      {/* <div className="text-white relative flex bg-[color:var(--secondaryColor)] p-3 rounded-lg mb-2">
-        <div className="absolute w-full h-[150px] overflow-hidden top-0 left-0 rounded-xl">
-          <Image
-            className="-translate-y-1"
-            src={blobs}
-            height={130}
-            width={350}
-            alt="done"
-          />
-        </div>
-        <div className="flex-1 flex flex-col relative justify-center items-center">
-          <p className="">You almost Done!</p>
-          <p className="">
-            <span className="">{0}</span>/
-            <span className="">{habits.length}</span>
-          </p>
-        </div>
-        <div className="mr-3 relatives">
-          <Image
-            className="relative"
-            src={doneImage}
-            height={120}
-            width={120}
-            alt="done"
-          />
-        </div>
-      </div> */}
-      {/* <div className="flex gap-2 mb-2">
-        <div
-          onClick={() => setSelectedCategoryId("all")}
-          className="bg-[#b6b6b6] px-3 py-1 rounded-md"
-        >
-          <p className="">All Habits</p>
-        </div>
-        {categoriesWithHabits.map((category) => (
-          <div
-            className="bg-[#b6b6b6] px-3 py-1 rounded-md"
-            key={category._id}
-            onClick={() => setSelectedCategoryId(category._id)}
-          >
-            <p className="">{category.name}</p>
-          </div>
-        ))}
-      </div> */}
+      <DoneHabitsBox />
       <div className="overflow-hidden">
         {categoriesWithHabits.map((category) => (
           <div

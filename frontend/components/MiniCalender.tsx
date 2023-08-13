@@ -1,90 +1,64 @@
 import getCurrentDate from "@/lib/getCurrentDate"
-import { months, getDaysInMonth } from "./Calender"
+import { getDaysInMonth } from "./Calender"
 const currentDate = getCurrentDate().split("/")
 const day = +currentDate[1]
 const month = +currentDate[0]
 const year = +currentDate[2]
 
-const daysPerMonth = {
-  January: getDaysInMonth(year, 1),
-  February: getDaysInMonth(year, 2),
-  March: getDaysInMonth(year, 3),
-  April: getDaysInMonth(year, 4),
-  May: getDaysInMonth(year, 5),
-  June: getDaysInMonth(year, 6),
-  July: getDaysInMonth(year, 7),
-  August: getDaysInMonth(year, 8),
-  September: getDaysInMonth(year, 9),
-  October: getDaysInMonth(year, 10),
-  November: getDaysInMonth(year, 11),
-  December: getDaysInMonth(year, 12),
-}
-
 export const daysOfTheWeek = ["Sun", "Mon", "Tue", "Wen", "Thu", "Fri", "Sat"]
 
-function getNameOfDay(i: number): string {
+function getNameOfDay(i: number, month: number): string {
   const dayIndex = new Date(`${month}/${i}/${year}`).getDay()
   return daysOfTheWeek[dayIndex]
 }
 
-const daysOfTheMonthWithNames = [...Array(daysPerMonth[months[month + 1]])].map(
-  (_, i) => ({
-    dayIndex: i + 1,
-    nameOdDay: getNameOfDay(i + 1),
-  })
-)
-
 function gatWeekDays() {
   const currentWeek: {
+    dayIndex: number
     date: string
     nameOfDay: string
   }[] = []
 
+  let c = 0
+  let monthOfWeek = month
+  let d = false
   for (let i = 0; i < 7; i++) {
     let dayOfWeek = day - i
-    const daysOfTheMonth = getDaysInMonth(year, month)
-    let monthOfWeek = month
+    const daysOfTheMonth = getDaysInMonth(year, monthOfWeek)
 
-    if (dayOfWeek <= 1) {
-      dayOfWeek = daysOfTheMonth
-
-      if ((monthOfWeek = 12)) {
-        monthOfWeek = 0
-      } else {
+    if (dayOfWeek < 1) {
+      if (!d) {
         monthOfWeek -= 1
       }
-    } else if (dayOfWeek >= daysOfTheMonth) {
-      dayOfWeek = 1
-      monthOfWeek += 1
+      d = true
+      dayOfWeek = daysOfTheMonth - c
+      c++
     }
 
     currentWeek.push({
+      dayIndex: dayOfWeek,
       date: `${monthOfWeek}/${dayOfWeek}/${year}`,
-      nameOfDay: getNameOfDay(dayOfWeek),
+      nameOfDay: getNameOfDay(dayOfWeek, monthOfWeek),
     })
   }
-  return currentWeek
+  return currentWeek.reverse()
 }
 
-daysOfTheMonthWithNames.forEach((d, i) => {
-  if (d.dayIndex === day) {
-    daysOfTheMonthWithNames.splice(i)
-  }
-})
-
-console.log(daysOfTheMonthWithNames)
+console.log(gatWeekDays())
 
 export default function MiniCalender() {
   return (
     <div className="p-2 bg-[color:var(--secondaryColor)] overflow-x-scroll text-white rounded-lg flex">
-      {daysOfTheMonthWithNames.map((d) => (
+      {gatWeekDays().map((d) => (
         <div
-          className={`text-center min-w-[${100 / 7}%]`}
+          className={`text-center min-w-[${100 / 7}%] rounded-full p-1 px-2 ${
+            d.date === getCurrentDate() ? "bg-white bg-opacity-20" : ""
+          }`}
           style={{ minWidth: "calc(100% / 7)" }}
           key={d.dayIndex}
-          autoFocus={d.dayIndex === day ? true : false}
+          autoFocus={+d.dayIndex === day ? true : false}
         >
-          <p className="">{d.nameOdDay}</p>
+          <p className="">{d.nameOfDay}</p>
           <p className="">{d.dayIndex}</p>
         </div>
       ))}

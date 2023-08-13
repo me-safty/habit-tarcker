@@ -28,16 +28,20 @@ export async function markHabit(data: FormDate) {
 
   if (data.isCompleted === false) {
     const newDates = data.habit.dates
+
     newDates.push({
       date: currentDate,
       _type: "dateOfHabit",
       _key: `${Math.random().toString(32).slice(2)}-${currentDate}`,
     })
+
     const currentStreak = calcStreak(newDates, currentDate.split("/"))
+
     const bestStreak =
       data.habit.bestStreak > currentStreak
         ? data.habit.bestStreak
         : currentStreak
+
     const updatedHabit: Habit = {
       ...data.habit,
       dates: newDates,

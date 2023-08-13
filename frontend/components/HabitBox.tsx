@@ -26,25 +26,23 @@ export default function HabitBox({
     setStreak(habit.currentStreak)
   }, [habit, currentDate])
 
-  function calcExpectedNewDates(dates: TaskByDate[]): TaskByDate[] {
-    //spared the array to make a new array without the reference to the old one
-    if (isCompleted === false) {
-      const newDates = [...dates]
-      newDates.push({
-        date: currentDate,
-        _type: "dateOfHabit",
-        _key: `${Math.random().toString(32).slice(2)}-${currentDate}`,
-      })
-      return newDates
-    } else {
-      return dates.filter((d) => d.date !== currentDate)
+  const cashedStreak = useMemo(() => {
+    function calcExpectedNewDates(dates: TaskByDate[]): TaskByDate[] {
+      //spared the array to make a new array without the reference to the old one
+      if (isCompleted === false) {
+        const newDates = [...dates]
+        newDates.push({
+          date: currentDate,
+          _type: "dateOfHabit",
+          _key: `${Math.random().toString(32).slice(2)}-${currentDate}`,
+        })
+        return newDates
+      } else {
+        return dates.filter((d) => d.date !== currentDate)
+      }
     }
-  }
-
-  const cashedStreak = useMemo(
-    () => calcStreak(calcExpectedNewDates(habit.dates), currentDate.split("/")),
-    [habit.dates, currentDate]
-  )
+    return calcStreak(calcExpectedNewDates(habit.dates), currentDate.split("/"))
+  }, [habit.dates, currentDate, isCompleted])
 
   return (
     <div
