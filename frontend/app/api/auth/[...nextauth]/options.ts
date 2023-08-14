@@ -38,10 +38,10 @@ const options: AuthOptions = {
 
       async authorize(credentials) {
         const user = {
-          username: "admin",
+          username: "safty",
           password: "admin",
           id: "212",
-          email: "atef50895@gmail.com",
+          email: "safty@gmail.com",
           image:
             "https://lh3.googleusercontent.com/a/AAcHTtcDq0-CfFkrqjoVYm0Rku-LCKrzphE7G5OllGie9FpreUlK=s96-c",
         }

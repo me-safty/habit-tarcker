@@ -25,6 +25,9 @@ export default function DoneHabitsBox() {
         <p className="">
           <span className="">{doneHabits}</span>/
           <span className="">{habits.length}</span>
+          <span className="ml-2">
+            {((doneHabits / habits.length) * 100).toFixed()}%
+          </span>
         </p>
       </div>
       <div className="mr-3 relatives">

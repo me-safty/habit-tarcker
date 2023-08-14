@@ -22,6 +22,7 @@ async function getHabit(slug: string) {
     dates,
     slug,
     category ->,
+    user ->,
     "categories": *[_type == "category" ]
   }
   `
@@ -49,6 +50,12 @@ export default async function page({ params }: TaskPagProps) {
   }
 
   const habit: Habit = await getHabit(params.slug)
+
+  // @ts-ignore
+  if (session.user.id !== habit.user._id) {
+    redirect("/")
+  }
+
   return (
     <main className="container flex flex-col items-center justify-center">
       <HabitPage habitData={habit} />
