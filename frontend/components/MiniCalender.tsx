@@ -44,21 +44,19 @@ function gatWeekDays() {
   return currentWeek.reverse()
 }
 
-console.log(gatWeekDays())
-
 export default function MiniCalender() {
   return (
-    <div className="text-white rounded-lg flex">
+    <section className="text-white rounded-lg flex">
       {gatWeekDays().map((d) => (
         <div
-          className={`text-center min-w-[${100 / 7}%] p-1 px-2 `}
+          className={`text-center min-w-[${100 / 7}%] p-1 px-[6px] `}
           style={{ minWidth: "calc(100% / 7)" }}
           key={d.dayIndex}
           autoFocus={+d.dayIndex === day ? true : false}
         >
           <p className="mb-2 text-white opacity-70">{d.nameOfDay}</p>
           <div
-            className={`flex justify-center items-center w-9 h-9 rounded-full ${
+            className={`flex justify-center items-center w-[34px] h-[34px] rounded-full ${
               d.date === getCurrentDate()
                 ? "bg-white border-[3px] border-[#0000] bg-opacity-10"
                 : "border-[3px] border-[#7777775e]"
@@ -68,6 +66,6 @@ export default function MiniCalender() {
           </div>
         </div>
       ))}
-    </div>
+    </section>
   )
 }

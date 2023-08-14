@@ -10,6 +10,7 @@ export interface Habit {
   }
   category: Category
   categories: Category[]
+  user: User
 }
 export interface Category {
   _rev?: string // = the id of the habit
@@ -25,10 +26,12 @@ export interface TaskByDate {
 
 export interface User {
   _id: string
+  id: string
   name: string
   email: string
   image: string
   imglink: string
+  hashedPassword: string
   habits: Habit[]
   slug: {
     current: string

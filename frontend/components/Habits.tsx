@@ -44,7 +44,7 @@ export default function Tasks({ habitsData }: TasksProps) {
   )
 
   return (
-    <div className="my-3 w-[350px] max-w-[400px]">
+    <div className="my-3 w-[330px] max-w-[400px]">
       <MiniCalender />
       <div className="flex gap-2">
         <button

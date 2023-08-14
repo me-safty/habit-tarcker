@@ -1,72 +1,11 @@
+import options from "@/app/api/auth/[...nextauth]/options"
 import HabitPage from "@/components/HabitPage"
 import { Habit } from "@/types"
+import { getServerSession } from "next-auth"
+import { redirect } from "next/navigation"
 
 interface TaskPagProps {
   params: { slug: string }
-}
-
-const habit: Habit = {
-  _id: "Grgr",
-  _createdAt: "Ferfwer",
-  name: "brush",
-  bestStreak: 10,
-  currentStreak: 0,
-  slug: {
-    current: "Efef",
-  },
-  category: {
-    name: "mourning",
-    _id: "5b70e5c2-d43c-4fed-be4c-16be480403dc",
-  },
-  categories: [
-    {
-      _rev: "oT88RoYgRCgDLbhlGiMrv6",
-      _type: "category",
-      name: "morning",
-      _id: "5b70e5c2-d43c-4fed-be4c-16be480403dc",
-    },
-    {
-      _rev: "m2wUiRJct46GQ5hw1wETy3",
-      _type: "category",
-      name: "night",
-      _id: "dd38ca00-e87f-4027-87b8-362f9591e841",
-    },
-  ],
-  dates: [
-    // {
-    //   date: "11/28/2022",
-    // },
-    // {
-    //   date: "11/29/2022",
-    // },
-    // {
-    //   date: "11/30/2022",
-    // },
-    // {
-    //   date: "11/25/2022",
-    // },
-    // {
-    //   date: "6/29/2023",
-    // },
-    // {
-    //   date: "6/30/2023",
-    // },
-    // {
-    //   date: "7/1/2023",
-    // },
-    // {
-    //   date: "7/2/2023",
-    // },
-    // {
-    //   date: "7/3/2023",
-    // },
-    // {
-    //   date: "7/4/2023",
-    // },
-    // {
-    //   date: "7/5/2023",
-    // },
-  ],
 }
 
 async function getHabit(slug: string) {
@@ -103,8 +42,13 @@ async function getHabit(slug: string) {
 }
 
 export default async function page({ params }: TaskPagProps) {
+  const session = await getServerSession(options)
+
+  if (!session) {
+    redirect("/api/auth/signin?callbackUrl=/")
+  }
+
   const habit: Habit = await getHabit(params.slug)
-  console.log(habit, "###===revalidated")
   return (
     <main className="container flex flex-col items-center justify-center">
       <HabitPage habitData={habit} />

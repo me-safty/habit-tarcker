@@ -60,7 +60,7 @@ export default function TaskPage({ habitData }: TaskPageProps) {
   )
 
   return (
-    <div className="w-fit relative">
+    <section className="w-fit relative">
       {showEditPopup && (
         <div
           ref={editPopup}
@@ -192,6 +192,6 @@ export default function TaskPage({ habitData }: TaskPageProps) {
           </p>
         </div>
       </div>
-    </div>
+    </section>
   )
 }

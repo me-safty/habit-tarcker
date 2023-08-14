@@ -85,7 +85,7 @@ export default function Calender({ dates }: CalenderProps) {
   }
 
   return (
-    <div className="w-[315px] my-3 p-5 rounded-xl bg-[#202020] text-[#6b6b6b]">
+    <section className="w-[315px] my-3 p-5 rounded-xl bg-[#202020] text-[#6b6b6b]">
       <div className="flex px-3 mb-4 gap-2 items-center justify-center">
         <Image
           src={arrowLeft}
@@ -178,6 +178,6 @@ export default function Calender({ dates }: CalenderProps) {
           </div>
         ))}
       </div>
-    </div>
+    </section>
   )
 }

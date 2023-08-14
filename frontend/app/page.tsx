@@ -5,13 +5,22 @@ import getCurrentDate from "@/lib/getCurrentDate"
 import { store } from "@/store"
 import { setDoneHabits, setHabits } from "@/store/habitsSlice"
 import { Habit } from "@/types"
+import { getServerSession } from "next-auth"
+import options from "./api/auth/[...nextauth]/options"
+import { redirect } from "next/navigation"
 
-async function getHabits() {
+async function getHabits(email: string) {
   const projectId = process.env.NEXT_PUBLIC_PROJECT_ID
   const apiVersion = process.env.NEXT_PUBLIC_API_VERSION
   const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET
   const query = `
-  *[_type == "habit"] {
+  *[_type == "user" && email == $email][0] {
+    name,
+    _id,
+    email,
+    imglink,
+    slug,
+    "habits": *[_type == "habit" && user._ref == ^._id] {
     _id,
     _createdAt,
     name,
@@ -20,11 +29,15 @@ async function getHabits() {
     dates,
     slug,
     category ->,
+    user ->,
     "categories": *[_type == "category" ]
+    }
   }
 `
   const res = await fetch(
-    `https://${projectId}.api.sanity.io/v${apiVersion}/data/query/${dataset}?query=${query}`,
+    `https://${projectId}.api.sanity.io/v${apiVersion}/data/query/${dataset}?query=${encodeURIComponent(
+      query
+    )}&$email="${email}"`,
     {
       method: "GET",
       cache: "no-cache",
@@ -37,221 +50,21 @@ async function getHabits() {
   return habits.result
 }
 
-const habits: Habit[] = [
-  {
-    _id: "Grgr",
-    _createdAt: "Ferfwer",
-    name: "brush",
-    bestStreak: 10,
-    currentStreak: 0,
-    slug: {
-      current: "Efef",
-    },
-    category: {
-      name: "mourning",
-      _id: "5b70e5c2-d43c-4fed-be4c-16be480403dc",
-    },
-    categories: [
-      {
-        _rev: "oT88RoYgRCgDLbhlGiMrv6",
-        _type: "category",
-        name: "morning",
-        _id: "5b70e5c2-d43c-4fed-be4c-16be480403dc",
-      },
-      {
-        _rev: "m2wUiRJct46GQ5hw1wETy3",
-        _type: "category",
-        name: "night",
-        _id: "dd38ca00-e87f-4027-87b8-362f9591e841",
-      },
-    ],
-    dates: [
-      {
-        date: "7/13/2023",
-        _type: "dateOfHabit",
-        _key: "jh67hk46rgo-7/11/2023",
-      },
-      // {
-      //   date: "11/28/2022",
-      // },
-      // {
-      //   date: "11/29/2022",
-      // },
-      // {
-      //   date: "11/30/2022",
-      // },
-      // {
-      //   date: "11/25/2022",
-      // },
-      // {
-      //   date: "6/29/2023",
-      // },
-      // {
-      //   date: "6/30/2023",
-      // },
-      // {
-      //   date: "7/1/2023",
-      // },
-      // {
-      //   date: "7/2/2023",
-      // },
-      // {
-      //   date: "7/3/2023",
-      // },
-      // {
-      //   date: "7/4/2023",
-      // },
-      // {
-      //   date: "7/5/2023",
-      // },
-    ],
-  },
-  {
-    _id: "Grgr",
-    _createdAt: "Ferfwer",
-    name: "brush",
-    bestStreak: 10,
-    currentStreak: 0,
-    slug: {
-      current: "Efef",
-    },
-    category: {
-      name: "mourning",
-      _id: "5b70e5c2-d43c-4fed-be4c-16be480403dc",
-    },
-    categories: [
-      {
-        _rev: "oT88RoYgRCgDLbhlGiMrv6",
-        _type: "category",
-        name: "morning",
-        _id: "5b70e5c2-d43c-4fed-be4c-16be480403dc",
-      },
-      {
-        _rev: "m2wUiRJct46GQ5hw1wETy3",
-        _type: "category",
-        name: "night",
-        _id: "dd38ca00-e87f-4027-87b8-362f9591e841",
-      },
-    ],
-    dates: [
-      {
-        date: "7/11/2023",
-        _type: "dateOfHabit",
-        _key: "jh67hk46rgo-7/11/2023",
-      },
-      // {
-      //   date: "11/28/2022",
-      // },
-      // {
-      //   date: "11/29/2022",
-      // },
-      // {
-      //   date: "11/30/2022",
-      // },
-      // {
-      //   date: "11/25/2022",
-      // },
-      // {
-      //   date: "6/29/2023",
-      // },
-      // {
-      //   date: "6/30/2023",
-      // },
-      // {
-      //   date: "7/1/2023",
-      // },
-      // {
-      //   date: "7/2/2023",
-      // },
-      // {
-      //   date: "7/3/2023",
-      // },
-      // {
-      //   date: "7/4/2023",
-      // },
-      // {
-      //   date: "7/5/2023",
-      // },
-    ],
-  },
-  {
-    _id: "Grgr",
-    _createdAt: "Ferfwer",
-    name: "brush",
-    bestStreak: 10,
-    currentStreak: 0,
-    slug: {
-      current: "Efef",
-    },
-    category: {
-      name: "night",
-      _id: "dd38ca00-e87f-4027-87b8-362f9591e841",
-    },
-    categories: [
-      {
-        _rev: "oT88RoYgRCgDLbhlGiMrv6",
-        _type: "category",
-        name: "morning",
-        _id: "5b70e5c2-d43c-4fed-be4c-16be480403dc",
-      },
-      {
-        _rev: "m2wUiRJct46GQ5hw1wETy3",
-        _type: "category",
-        name: "night",
-        _id: "dd38ca00-e87f-4027-87b8-362f9591e841",
-      },
-    ],
-    dates: [
-      {
-        date: "7/13/2023",
-        _type: "dateOfHabit",
-        _key: "jh67hk46rgo-7/11/2023",
-      },
-      // {
-      //   date: "11/28/2022",
-      // },
-      // {
-      //   date: "11/29/2022",
-      // },
-      // {
-      //   date: "11/30/2022",
-      // },
-      // {
-      //   date: "11/25/2022",
-      // },
-      // {
-      //   date: "6/29/2023",
-      // },
-      // {
-      //   date: "6/30/2023",
-      // },
-      // {
-      //   date: "7/1/2023",
-      // },
-      // {
-      //   date: "7/2/2023",
-      // },
-      // {
-      //   date: "7/3/2023",
-      // },
-      // {
-      //   date: "7/4/2023",
-      // },
-      // {
-      //   date: "7/5/2023",
-      // },
-    ],
-  },
-]
-
 export default async function Home() {
+  const session = await getServerSession(options)
+
+  if (!session) {
+    redirect("/api/auth/signin?callbackUrl=/")
+  }
+
+  const data = await getHabits(session?.user?.email as string)
+  const habits: Habit[] = data.habits
+
   const currentDate = getCurrentDate()
-  const habits: Habit[] = await getHabits()
   const doneHabits = calcDoneHabits(habits, currentDate)
   store.dispatch(setHabits(habits))
   store.dispatch(setDoneHabits(doneHabits))
 
-  // console.log(habits)
   return (
     <main className="container flex justify-center">
       <Preloader habits={habits} doneHabits={doneHabits} />

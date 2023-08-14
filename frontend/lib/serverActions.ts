@@ -53,6 +53,10 @@ export async function markHabit(data: FormDate) {
       _id: updatedHabit._id,
       name: updatedHabit.name,
       bestStreak: updatedHabit.bestStreak,
+      user: {
+        _type: "reference",
+        _ref: updatedHabit.user._id,
+      },
       currentStreak: updatedHabit.currentStreak,
       slug: {
         _type: "slug",
@@ -90,6 +94,10 @@ export async function markHabit(data: FormDate) {
         current: updatedHabit.slug.current,
       },
       dates: updatedHabit.dates,
+      user: {
+        _type: "reference",
+        _ref: updatedHabit.user._id,
+      },
       category: {
         _type: "reference",
         _ref: updatedHabit.category._id,
@@ -103,7 +111,8 @@ export async function markHabit(data: FormDate) {
 export async function createHabit(e: FormData) {
   const name = e.get("name")?.toString()
   const categoryId = e.get("categoryId")?.toString()
-  if (!name && !categoryId) return
+  const userId = e.get("sessionId")?.toString()
+  if (!name && !categoryId && !userId) return
 
   try {
     await sanityClint.create({
@@ -111,6 +120,10 @@ export async function createHabit(e: FormData) {
       name,
       bestStreak: 0,
       currentStreak: 0,
+      user: {
+        _type: "reference",
+        _ref: userId,
+      },
       slug: {
         _type: "slug",
         current: Date.now().toString(),
@@ -151,6 +164,10 @@ export async function editHabit(editedHabit: Habit) {
         current: editedHabit.slug.current,
       },
       dates: editedHabit.dates,
+      user: {
+        _type: "reference",
+        _ref: editedHabit.user._id,
+      },
       category: {
         _type: "reference",
         _ref: editedHabit.category._id,

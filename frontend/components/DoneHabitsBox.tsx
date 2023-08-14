@@ -10,7 +10,7 @@ export default function DoneHabitsBox() {
   const doneHabits = useAppSelector((state) => state.habits.doneHabits)
 
   return (
-    <div className="text-white relative flex bg-[color:var(--secondaryColor)] p-3 rounded-lg mb-2">
+    <section className="text-white relative flex bg-[color:var(--secondaryColor)] p-3 rounded-lg mb-2">
       <div className="absolute w-full h-[150px] overflow-hidden top-0 left-0 rounded-xl">
         <Image
           className="-translate-y-1"
@@ -36,6 +36,6 @@ export default function DoneHabitsBox() {
           alt="done"
         />
       </div>
-    </div>
+    </section>
   )
 }

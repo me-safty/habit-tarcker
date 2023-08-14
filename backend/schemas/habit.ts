@@ -36,6 +36,12 @@ export default defineType({
       to: {type: 'category'},
     }),
     defineField({
+      name: 'user',
+      title: 'User',
+      type: 'reference',
+      to: {type: 'user'},
+    }),
+    defineField({
       name: 'dates',
       title: 'Dates',
       type: 'array',

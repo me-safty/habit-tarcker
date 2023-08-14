@@ -3,6 +3,7 @@ import { Category, Habit } from "@/types"
 import { useRouter } from "next/navigation"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import CategorySelectBox from "./categorySelectBox"
+import { User } from "next-auth"
 
 interface HabitFormProps {
   actionFunction: (e: FormData) => Promise<void> | void
@@ -10,6 +11,9 @@ interface HabitFormProps {
   redirectPageLink?: string
   habit?: Habit
   inputValue?: string
+  session: {
+    user: User
+  }
 }
 
 export default function HabitForm({
@@ -17,6 +21,7 @@ export default function HabitForm({
   categories,
   redirectPageLink,
   inputValue,
+  session,
 }: HabitFormProps) {
   const router = useRouter()
   const [input, setInput] = useState<string | undefined>(inputValue)
@@ -48,6 +53,7 @@ export default function HabitForm({
         name="categoryId"
         value={selectedCategory && selectedCategory._id}
       />
+      <input type="hidden" name="sessionId" value={session.user.id} />
       <div className="bg-[#252525] p-3 rounded-xl">
         <p className="mb-3 text-white">Name</p>
         <input

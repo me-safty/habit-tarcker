@@ -34,7 +34,7 @@ export default function CategorySelectBox({
   }, [optionsBox, setShowOptionsBox])
 
   return (
-    <div className="relative">
+    <section className="relative">
       <div
         className={`${
           selectedCategory ?? "text-[#7a7a7a]"
@@ -86,6 +86,6 @@ export default function CategorySelectBox({
           ))}
         </div>
       )}
-    </div>
+    </section>
   )
 }
