@@ -23,6 +23,7 @@ export default async function Header() {
           />
           <p className="text-white font-semibold">{session?.user?.name}</p>
         </Link>
+        <Link href={"/users"}>users</Link>
         <SignOut />
       </div>
     </header>

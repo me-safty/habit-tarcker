@@ -36,7 +36,7 @@ async function getUser(id: string) {
       method: "GET",
       cache: "no-cache",
       next: {
-        tags: ["habits"],
+        tags: ["user"],
       },
     }
   )
