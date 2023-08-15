@@ -3,10 +3,6 @@ import { getServerSession } from "next-auth"
 import { redirect } from "next/navigation"
 import UserPage from "@/components/users/UserPage"
 
-interface TaskPageProps {
-  params: { id: string }
-}
-
 async function getUser(id: string) {
   const projectId = process.env.NEXT_PUBLIC_PROJECT_ID
   const apiVersion = process.env.NEXT_PUBLIC_API_VERSION
@@ -48,7 +44,7 @@ async function getUser(id: string) {
   return user.result
 }
 
-export default async function page({ params }: TaskPageProps) {
+export default async function page({ params }: { params: { id: string } }) {
   const session = await getServerSession(options)
 
   if (!session) {
@@ -57,11 +53,6 @@ export default async function page({ params }: TaskPageProps) {
 
   const user = await getUser(params.id)
 
-  // @ts-ignore
-  // if (session.user.id !== user._id) {
-  //   redirect("/")
-  // }
-  console.log(user)
   return (
     <main className="container flex flex-col items-center justify-center">
       <UserPage user={user} />

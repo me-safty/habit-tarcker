@@ -4,10 +4,6 @@ import { Habit } from "@/types"
 import { getServerSession } from "next-auth"
 import { redirect } from "next/navigation"
 
-interface TaskPageProps {
-  params: { slug: string }
-}
-
 async function getHabit(slug: string) {
   const projectId = process.env.NEXT_PUBLIC_PROJECT_ID
   const apiVersion = process.env.NEXT_PUBLIC_API_VERSION
@@ -42,7 +38,7 @@ async function getHabit(slug: string) {
   return habits.result
 }
 
-export default async function page({ params }: TaskPageProps) {
+export default async function page({ params }: { params: { slug: string } }) {
   const session = await getServerSession(options)
 
   if (!session) {

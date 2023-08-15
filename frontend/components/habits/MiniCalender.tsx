@@ -1,3 +1,5 @@
+"use client"
+
 import getCurrentDate from "@/lib/getCurrentDate"
 import { getDaysInMonth } from "../habit/Calender"
 const currentDate = getCurrentDate().split("/")
@@ -49,7 +51,7 @@ export default function MiniCalender() {
     <section className="text-white rounded-lg flex">
       {gatWeekDays().map((d) => (
         <div
-          className={`text-center min-w-[${100 / 7}%] p-1 px-[6px] `}
+          className={`text-center min-w-[${100 / 7}%] py-2 px-[6px] `}
           style={{ minWidth: "calc(100% / 7)" }}
           key={d.dayIndex}
           autoFocus={+d.dayIndex === day ? true : false}
