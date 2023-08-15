@@ -12,7 +12,7 @@ import arrowBack from "@/public/arrow_back.svg"
 import Link from "next/link"
 import bin from "@/public/trash.svg"
 import edit from "@/public/edit.svg"
-import CategorySelectBox from "./categorySelectBox"
+import CategorySelectBox from "../categorySelectBox"
 
 interface TaskPageProps {
   habitData: Habit
@@ -93,6 +93,7 @@ export default function TaskPage({ habitData }: TaskPageProps) {
             />
           </div>
           <button
+            aria-label="update-the-habit"
             type="submit"
             onClick={() => {
               setHabit({ ...habit, name: input, category: selectedCategory })
@@ -101,7 +102,7 @@ export default function TaskPage({ habitData }: TaskPageProps) {
             }}
             className="font-semibold cursor-pointer text-[#eeeeee] w-full bg-amber-500 p-2 mt-3 rounded-lg"
           >
-            edit
+            Update The Habit
           </button>
         </div>
       )}
@@ -119,7 +120,8 @@ export default function TaskPage({ habitData }: TaskPageProps) {
           />
         </Link>
         <p className="flex-1">{habit.name}</p>
-        <div
+        <button
+          aria-label="options"
           onClick={() => setShowPopup(true)}
           className="hover:bg-[#333] cursor-pointer transition bg-opacity-30 p-2 rounded-full"
         >
@@ -130,13 +132,14 @@ export default function TaskPage({ habitData }: TaskPageProps) {
             alt="image"
             className=" rotate-90"
           />
-        </div>
+        </button>
         {showPopup && (
           <div
             ref={popup}
             className="absolute mt-3 top-0 font-normal text-base w-[130px] overflow-hidden right-0 items-start flex flex-col rounded bg-[#313131]"
           >
             <button
+              aria-label="edit"
               onClick={() => {
                 setShowEditPopup(true)
                 setShowPopup(false)
@@ -153,6 +156,7 @@ export default function TaskPage({ habitData }: TaskPageProps) {
               <p>edit</p>
             </button>
             <button
+              aria-label="delete"
               onClick={() => {
                 deleteHabit(habit._id)
                 router.replace("/")

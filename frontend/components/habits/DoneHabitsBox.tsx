@@ -18,6 +18,8 @@ export default function DoneHabitsBox() {
           height={130}
           width={350}
           alt="done"
+          quality={45}
+          priority
         />
       </div>
       <div className="flex-1 flex flex-col relative justify-center items-center">
@@ -37,6 +39,7 @@ export default function DoneHabitsBox() {
           height={120}
           width={120}
           alt="done"
+          quality={45}
         />
       </div>
     </section>

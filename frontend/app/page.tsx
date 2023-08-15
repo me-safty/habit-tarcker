@@ -1,4 +1,4 @@
-import Habits from "@/components/Habits"
+import Habits from "@/components/habits/Habits"
 import Preloader from "@/components/Preloader"
 import calcDoneHabits from "@/lib/calcDoneHabits"
 import getCurrentDate from "@/lib/getCurrentDate"
@@ -24,16 +24,16 @@ async function getHabits(email: string) {
     imglink,
     slug,
     "habits": *[_type == "habit" && user._ref == ^._id] {
-    _id,
-    _createdAt,
-    name,
-    currentStreak,
-    bestStreak,
-    dates,
-    slug,
-    category ->,
-    user ->,
-    "categories": *[_type == "category" ]
+      _id,
+      _createdAt,
+      name,
+      currentStreak,
+      bestStreak,
+      dates,
+      slug,
+      category ->,
+      user ->,
+      "categories": *[_type == "category" ]
     }
   }
 `
@@ -84,7 +84,10 @@ export default async function Home() {
               href={"/create-habit"}
               className="w-fit inline-block outline-none"
             >
-              <button className="bg-white bg-opacity-20 p-[10px] my-2 rounded-lg">
+              <button
+                aria-label="add-habit"
+                className="bg-white bg-opacity-20 p-[10px] my-2 rounded-lg"
+              >
                 <Image src={add} height={20} width={20} alt="add habit" />
               </button>
             </Link>

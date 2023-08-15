@@ -1,45 +1,51 @@
 import options from "@/app/api/auth/[...nextauth]/options"
-import HabitPage from "@/components/habit/HabitPage"
-import { Habit } from "@/types"
 import { getServerSession } from "next-auth"
 import { redirect } from "next/navigation"
+import UserPage from "@/components/users/UserPage"
 
 interface TaskPageProps {
-  params: { slug: string }
+  params: { id: string }
 }
 
-async function getHabit(slug: string) {
+async function getUser(id: string) {
   const projectId = process.env.NEXT_PUBLIC_PROJECT_ID
   const apiVersion = process.env.NEXT_PUBLIC_API_VERSION
   const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET
   const query = `
-  *[_type == "habit" && slug.current == $slug][0] {
-    _id,
-    _createdAt,
+  *[_type == "user" && _id == $id][0] {
     name,
-    bestStreak,
-    currentStreak,
-    dates,
+    _id,
+    email,
+    imglink,
     slug,
-    category ->,
-    user ->,
-    "categories": *[_type == "category" ]
+    "habits": *[_type == "habit" && user._ref == ^._id] {
+      _id,
+      _createdAt,
+      name,
+      currentStreak,
+      bestStreak,
+      dates,
+      slug,
+      category ->,
+      user ->,
+      "categories": *[_type == "category" ]
+    }
   }
-  `
+`
   const res = await fetch(
     `https://${projectId}.api.sanity.io/v${apiVersion}/data/query/${dataset}?query=${encodeURIComponent(
       query
-    )}&$slug="${slug}"`,
+    )}&$id="${id}"`,
     {
       method: "GET",
       cache: "no-cache",
       next: {
-        tags: ["habitPage"],
+        tags: ["habits"],
       },
     }
   )
-  const habits = await res.json()
-  return habits.result
+  const user = await res.json()
+  return user.result
 }
 
 export default async function page({ params }: TaskPageProps) {
@@ -49,16 +55,16 @@ export default async function page({ params }: TaskPageProps) {
     redirect("/api/auth/signin?callbackUrl=/")
   }
 
-  const habit: Habit = await getHabit(params.slug)
+  const user = await getUser(params.id)
 
   // @ts-ignore
-  if (session.user.id !== habit.user._id) {
-    redirect("/")
-  }
-
+  // if (session.user.id !== user._id) {
+  //   redirect("/")
+  // }
+  console.log(user)
   return (
     <main className="container flex flex-col items-center justify-center">
-      <HabitPage habitData={habit} />
+      <UserPage user={user} />
     </main>
   )
 }

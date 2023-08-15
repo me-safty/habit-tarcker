@@ -134,7 +134,7 @@ export async function createHabit(e: FormData) {
         _ref: categoryId,
       },
     })
-    // revalidateTag("habits")
+    revalidateTag("habits")
     console.log("revalidated")
   } catch (error) {
     console.log(error)
@@ -173,7 +173,7 @@ export async function editHabit(editedHabit: Habit) {
         _ref: editedHabit.category._id,
       },
     })
-    revalidateTag("habitPage")
+    revalidateTag("habits")
     console.log("edited")
   } catch (error) {
     console.log(error)

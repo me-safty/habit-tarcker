@@ -1,5 +1,5 @@
 import getCurrentDate from "@/lib/getCurrentDate"
-import { getDaysInMonth } from "./Calender"
+import { getDaysInMonth } from "../habit/Calender"
 const currentDate = getCurrentDate().split("/")
 const day = +currentDate[1]
 const month = +currentDate[0]
