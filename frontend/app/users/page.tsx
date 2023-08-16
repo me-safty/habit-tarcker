@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth"
 import { redirect } from "next/navigation"
 import UserBox from "@/components/users/UserBox"
 import { User } from "@/types"
+import Link from "next/link"
 
 async function getUsers() {
   const projectId = process.env.NEXT_PUBLIC_PROJECT_ID
@@ -43,8 +44,12 @@ export default async function page() {
   return (
     <main className="container flex flex-col items-center justify-center">
       {users.map((user) => (
-        <UserBox key={user._id} imglink={user.imglink} name={user.name} />
-      ))}
+      <Link key={user._id} href={`/${user._id}`}>
+      
+        
+      <UserBox  imglink={user.imglink} name={user.name} />
+     </Link>
+        ))}
     </main>
   )
 }
