@@ -3,6 +3,7 @@ import { Inter } from "next/font/google"
 import Providers from "@/components/Provider"
 import Header from "@/components/Header"
 import AuthProvider from "@/components/AuthProvider"
+import TabBar from "@/components/TabBar"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -21,7 +22,15 @@ export default function RootLayout({
       <body className={inter.className}>
         <AuthProvider>
           <Header />
-          <Providers>{children}</Providers>
+          <Providers>
+            <div
+              className=" overflow-y-scroll"
+              style={{ height: "calc(100vh - (64px + 88px))" }}
+            >
+              {children}
+            </div>
+            <TabBar />
+          </Providers>
         </AuthProvider>
       </body>
     </html>

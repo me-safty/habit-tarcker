@@ -8,7 +8,11 @@ export default function UserPage({ user }: { user: User }) {
     <>
       <MiniCalender />
       <UserBox name={user.name} imglink={user.imglink} />
-      <UserHabits habits={user.habits} />
+      {user.habits.length > 0 ? (
+        <UserHabits habits={user.habits} />
+      ) : (
+        <p className="text-white">no habits</p>
+      )}
     </>
   )
 }

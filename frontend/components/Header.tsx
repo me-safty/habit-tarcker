@@ -1,7 +1,6 @@
 import options from "@/app/api/auth/[...nextauth]/options"
 import { getServerSession } from "next-auth"
 import Image from "next/image"
-import SignOut from "./SignOut"
 import Link from "next/link"
 
 export default async function Header() {
@@ -21,10 +20,10 @@ export default async function Header() {
             height={40}
             className="rounded-full"
           />
-          <p className="text-white font-semibold">{session?.user?.name}</p>
+          <p className="text-white font-semibold">
+            Hello, {session?.user?.name?.split(" ")[0]}!
+          </p>
         </Link>
-        <Link href={"/users"}>users</Link>
-        <SignOut />
       </div>
     </header>
   )
