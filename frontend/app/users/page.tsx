@@ -44,7 +44,7 @@ export default async function page() {
   return (
     <main className="container flex flex-col items-center justify-center">
       {users.map((user) => (
-      <Link key={user._id} href={`/${user._id}`}>
+      <Link key={user._id} href={`/users/${user._id}`}>
       
         
       <UserBox  imglink={user.imglink} name={user.name} />
