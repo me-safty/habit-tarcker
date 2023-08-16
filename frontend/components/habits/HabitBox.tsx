@@ -17,19 +17,22 @@ export default function HabitBox({
   expanded?: boolean
 }) {
   const dispatch = useAppDispatch()
+  const calenderDate = useAppSelector((state) => state.habits.calenderDate)
   let doneHabits = useAppSelector((state) => state.habits.doneHabits)
 
   const [isPending, startTransition] = useTransition()
   const currentDate = getCurrentDate()
-  const isCompleted = checkTheTaskIfCompleted(habit.dates, currentDate)
+  const isCompleted = checkTheTaskIfCompleted(habit.dates, calenderDate)
   const [isDone, setIsDone] = useState<boolean>(isCompleted)
   const [streak, setStreak] = useState<number>(habit.currentStreak)
 
   useEffect(() => {
-    const isCompleted = checkTheTaskIfCompleted(habit.dates, currentDate)
+    const isCompleted = checkTheTaskIfCompleted(habit.dates, calenderDate)
     setIsDone(isCompleted)
-    setStreak(habit.currentStreak)
-  }, [habit, currentDate])
+    if (calenderDate === currentDate) {
+      setStreak(habit.currentStreak)
+    }
+  }, [habit, calenderDate, currentDate])
 
   const cashedStreak = useMemo(() => {
     function calcExpectedNewDates(dates: TaskByDate[]): TaskByDate[] {
@@ -37,17 +40,20 @@ export default function HabitBox({
       if (isCompleted === false) {
         const newDates = [...dates]
         newDates.push({
-          date: currentDate,
+          date: calenderDate,
           _type: "dateOfHabit",
-          _key: `${Math.random().toString(32).slice(2)}-${currentDate}`,
+          _key: `${Math.random().toString(32).slice(2)}-${calenderDate}`,
         })
         return newDates
       } else {
-        return dates.filter((d) => d.date !== currentDate)
+        return dates.filter((d) => d.date !== calenderDate)
       }
     }
-    return calcStreak(calcExpectedNewDates(habit.dates), currentDate.split("/"))
-  }, [habit.dates, currentDate, isCompleted])
+    return calcStreak(
+      calcExpectedNewDates(habit.dates),
+      calenderDate.split("/")
+    )
+  }, [habit.dates, calenderDate, isCompleted])
 
   return (
     <section
@@ -61,10 +67,12 @@ export default function HabitBox({
           isDone ? "bg-[color:var(--checkColor)]" : ""
         }`}
         onClick={() => {
-          setIsDone((p) => !p)
-          setStreak(cashedStreak)
-          dispatch(setDoneHabits(isDone ? doneHabits - 1 : doneHabits + 1))
-          startTransition(() => markHabit({ habit, isCompleted }))
+          if (calenderDate === currentDate) {
+            setIsDone((p) => !p)
+            setStreak(cashedStreak)
+            dispatch(setDoneHabits(isDone ? doneHabits - 1 : doneHabits + 1))
+            startTransition(() => markHabit({ habit, isCompleted }))
+          }
         }}
         type="submit"
         disabled={isPending}
