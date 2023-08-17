@@ -3,7 +3,7 @@
 import getCurrentDate from "@/lib/getCurrentDate"
 import { getDaysInMonth } from "../habit/Calender"
 import { useAppDispatch, useAppSelector } from "./Habits"
-import { setCalenderDate } from "@/store/habitsSlice"
+import { setCalenderDate, setDoneHabits } from "@/store/habitsSlice"
 import {
   CircularProgressbarWithChildren,
   buildStyles,
@@ -64,11 +64,14 @@ export default function MiniCalender() {
     <section className="text-white rounded-lg mb-1 flex">
       {gatWeekDays().map((d) => (
         <section
-          className={`text-center min-w-[${100 / 7}%] py-2 px-[6px] `}
+          className={`text-center min-w-[${
+            100 / 7
+          }%] py-2 px-[6px] cursor-pointer `}
           style={{ minWidth: "calc(100% / 7)" }}
           key={d.dayIndex}
           onClick={() => {
             dispatch(setCalenderDate(d.date))
+            dispatch(setDoneHabits(calcDoneHabits(habits, d.date)))
           }}
         >
           <p className={`mb-2 text-white  opacity-70`}>{d.nameOfDay}</p>
