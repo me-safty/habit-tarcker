@@ -10,13 +10,14 @@ import {
 } from "react-circular-progressbar"
 import "react-circular-progressbar/dist/styles.css"
 import calcDoneHabits from "@/lib/calcDoneHabits"
+import calcHabitsCount from "@/lib/calcHabitsCount"
 
 const currentDate = getCurrentDate().split("/")
 const day = +currentDate[1]
 const month = +currentDate[0]
 const year = +currentDate[2]
 
-export const daysOfTheWeek = ["Sun", "Mon", "Tue", "Wen", "Thu", "Fri", "Sat"]
+const daysOfTheWeek = ["Sun", "Mon", "Tue", "Wen", "Thu", "Fri", "Sat"]
 
 function getNameOfDay(i: number, month: number): string {
   const dayIndex = new Date(`${month}/${i}/${year}`).getDay()
@@ -75,16 +76,12 @@ export default function MiniCalender() {
           }}
         >
           <p className={`mb-2 text-white  opacity-70`}>{d.nameOfDay}</p>
-          {/* <div 
-            className={`flex justify-center items-center w-[34px] h-[34px] rounded-full ${
-              d.date === calenderDate
-                ? "bg-white border-[3px] border-[#0000] bg-opacity-10"
-                : "border-[3px] border-[#7777775e]"
-            }`}
-          >
-          </div> */}
           <CircularProgressbarWithChildren
-            value={(calcDoneHabits(habits, d.date) / habits.length) * 100}
+            value={
+              (calcDoneHabits(habits, d.date) /
+                calcHabitsCount(habits, d.date)) *
+              100
+            }
             background
             styles={buildStyles({
               pathColor: `${

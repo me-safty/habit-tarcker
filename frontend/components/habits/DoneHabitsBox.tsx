@@ -4,10 +4,13 @@ import doneImage from "@/public/done-img.svg"
 import blobs from "@/public/layered-steps-haikei.svg"
 import Image from "next/image"
 import { useAppSelector } from "./Habits"
+import calcHabitsCount from "@/lib/calcHabitsCount"
 
 export default function DoneHabitsBox() {
   const habits = useAppSelector((state) => state.habits.allHabits)
   const doneHabits = useAppSelector((state) => state.habits.doneHabits)
+  const calenderDate = useAppSelector((state) => state.habits.calenderDate)
+  const habitsCount = calcHabitsCount(habits, calenderDate)
 
   return (
     <section className="text-white relative flex bg-[color:var(--secondaryColor)] p-3 rounded-lg mb-2">
@@ -26,9 +29,9 @@ export default function DoneHabitsBox() {
         <p className="">You almost Done!</p>
         <p className="">
           <span className="">{doneHabits}</span>/
-          <span className="">{habits.length}</span>
+          <span className="">{habitsCount}</span>
           <span className="ml-2">
-            {((doneHabits / habits.length) * 100).toFixed()}%
+            {((doneHabits / habitsCount) * 100).toFixed()}%
           </span>
         </p>
       </div>

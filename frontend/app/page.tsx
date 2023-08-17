@@ -8,9 +8,7 @@ import { Habit } from "@/types"
 import { getServerSession } from "next-auth"
 import options from "./api/auth/[...nextauth]/options"
 import { redirect } from "next/navigation"
-import add from "@/public/add.svg"
-import Link from "next/link"
-import Image from "next/image"
+import NoHabitsYet from "@/components/habits/NoHabitsYet"
 
 async function getHabits(email: string) {
   const projectId = process.env.NEXT_PUBLIC_PROJECT_ID
@@ -71,29 +69,7 @@ export default async function Home() {
   return (
     <main className="container flex justify-center">
       <Preloader habits={habits} doneHabits={doneHabits} />
-      {habits.length > 0 ? (
-        <Habits habitsData={habits} />
-      ) : (
-        <section className="p-3 flex flex-col items-center">
-          <p className="text-white p-2 rounded-lg bg-white bg-opacity-20">
-            no habits yet !!
-          </p>
-          <div className="flex items-center justify-center gap-2">
-            <p className="text-white">add one now</p>
-            <Link
-              href={"/create-habit"}
-              className="w-fit inline-block outline-none"
-            >
-              <button
-                aria-label="add-habit"
-                className="bg-white bg-opacity-20 p-[10px] my-2 rounded-lg"
-              >
-                <Image src={add} height={20} width={20} alt="add habit" />
-              </button>
-            </Link>
-          </div>
-        </section>
-      )}
+      {habits.length > 0 ? <Habits habitsData={habits} /> : <NoHabitsYet />}
     </main>
   )
 }
