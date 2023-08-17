@@ -2,6 +2,7 @@
 import { Habit } from "@/types"
 import HabitBox from "./HabitBox"
 import { useMemo } from "react"
+import { useAppSelector } from "./Habits"
 
 export default function HabitsBox({
   habits,
@@ -10,17 +11,22 @@ export default function HabitsBox({
   habits: Habit[]
   expandView: boolean
 }) {
+  const calenderDate = useAppSelector((state) => state.habits.calenderDate)
+
   const categoriesWithHabits = useMemo(
     () =>
       habits[0]?.categories
         .map((category) => ({
           ...category,
           habits: habits.filter(
-            (habit) => habit?.category?._id === category._id
+            (habit) =>
+              habit?.category?._id === category._id &&
+              new Date(calenderDate).getTime() + 86400000 > // 86400000 = one day by ms
+                new Date(habit._createdAt).getTime()
           ),
         }))
         .reverse(),
-    [habits]
+    [calenderDate, habits]
   )
 
   return (
