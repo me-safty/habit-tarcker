@@ -13,7 +13,7 @@ export interface HabitsState {
 
 const initialState: HabitsState = {
   allHabits: [],
-  expandView: false,
+  expandView: true,
   doneHabits: 0,
   calenderDate: getCurrentDate(),
 }

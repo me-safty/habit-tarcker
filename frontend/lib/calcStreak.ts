@@ -1,56 +1,48 @@
 import { TaskByDate } from "@/types"
-import { useMemo } from "react"
+import getCurrentDate from "./getCurrentDate"
 
-export default function calcStreak(
-  dates: TaskByDate[],
-  currentDate: string[]
-): number {
-  const currentDay = +currentDate[1]
-  // const currentMonth = +currentDate[0]
-  // const currentYear = +currentDate[2]
+// A function that takes an array of dates as a parameter and returns the number of consecutive days in the array
+export default function calcStreak(dates: TaskByDate[]): number {
+  if (dates.length > 0) {
+    // Create a new Date object for today
+    const yesterday = new Date(getCurrentDate())
+    // Get the day of the month (1-31)
+    // const day = yesterday.getDate()
+    // // Set the day to one less than the current day
+    // yesterday.setDate(day - 1)
 
-  let streak = 0
+    // Initialize the streak to zero
+    let streak = 0
+    // Convert the dates to Date objects and sort them in ascending order
+    let dateObjects = dates
+      .map((date) => new Date(date.date))
+      .sort((a, b) => a.getTime() - b.getTime())
+    // Loop through the date objects from the end
+    for (let i = dateObjects.length - 1; i > 0; i--) {
+      let differenceBetweenCurrentDay =
+        (yesterday.getTime() - dateObjects.at(-1)!.getTime()) /
+        (1000 * 60 * 60 * 24)
 
-  const sortedDates = dates
-    .map((d) => new Date(d.date).getTime())
-    .sort()
-    .map(
-      (d) =>
-        `${new Date(d).getMonth() + 1}/${new Date(d).getDate()}/${new Date(
-          d
-        ).getFullYear()}`
-    )
-    .reverse()
-
-  for (let i = 0; i < sortedDates.length; i++) {
-    const lastDayInTheStreak = +sortedDates[0].split("/")[1]
-    const day = +sortedDates[i].split("/")[1]
-    const preDay = +sortedDates[i + 1]?.split("/")[1]
-    const nextDay = +sortedDates[i - 1]?.split("/")[1]
-
-    if (
-      lastDayInTheStreak === currentDay ||
-      lastDayInTheStreak === currentDay - 1
-    ) {
-      if (day === currentDay) {
-        streak++
-      } else if (day - preDay === 1 && i === 0) {
-        streak++
-      } else if (nextDay - day === 1) {
-        streak++
-      } else if (
-        nextDay === 1 &&
-        (day === 28 || day === 29 || day === 30 || day === 31)
-      ) {
-        streak++
+      // Get the difference in days between the current date and the previous date
+      if (differenceBetweenCurrentDay <= 1) {
+        let diff =
+          (dateObjects[i].getTime() - dateObjects[i - 1].getTime()) /
+          (1000 * 60 * 60 * 24)
+        // If the difference is one, increment the streak
+        if (diff === 1) {
+          streak++
+        } else {
+          // Otherwise, break the loop
+          break
+        }
       } else {
+        streak = -1
         break
       }
     }
-  }
-  if (streak === 1) {
+    // Return the streak plus one (to include the last date)
+    return streak + 1
+  } else {
     return 0
   }
-
-  return streak
 }

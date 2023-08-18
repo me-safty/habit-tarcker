@@ -8,10 +8,11 @@ import { useEffect, useMemo, useState, useTransition } from "react"
 import calcStreak from "@/lib/calcStreak"
 import { useAppDispatch, useAppSelector } from "./Habits"
 import { setDoneHabits } from "@/store/habitsSlice"
+import { cn } from "@/lib/utils"
 
 export default function HabitBox({
   habit,
-  expanded = false,
+  expanded = true,
 }: {
   habit: Habit
   expanded?: boolean
@@ -49,10 +50,7 @@ export default function HabitBox({
         return dates.filter((d) => d.date !== calenderDate)
       }
     }
-    return calcStreak(
-      calcExpectedNewDates(habit.dates),
-      calenderDate.split("/")
-    )
+    return calcStreak(calcExpectedNewDates(habit.dates))
   }, [habit.dates, calenderDate, isCompleted])
 
   return (
@@ -91,10 +89,19 @@ export default function HabitBox({
             {habit.name}
           </p>
           {expanded && (
-            <p className="flex flex-col text-sm items-end">
-              {streak}
+            <div className="flex flex-col text-sm items-end">
+              <p className="mr-[1px]">
+                <span
+                  className={cn(
+                    "w-full inline-block text-center font-semibold",
+                    +streak === 0 && "text-red-400"
+                  )}
+                >
+                  {streak}
+                </span>
+              </p>
               <span className="text-sm text-[#999999]">current streak</span>
-            </p>
+            </div>
           )}
         </div>
       </Link>

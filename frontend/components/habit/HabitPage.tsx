@@ -3,7 +3,6 @@ import { Category, Habit } from "@/types"
 import Calender from "./Calender"
 import calcStreak from "@/lib/calcStreak"
 import { useEffect, useMemo, useRef, useState } from "react"
-import getCurrentDate from "@/lib/getCurrentDate"
 import Image from "next/image"
 import dots from "@/public/navigation-more.svg"
 import { deleteHabit, editHabit } from "@/lib/serverActions"
@@ -19,7 +18,6 @@ interface TaskPageProps {
 }
 
 export default function TaskPage({ habitData }: TaskPageProps) {
-  const currentDate = getCurrentDate()
   const popup = useRef<HTMLDivElement>(null)
   const editPopup = useRef<HTMLDivElement>(null)
   const router = useRouter()
@@ -54,10 +52,7 @@ export default function TaskPage({ habitData }: TaskPageProps) {
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [popup, editPopup, habit])
 
-  const cashedStreak = useMemo(
-    () => calcStreak(habit.dates, currentDate.split("/")),
-    [habit.dates, currentDate]
-  )
+  const cashedStreak = useMemo(() => calcStreak(habit.dates), [habit.dates])
 
   return (
     <section className="w-fit relative">

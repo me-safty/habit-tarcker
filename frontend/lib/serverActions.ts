@@ -35,7 +35,7 @@ export async function markHabit(data: FormDate) {
       _key: `${Math.random().toString(32).slice(2)}-${currentDate}`,
     })
 
-    const currentStreak = calcStreak(newDates, currentDate.split("/"))
+    const currentStreak = calcStreak(newDates)
 
     const bestStreak =
       data.habit.bestStreak > currentStreak
@@ -72,7 +72,7 @@ export async function markHabit(data: FormDate) {
     console.log("added")
   } else {
     const newDates = data.habit.dates.filter((d) => d.date !== currentDate)
-    const currentStreak = calcStreak(newDates, currentDate.split("/"))
+    const currentStreak = calcStreak(newDates)
     const bestStreak =
       data.habit.bestStreak > currentStreak
         ? data.habit.bestStreak

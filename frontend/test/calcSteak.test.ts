@@ -2,8 +2,6 @@ import calcStreak from "@/lib/calcStreak"
 import { TaskByDate } from "@/types"
 
 describe("teat the calcStreak functionality", () => {
-  const currentDate = ["7", "5", "2023"]
-
   it("calc the streak", () => {
     const dates: TaskByDate[] = [
       {
@@ -22,7 +20,7 @@ describe("teat the calcStreak functionality", () => {
         _type: "dateOfHabit",
       },
     ]
-    const streak = calcStreak(dates, currentDate)
+    const streak = calcStreak(dates)
     expect(streak).toEqual(3)
   })
 
@@ -49,7 +47,7 @@ describe("teat the calcStreak functionality", () => {
         _type: "dateOfHabit",
       },
     ]
-    const streak = calcStreak(dates, currentDate)
+    const streak = calcStreak(dates)
     expect(streak).toEqual(0)
   })
 
@@ -81,7 +79,7 @@ describe("teat the calcStreak functionality", () => {
         _type: "dateOfHabit",
       },
     ]
-    const streak = calcStreak(dates, currentDate)
+    const streak = calcStreak(dates)
     expect(streak).toEqual(2)
   })
 
@@ -103,7 +101,7 @@ describe("teat the calcStreak functionality", () => {
         _type: "dateOfHabit",
       },
     ]
-    const streak = calcStreak(dates, currentDate)
+    const streak = calcStreak(dates)
     expect(streak).toEqual(3)
   })
 
@@ -145,7 +143,7 @@ describe("teat the calcStreak functionality", () => {
         _type: "dateOfHabit",
       },
     ]
-    const streak = calcStreak(dates, currentDate)
+    const streak = calcStreak(dates)
     expect(streak).toEqual(7)
   })
 })
