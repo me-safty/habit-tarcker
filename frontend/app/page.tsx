@@ -9,6 +9,7 @@ import { getServerSession } from "next-auth"
 import options from "./api/auth/[...nextauth]/options"
 import { redirect } from "next/navigation"
 import NoHabitsYet from "@/components/habits/NoHabitsYet"
+import calcStreak from "@/lib/calcStreak"
 
 async function getHabits(email: string) {
   const projectId = process.env.NEXT_PUBLIC_PROJECT_ID
@@ -61,15 +62,24 @@ export default async function Home() {
   const data = await getHabits(session?.user?.email as string)
   const habits: Habit[] = data.habits
 
+  const habitsWithStreak = habits.map((habit) => ({
+    ...habit,
+    currentStreak: calcStreak(habit.dates),
+  }))
+
   const currentDate = getCurrentDate()
-  const doneHabits = calcDoneHabits(habits, currentDate)
-  store.dispatch(setHabits(habits))
+  const doneHabits = calcDoneHabits(habitsWithStreak, currentDate)
+  store.dispatch(setHabits(habitsWithStreak))
   store.dispatch(setDoneHabits(doneHabits))
 
   return (
     <main className="container flex justify-center">
-      <Preloader habits={habits} doneHabits={doneHabits} />
-      {habits.length > 0 ? <Habits habitsData={habits} /> : <NoHabitsYet />}
+      <Preloader habits={habitsWithStreak} doneHabits={doneHabits} />
+      {habitsWithStreak.length > 0 ? (
+        <Habits habitsData={habitsWithStreak} />
+      ) : (
+        <NoHabitsYet />
+      )}
     </main>
   )
 }
