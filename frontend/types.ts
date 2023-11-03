@@ -37,3 +37,37 @@ export interface User {
     current: string
   }
 }
+export interface GoogleHabit {
+  kind: string
+  id: string
+  etag: string
+  title: string
+  updated: string
+  selfLink: string
+  position: string
+  status: "completed" | "needsAction"
+  due: string
+  completed?: string
+  hidden?: boolean
+  links?: string[]
+}
+export interface GoogleCategory {
+  kind: string
+  id: string
+  etag: string
+  title: string
+  updated: string
+  selfLink: string
+}
+export interface GoogleCategories {
+  kind: string
+  etag: string
+  nextPageToken: string
+  items: GoogleCategory[]
+}
+export interface GoogleHabits {
+  kind: string
+  etag: string
+  nextPageToken: string
+  items: GoogleHabit[]
+}

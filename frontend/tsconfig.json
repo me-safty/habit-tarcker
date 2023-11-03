@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -28,7 +28,8 @@
     "**/*.ts",
     "**/*.test.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
-, "test/calcSteak.test.ts"  ],
+    ".next/types/**/*.ts",
+    "test/calcSteak.test.ts"
+  ],
   "exclude": ["node_modules"]
 }

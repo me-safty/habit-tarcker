@@ -18,7 +18,7 @@ export default function TabBar() {
   const expandView = useAppSelector((state) => state.habits.expandView)
 
   return (
-    <section className="flex items-center justify-center w-full bg-[color:var(--bodyColor)] py-4">
+    <section className="fixed bottom-0 left-0 flex items-center justify-center w-full bg-[color:var(--bodyColor)] py-4">
       <nav className="bg-[color:var(--mainColor)] p-2 rounded-full flex items-center w-[330px]">
         <Link
           href={"/create-habit"}

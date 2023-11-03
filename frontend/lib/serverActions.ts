@@ -2,7 +2,7 @@
 
 import { revalidateTag } from "next/cache"
 import getCurrentDate from "./getCurrentDate"
-import { Habit } from "@/types"
+import { Habit, TaskByDate } from "@/types"
 import { createClient } from "next-sanity"
 import calcStreak from "./calcStreak"
 
@@ -141,6 +141,40 @@ export async function createHabit(e: FormData) {
   }
 }
 
+export async function createHabitData(
+  name: string,
+  habitId: string,
+  userId: string,
+  categoryId: string,
+  dates?: TaskByDate[]
+) {
+  try {
+    await sanityClint.create({
+      _type: "habit",
+      _id: habitId,
+      name,
+      bestStreak: 0,
+      currentStreak: 0,
+      user: {
+        _type: "reference",
+        _ref: userId,
+      },
+      slug: {
+        _type: "slug",
+        current: Date.now().toString(),
+      },
+      dates,
+      category: {
+        _type: "reference",
+        _ref: categoryId,
+      },
+    })
+    revalidateTag("habits")
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export async function deleteHabit(id: string) {
   try {
     await sanityClint.delete(id)
@@ -175,6 +209,16 @@ export async function editHabit(editedHabit: Habit) {
     })
     revalidateTag("habits")
     console.log("edited")
+  } catch (error) {
+    console.log(error)
+  }
+}
+export async function createCategory(name: string) {
+  try {
+    await sanityClint.create({
+      _type: "category",
+      name,
+    })
   } catch (error) {
     console.log(error)
   }
