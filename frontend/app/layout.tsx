@@ -23,12 +23,7 @@ export default function RootLayout({
         <AuthProvider>
           <Header />
           <Providers>
-            <div
-              className=" overflow-y-scroll"
-              style={{ height: "calc(100vh - (64px + 88px))" }}
-            >
-              {children}
-            </div>
+            <div>{children}</div>
             <TabBar />
           </Providers>
         </AuthProvider>

@@ -4,6 +4,7 @@ import { Category, GoogleHabit, Habit, TaskByDate, User } from "@/types"
 interface GoogleHabitWithDates extends GoogleHabit {
   dates?: TaskByDate[]
   slug?: string
+  createdAt?: string
 }
 export default function transformGoogleTasksToHabits(
   tasks: GoogleHabitWithDates[],
@@ -12,7 +13,7 @@ export default function transformGoogleTasksToHabits(
 ): Habit[] {
   return tasks?.map((task) => ({
     _id: task.id,
-    _createdAt: task.due,
+    _createdAt: task.createdAt ? task.createdAt : task.due,
     name: task.title,
     bestStreak: 0,
     currentStreak: 0,

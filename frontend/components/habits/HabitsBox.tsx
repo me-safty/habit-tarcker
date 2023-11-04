@@ -30,13 +30,13 @@ export default function HabitsBox({
   )
 
   return (
-    <section className="overflow-hidden">
+    <section className="overflow-hidden mb-20">
       {categoriesWithHabits
         .filter((category) => category.habits.length > 0)
         .map((category) => (
           <div
             key={category._id}
-            className="max-h-[78vh] p-2 bg-[color:var(--secondaryColor)] mb-2 rounded-xl"
+            className="p-2 bg-[color:var(--secondaryColor)] mb-2 rounded-xl"
           >
             <p className="text-white px-3 py-1 bg-[color:var(--mainColor)] mb-2 w-fit rounded-md">
               {category.name}

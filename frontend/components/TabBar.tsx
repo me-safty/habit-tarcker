@@ -18,8 +18,8 @@ export default function TabBar() {
   const expandView = useAppSelector((state) => state.habits.expandView)
 
   return (
-    <section className="fixed bottom-0 left-0 flex items-center justify-center w-full bg-[color:var(--bodyColor)] py-4">
-      <nav className="bg-[color:var(--mainColor)] p-2 rounded-full flex items-center w-[330px]">
+    <section className="fixed bottom-0 left-0 flex items-center justify-center w-full py-4">
+      <nav className="bg-[color:var(--mainColor)] p-2 rounded-full flex items-center shadow-lg shadow-[#1d1d1d] w-[330px]">
         <Link
           href={"/create-habit"}
           className="bg-[color:var(--checkColor)] w-fit py-2 px-3 pe-4 rounded-full flex items-center justify-center gap-1 text-white"
@@ -30,9 +30,9 @@ export default function TabBar() {
           <Link href={"/"}>
             <Home color="#fff" />
           </Link>
-          <Link href={"/users"}>
+          {/* <Link href={"/users"}>
             <Users2 color="#fff" size={28} />
-          </Link>
+          </Link> */}
           <button onClick={() => signOut()}>
             <LogOut color="#fff" />
           </button>

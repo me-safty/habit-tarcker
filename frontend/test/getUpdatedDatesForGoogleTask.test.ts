@@ -104,7 +104,7 @@ const DBHabitCompleted: Habit = {
     {
       _type: "dateOfHabit",
       _key: "1c88563bc0c4",
-      date: "11/2/2023",
+      date: getCurrentDate(),
     },
     {
       _type: "dateOfHabit",
@@ -187,14 +187,18 @@ export default function getUpdatedDatesForGoogleTask(
     )
     if (task.status === "completed") {
       if (isCompleted) {
+        console.log(1, isCompleted)
         return googleDBHabit.dates
       } else if (isCompleted === false) {
+        console.log(2, isCompleted)
         return [...googleDBHabit.dates, newDate]
       }
     } else if (task.status === "needsAction") {
       if (isCompleted === false) {
+        console.log(3, isCompleted)
         return googleDBHabit.dates
       } else if (isCompleted) {
+        console.log(4, isCompleted)
         return googleDBHabit.dates.filter((d) => d.date !== getCurrentDate())
       }
     }

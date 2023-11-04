@@ -48,6 +48,9 @@ async function getHabits(email: string, token: string) {
     }
   )
   const habits = await res.json()
+  if (!habits) {
+    return
+  }
   const habitsWithGoogle = await getHabitsWIthGoogleTasks(
     habits.result.habits,
     token
@@ -66,6 +69,9 @@ async function getHabitsWIthGoogleTasks(habits: Habit[], token: string) {
       }
     )
     const googleTasks: GoogleHabits = await res.json()
+    if (!googleTasks) {
+      return
+    }
     const googleCatId = "c2d1e476-9499-4dfc-b961-ed7fad2fac58"
     const googleDBHabits = habits.filter(
       (habit) => habit.category._id === googleCatId
@@ -85,6 +91,7 @@ async function getHabitsWIthGoogleTasks(habits: Habit[], token: string) {
             ...task,
             dates,
             slug: googleDBHabit ? googleDBHabit.slug.current : undefined,
+            createdAt: googleDBHabit ? googleDBHabit._createdAt : undefined,
           }
         }),
       habits[0].user,
@@ -118,7 +125,6 @@ async function getHabitsWIthGoogleTasks(habits: Habit[], token: string) {
       ...googleTasksHabits,
       ...habits.filter((habit) => habit.category._id !== googleCatId),
     ]
-    console.log(habitsWithGoogle.map((h) => h.slug.current))
     return habitsWithGoogle
   } catch (error) {
     console.log(error)
