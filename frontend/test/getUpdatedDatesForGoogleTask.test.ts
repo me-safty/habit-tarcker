@@ -32,6 +32,87 @@ const googleHabitCompleted: GoogleHabit = {
   links: [],
 }
 
+const googleTasks = [
+  {
+    id: "MVJvV053NWRUaHRyc2ZubA",
+    title: "فديو معرفي",
+    status: "completed",
+    due: "2023-11-04T00:00:00.000Z",
+  },
+  {
+    id: "ajQ0TmExdU5NSFFpUDljbg",
+    title: "ترتيب السرير🛏️",
+    status: "completed",
+    due: "2023-11-04T00:00:00.000Z",
+  },
+  {
+    id: "WENKelZtTnYxTF81VWlkQw",
+    title: "reading book",
+    status: "completed",
+    due: "2023-11-04T00:00:00.000Z",
+  },
+  {
+    id: "b3A5S1ZwMFFlNjNoM1JDVg",
+    title: "صلاه الفجر",
+    status: "needsAction",
+    due: "2023-11-04T00:00:00.000Z",
+  },
+  {
+    id: "WjhjTC1YNlRZU1lhUDA1cw",
+    title: "قراءه ونشر احاديث",
+    status: "needsAction",
+    due: "2023-11-04T00:00:00.000Z",
+  },
+  {
+    id: "NDhBaXNoQUV5eXdyLW5lSg",
+    title: "قراءه قرأن",
+    status: "needsAction",
+    due: "2023-11-04T00:00:00.000Z",
+  },
+  {
+    id: "OTE1dnlzbElhak93WS1NOQ",
+    title: "صلاه العشاء",
+    status: "needsAction",
+    due: "2023-11-04T00:00:00.000Z",
+  },
+  {
+    id: "WnJ5UWlXQnhXR19fZFBnUw",
+    title: "الصلوات الفائته",
+    status: "needsAction",
+    due: "2023-11-04T00:00:00.000Z",
+  },
+  {
+    id: "dW83OXVrYXEwc0lQSE9qTQ",
+    title: "صلاه الظهر",
+    status: "needsAction",
+    due: "2023-11-04T00:00:00.000Z",
+  },
+  {
+    id: "ZnB4WVgxUW9tQ0staExGWQ",
+    title: "صلاه الوتر",
+    status: "needsAction",
+    due: "2023-11-04T00:00:00.000Z",
+  },
+  {
+    id: "MHFGRWpVdGhKampKdU5Rag",
+    title: "صلاه العصر",
+    status: "needsAction",
+    due: "2023-11-04T00:00:00.000Z",
+  },
+  {
+    id: "dFJjWUxYWFlZRnNTcVlpUw",
+    title: "صلاه المغرب",
+    status: "needsAction",
+    due: "2023-11-04T00:00:00.000Z",
+  },
+  {
+    id: "TjdlLTRCWmZKa29lS0E5OA",
+    title: "سماع درس ديني",
+    status: "needsAction",
+    due: "2023-11-04T00:00:00.000Z",
+  },
+]
+
 const DBHabitNotCompleted: Habit = {
   _id: "OHpYUjZMc19EdW8zQ05zWA",
   bestStreak: 0,

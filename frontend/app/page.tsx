@@ -81,7 +81,7 @@ async function getHabitsWIthGoogleTasks(habits: Habit[], token: string) {
         .filter((task) => task?.due)
         .map((task) => {
           const googleDBHabit = googleDBHabits.find(
-            (habit) => habit._id === task.id
+            (habit) => habit.name === task.title
           )
           const dates = getUpdatedDatesForGoogleTask(
             task,
@@ -97,6 +97,12 @@ async function getHabitsWIthGoogleTasks(habits: Habit[], token: string) {
       habits[0].user,
       habits[0].categories
     )
+    // console.log(googleTasksHabits)
+    // console.log(googleTasks.items.map((h) => h.title))
+    // console.log(
+    //   googleDBHabits.find((habit) => habit.name === googleTasks.items[3].title)
+    //     ?.name
+    // )
     const newHabits = googleTasksHabits.filter(
       (gHabit) =>
         googleDBHabits.find((DBHabit) => DBHabit._id === gHabit._id) ===
