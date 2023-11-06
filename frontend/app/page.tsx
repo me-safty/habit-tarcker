@@ -10,7 +10,7 @@ import options from "./api/auth/[...nextauth]/options"
 import { redirect } from "next/navigation"
 import NoHabitsYet from "@/components/habits/NoHabitsYet"
 import calcStreak from "@/lib/calcStreak"
-import transformGoogleTasksToHabits from "@/lib/transformGoogleTasksToHabit"
+import transformGoogleTaskToHabit from "@/lib/transformGoogleTasksToHabit"
 import { createHabitData, deleteHabit } from "@/lib/serverActions"
 import getUpdatedDatesForGoogleTask from "@/lib/habit/getUpdatedDatesForGoogleTask"
 
@@ -76,57 +76,43 @@ async function getHabitsWIthGoogleTasks(habits: Habit[], token: string) {
     const googleDBHabits = habits.filter(
       (habit) => habit.category._id === googleCatId
     )
-    const googleTasksHabits = transformGoogleTasksToHabits(
-      googleTasks.items
-        .filter((task) => task?.due)
-        .map((task) => {
-          const googleDBHabit = googleDBHabits.find(
-            (habit) => habit.name === task.title
-          )
-          const dates = getUpdatedDatesForGoogleTask(
-            task,
-            googleDBHabit as Habit
-          )
-          return {
-            ...task,
-            dates,
-            slug: googleDBHabit ? googleDBHabit.slug.current : undefined,
-            createdAt: googleDBHabit ? googleDBHabit._createdAt : undefined,
-          }
-        }),
-      habits[0].user,
-      habits[0].categories
-    )
-    // console.log(googleTasksHabits)
-    // console.log(googleTasks.items.map((h) => h.title))
-    // console.log(
-    //   googleDBHabits.find((habit) => habit.name === googleTasks.items[3].title)
-    //     ?.name
-    // )
-    const newHabits = googleTasksHabits.filter(
-      (gHabit) =>
-        googleDBHabits.find((DBHabit) => DBHabit._id === gHabit._id) ===
-        undefined
-    )
-    if (newHabits.length > 0) {
-      newHabits.forEach((habit) =>
-        createHabitData(
-          habit.name,
-          habit._id,
-          habit.user._id,
-          habit.category._id,
-          habit.dates
+    const googleTasksHabits = googleTasks.items
+      .filter((task) => task?.due)
+      .map((task) => {
+        const googleDBHabit = googleDBHabits.find(
+          (habit) => habit.name === task.title
         )
-      )
-    }
+        const dates = getUpdatedDatesForGoogleTask(task, googleDBHabit as Habit)
+        if (googleDBHabit) {
+          return { ...googleDBHabit, dates }
+        } else {
+          const newHabit = transformGoogleTaskToHabit(
+            {
+              ...task,
+              dates,
+            },
+            habits[0].user,
+            habits[0].categories
+          )
+          createHabitData(
+            newHabit.name,
+            newHabit._id,
+            newHabit.user._id,
+            newHabit.category._id,
+            newHabit.dates
+          )
+          return newHabit
+        }
+      })
     const deletedHabits = googleDBHabits.filter(
-      (gHabit) =>
-        googleTasksHabits.find((DBHabit) => DBHabit._id === gHabit._id) ===
+      (DBHabit) =>
+        googleTasksHabits.find((gHabit) => DBHabit._id === gHabit._id) ===
         undefined
     )
     if (deletedHabits.length > 0) {
       deletedHabits.forEach((habit) => deleteHabit(habit._id))
     }
+    // console.log(habits.map((h) => [h.name, h._id, h.dates?.map((d) => d.date)]))
     const habitsWithGoogle = [
       ...googleTasksHabits,
       ...habits.filter((habit) => habit.category._id !== googleCatId),

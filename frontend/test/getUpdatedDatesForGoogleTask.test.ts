@@ -31,6 +31,25 @@ const googleHabitCompleted: GoogleHabit = {
   hidden: true,
   links: [],
 }
+const gg = [
+  ["سماع درس ديني", "WVlKSFJfUEtRZkRpYldESA"],
+  ["reading book", "dGdIVXdrZVVqanNNMUxMSQ"],
+  ["فديو معرفي", "VXJRQW0xWFdYV051LWhxag"],
+  ["قراءه قرأن", "ckVZa0JKeHNYSmxIY3B6cg"],
+  ["قراءه ونشر احاديث", "bGtHS1hkMkphVUhiek0yYg"],
+  ["ترتيب السرير🛏️", "NjNkRGN6QkZsQ1B5RTNZMA"],
+  ["اذكار الصباح", "NmU3RXdpY3BSaGp5LVhpZw"],
+  ["صلاه العشاء", "NDF0QkhRZnhIdmN1cFZzcw"],
+  ["سوره الملك", "T3FEbFM1UGNXSVAxZnNGOQ"],
+  ["صلاه الوتر", "clhQUDNVRFdFeFJkeXd1Qg"],
+  ["اذاكر المساء", "bF80cmdOWnNpOVdCa0wtYg"],
+  ["صلاه المغرب", "N3FGU0VhUUxEbGlrUmt4ZQ"],
+  ["صلاه الفجر", "UTBnaERhSHY0RnlOWF9UOQ"],
+  ["غسل الأسنان🪥", "UGdydWNqczFYSFRSeGhKYg"],
+  ["الصلوات الفائته", "bjBENUNUM2pCRkJ2YVNsdQ"],
+  ["صلاه الظهر", "UHFEYWlDaVNXY0ZHLVdGVQ"],
+  ["صلاه العصر", "VlhGdmdSSndKNkFZa1Z6TQ"],
+]
 
 const googleTasks = [
   {

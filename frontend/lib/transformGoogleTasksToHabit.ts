@@ -3,23 +3,21 @@ import { Category, GoogleHabit, Habit, TaskByDate, User } from "@/types"
 
 interface GoogleHabitWithDates extends GoogleHabit {
   dates?: TaskByDate[]
-  slug?: string
-  createdAt?: string
 }
-export default function transformGoogleTasksToHabits(
-  tasks: GoogleHabitWithDates[],
+export default function transformGoogleTaskToHabit(
+  task: GoogleHabitWithDates,
   user: User,
   categories: Category[]
-): Habit[] {
-  return tasks?.map((task) => ({
+): Habit {
+  return {
     _id: task.id,
-    _createdAt: task.createdAt ? task.createdAt : task.due,
+    _createdAt: task.due,
     name: task.title,
     bestStreak: 0,
     currentStreak: 0,
     dates: task?.dates ? task?.dates : [],
     slug: {
-      current: task?.slug ? task?.slug : Date.now().toString(),
+      current: Date.now().toString(),
     },
     category: {
       _id: "c2d1e476-9499-4dfc-b961-ed7fad2fac58",
@@ -29,5 +27,5 @@ export default function transformGoogleTasksToHabits(
     },
     categories,
     user,
-  }))
+  }
 }
