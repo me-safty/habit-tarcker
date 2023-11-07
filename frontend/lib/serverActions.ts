@@ -21,11 +21,9 @@ interface FormDate {
   isCompleted: boolean
 }
 
-export async function markHabit(data: FormDate) {
-  const currentDate = getCurrentDate()
-
+export async function markHabit(data: FormDate, targetDate?: string) {
+  const currentDate = getCurrentDate(targetDate)
   // const data: FormDate = JSON.parse(e.get("habit") as string)
-
   if (data.isCompleted === false) {
     const newDates = data.habit.dates
 

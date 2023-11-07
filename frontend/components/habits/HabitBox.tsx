@@ -52,7 +52,6 @@ export default function HabitBox({
     }
     return calcStreak(calcExpectedNewDates(habit.dates))
   }, [habit.dates, calenderDate, isCompleted])
-
   return (
     <section
       className={`${expanded ? "ps-1 pe-2" : ""} ${
@@ -65,12 +64,10 @@ export default function HabitBox({
           isDone ? "bg-[color:var(--checkColor)]" : ""
         }`}
         onClick={() => {
-          if (calenderDate === currentDate) {
-            setIsDone((p) => !p)
-            setStreak(cashedStreak)
-            dispatch(setDoneHabits(isDone ? doneHabits - 1 : doneHabits + 1))
-            startTransition(() => markHabit({ habit, isCompleted }))
-          }
+          setIsDone((p) => !p)
+          setStreak(cashedStreak)
+          dispatch(setDoneHabits(isDone ? doneHabits - 1 : doneHabits + 1))
+          startTransition(() => markHabit({ habit, isCompleted }, calenderDate))
         }}
         type="submit"
         disabled={isPending}

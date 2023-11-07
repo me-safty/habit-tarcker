@@ -7,15 +7,16 @@ export default function getUpdatedDatesForGoogleTask(
   task: GoogleHabit,
   googleDBHabit?: Habit
 ): TaskByDate[] | undefined {
+  const currentDate = getCurrentDate(task.due)
   const newDate = {
-    date: getCurrentDate(),
+    date: currentDate,
     _type: "dateOfHabit",
-    _key: `${Math.random().toString(32).slice(2)}-${getCurrentDate()}`,
+    _key: `${Math.random().toString(32).slice(2)}-${currentDate}`,
   }
   if (googleDBHabit) {
     const isCompleted = checkTheTaskIfCompleted(
       googleDBHabit.dates,
-      getCurrentDate()
+      currentDate
     )
     if (task.status === "completed") {
       if (isCompleted) {
@@ -35,7 +36,7 @@ export default function getUpdatedDatesForGoogleTask(
           habit: googleDBHabit,
           isCompleted,
         })
-        return googleDBHabit.dates.filter((d) => d.date !== getCurrentDate())
+        return googleDBHabit.dates.filter((d) => d.date !== currentDate)
       }
     }
   } else if (task.status === "completed") {
