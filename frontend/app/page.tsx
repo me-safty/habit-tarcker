@@ -11,7 +11,7 @@ import { redirect } from "next/navigation"
 import NoHabitsYet from "@/components/habits/NoHabitsYet"
 import calcStreak from "@/lib/calcStreak"
 import transformGoogleTaskToHabit from "@/lib/transformGoogleTasksToHabit"
-import { createHabitData, deleteHabit } from "@/lib/serverActions"
+import { createHabitData } from "@/lib/serverActions"
 import getUpdatedDatesForGoogleTask from "@/lib/habit/getUpdatedDatesForGoogleTask"
 
 async function getHabits(email: string, token: string) {
@@ -110,7 +110,8 @@ async function getHabitsWIthGoogleTasks(habits: Habit[], token: string) {
         undefined
     )
     if (deletedHabits.length > 0) {
-      deletedHabits.forEach((habit) => deleteHabit(habit._id))
+      // deletedHabits.forEach((habit) => deleteHabit(habit._id))
+      // deletedHabits.forEach((habit) => editHabit({ ...habit, isDeleted: true }))
     }
     // console.log(habits.map((h) => [h.name, h._id, h.dates?.map((d) => d.date)]))
     const habitsWithGoogle = [

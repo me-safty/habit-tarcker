@@ -20,6 +20,11 @@ export default defineType({
       title: 'CurrentStreak',
       type: 'number',
     }),
+    // defineField({
+    //   name: 'isDeleted',
+    //   title: 'isDeleted',
+    //   type: 'boolean',
+    // }),
     defineField({
       name: 'slug',
       title: 'Slug',

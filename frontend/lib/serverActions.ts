@@ -60,6 +60,7 @@ export async function markHabit(data: FormDate, targetDate?: string) {
         _type: "slug",
         current: updatedHabit.slug.current,
       },
+      // isDeleted: false,
       dates: updatedHabit.dates,
       category: {
         _type: "reference",
@@ -92,6 +93,7 @@ export async function markHabit(data: FormDate, targetDate?: string) {
         current: updatedHabit.slug.current,
       },
       dates: updatedHabit.dates,
+      // isDeleted: false,
       user: {
         _type: "reference",
         _ref: updatedHabit.user._id,
@@ -122,6 +124,7 @@ export async function createHabit(e: FormData) {
         _type: "reference",
         _ref: userId,
       },
+      // isDeleted: false,
       slug: {
         _type: "slug",
         current: Date.now().toString(),
@@ -153,6 +156,7 @@ export async function createHabitData(
       name,
       bestStreak: 0,
       currentStreak: 0,
+      // isDeleted: false,
       user: {
         _type: "reference",
         _ref: userId,
@@ -191,6 +195,7 @@ export async function editHabit(editedHabit: Habit) {
       name: editedHabit.name,
       bestStreak: editedHabit.bestStreak,
       currentStreak: editedHabit.currentStreak,
+      // isDeleted: editedHabit.isDeleted,
       slug: {
         _type: "slug",
         current: editedHabit.slug.current,
