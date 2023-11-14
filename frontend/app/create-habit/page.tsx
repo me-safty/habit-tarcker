@@ -1,7 +1,7 @@
 import HabitForm from "@/components/HabitForm"
 import { createHabit } from "@/lib/serverActions"
 import { Category } from "@/types"
-import { User, getServerSession } from "next-auth"
+import { getServerSession } from "next-auth"
 import options from "../api/auth/[...nextauth]/options"
 import { redirect } from "next/navigation"
 
@@ -38,7 +38,6 @@ export default async function Page() {
           actionFunction={createHabit}
           categories={categories}
           redirectPageLink="/"
-          session={session as unknown as { user: User }}
         />
       </div>
     </main>

@@ -2,13 +2,14 @@ import { User } from "@/types"
 import UserHabits from "./UserHabits"
 // import MiniCalender from "../habits/MiniCalender"
 import UserBox from "./UserBox"
-import calcStreak from "@/lib/calcStreak"
+// import calcStreak from "@/lib/calcStreak"
 
 export default function UserPage({ user }: { user: User }) {
-  const habitsWithStreak = user.habits.map((habit) => ({
-    ...habit,
-    currentStreak: calcStreak(habit.dates),
-  }))
+  const habitsWithStreak = user.habits
+  // .map((habit) => ({
+  //   ...habit,
+  //   currentStreak: calcStreak(habit.dates),
+  // }))
   return (
     <>
       {/* <MiniCalender /> */}

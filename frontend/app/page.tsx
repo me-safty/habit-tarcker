@@ -146,7 +146,7 @@ async function getHabitsWIthGoogleTasks(habits: Habit[], token: string) {
 export default async function Home() {
   const session: any = await getServerSession(options)
 
-  if (!session) {
+  if (!session || session.error) {
     redirect("/api/auth/signin?callbackUrl=/")
   }
   const habits = (await getHabits(
@@ -154,11 +154,12 @@ export default async function Home() {
     session?.accessToken
   )) as Habit[]
   const habitsWithStreak = habits
-    ? habits.map((habit) => ({
-        ...habit,
-        currentStreak: calcStreak(habit.dates),
-      }))
-    : []
+    ? habits
+    : // .map((habit) => ({
+      //     ...habit,
+      //     currentStreak: calcStreak(habit.dates),
+      //   }))
+      []
 
   const currentDate = getCurrentDate()
   const doneHabits = calcDoneHabits(habitsWithStreak, currentDate)

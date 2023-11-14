@@ -38,7 +38,6 @@ async function refreshAccessToken(token: Record<string, never>) {
     })
 
     const refreshedTokens = await response.json()
-
     if (!response.ok) {
       throw refreshedTokens
     }
@@ -66,7 +65,8 @@ const options: AuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
       authorization: {
         params: {
-          scope: "openid https://www.googleapis.com/auth/tasks email profile",
+          scope:
+            "openid https://www.googleapis.com/auth/tasks.readonly email profile",
           prompt: "consent",
           access_type: "offline",
           response_type: "code",

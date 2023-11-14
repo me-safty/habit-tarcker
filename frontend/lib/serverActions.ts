@@ -25,14 +25,14 @@ export async function markHabit(data: FormDate, targetDate?: string) {
   const currentDate = getCurrentDate(targetDate)
   // const data: FormDate = JSON.parse(e.get("habit") as string)
   if (data.isCompleted === false) {
-    const newDates = data.habit.dates
-
-    newDates.push({
-      date: currentDate,
-      _type: "dateOfHabit",
-      _key: `${Math.random().toString(32).slice(2)}-${currentDate}`,
-    })
-
+    const newDates = [
+      ...data.habit.dates,
+      {
+        date: currentDate,
+        _type: "dateOfHabit",
+        _key: `${Math.random().toString(32).slice(2)}-${currentDate}`,
+      },
+    ]
     const currentStreak = calcStreak(newDates)
 
     const bestStreak =
@@ -124,7 +124,7 @@ export async function createHabit(e: FormData) {
         _type: "reference",
         _ref: userId,
       },
-      // isDeleted: false,
+      isDeleted: false,
       slug: {
         _type: "slug",
         current: Date.now().toString(),

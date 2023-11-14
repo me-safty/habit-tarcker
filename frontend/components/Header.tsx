@@ -11,7 +11,7 @@ export default async function Header() {
         <Link
           className="flex items-center justify-center gap-2"
           // @ts-ignore
-          href={`/users/${session?.user.id}`}
+          href={`/users/${session?.user.email?.toLowerCase().split("@")[0]}`}
         >
           <Image
             src={session?.user?.image as string}

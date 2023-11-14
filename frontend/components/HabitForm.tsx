@@ -1,9 +1,9 @@
 "use client"
 import { Category, Habit } from "@/types"
-import { useRouter } from "next/navigation"
+import { redirect, useRouter } from "next/navigation"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import CategorySelectBox from "./categorySelectBox"
-import { User } from "next-auth"
+import { useAppSelector } from "./habits/Habits"
 
 interface HabitFormProps {
   actionFunction: (e: FormData) => Promise<void> | void
@@ -11,9 +11,6 @@ interface HabitFormProps {
   redirectPageLink?: string
   habit?: Habit
   inputValue?: string
-  session: {
-    user: User
-  }
 }
 
 export default function HabitForm({
@@ -21,14 +18,16 @@ export default function HabitForm({
   categories,
   redirectPageLink,
   inputValue,
-  session,
 }: HabitFormProps) {
+  const user = useAppSelector((state) => state.habits.allHabits[0]?.user)
+  if (!user) {
+    redirect("/")
+  }
   const router = useRouter()
   const [input, setInput] = useState<string | undefined>(inputValue)
   const [showOptionsBox, setShowOptionsBox] = useState<boolean>(false)
   const [selectedCategory, setSelectedCategory] = useState<Category>()
   const [showError, setShowError] = useState<boolean>(false)
-
   useEffect(() => {
     if (selectedCategory !== undefined) {
       setShowError(false)
@@ -53,7 +52,7 @@ export default function HabitForm({
         name="categoryId"
         value={selectedCategory && selectedCategory._id}
       />
-      <input type="hidden" name="sessionId" value={session.user.id} />
+      <input type="hidden" name="sessionId" value={user._id} />
       <div className="bg-[#252525] p-3 rounded-xl">
         <p className="mb-3 text-white">Name</p>
         <input
