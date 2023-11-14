@@ -62,7 +62,7 @@ async function getHabitsWIthGoogleTasks(habits: Habit[], token: string) {
   const filteredValues = ["id", "title", "status", "due"].join()
   try {
     const res = await fetch(
-      `https://tasks.googleapis.com/tasks/v1/lists/${listId}/tasks?showCompleted=true&showHidden=true&fields=items(${filteredValues})`,
+      `https://tasks.googleapis.com/tasks/v1/lists/${listId}/tasks?showCompleted=true&maxResults=100&showHidden=true&fields=items(${filteredValues})`,
       {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
@@ -118,6 +118,9 @@ async function getHabitsWIthGoogleTasks(habits: Habit[], token: string) {
       ...googleTasksHabits,
       ...habits.filter((habit) => habit.category._id !== googleCatId),
     ]
+    // console.log(
+    //   habits.filter((h) => h.name.split(" ")[0] === "صلاه").map((h) => h.name)
+    // )
     return habitsWithGoogle.sort(
       (a, b) =>
         new Date(a.dates?.at(-1)?.date as string).getTime() -
