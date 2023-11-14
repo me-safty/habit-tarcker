@@ -75,7 +75,9 @@ export default function HabitBox({
       <Link href={`habits/${habit.slug.current}`} className="flex-1">
         <div className="flex justify-between items-center overflow-hidden">
           <p
-            className={`${expanded ? "text-lg" : "text-[15px]"}`}
+            className={`${
+              expanded ? "text-lg" : "text-[15px]"
+            } overflow-hidden`}
             style={{
               // height: "calc(1 * 1rem * 1.25)",
               display: "-webkit-box",
@@ -97,7 +99,9 @@ export default function HabitBox({
                   {streak}
                 </span>
               </p>
-              <span className="text-sm text-[#999999]">current streak</span>
+              <span className="text-sm text-[#999999] whitespace-nowrap">
+                current streak
+              </span>
             </div>
           )}
         </div>
