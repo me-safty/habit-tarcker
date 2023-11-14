@@ -118,7 +118,11 @@ async function getHabitsWIthGoogleTasks(habits: Habit[], token: string) {
       ...googleTasksHabits,
       ...habits.filter((habit) => habit.category._id !== googleCatId),
     ]
-    return habitsWithGoogle
+    return habitsWithGoogle.sort(
+      (a, b) =>
+        new Date(a.dates?.at(-1)?.date as string).getTime() -
+        new Date(b.dates?.at(-1)?.date as string).getTime()
+    )
   } catch (error) {
     console.log(error)
   }
@@ -154,12 +158,11 @@ export default async function Home() {
     session?.accessToken
   )) as Habit[]
   const habitsWithStreak = habits
-    ? habits
-    : // .map((habit) => ({
-      //     ...habit,
-      //     currentStreak: calcStreak(habit.dates),
-      //   }))
-      []
+    ? habits.map((habit) => ({
+        ...habit,
+        currentStreak: calcStreak(habit.dates),
+      }))
+    : []
 
   const currentDate = getCurrentDate()
   const doneHabits = calcDoneHabits(habitsWithStreak, currentDate)

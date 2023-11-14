@@ -1,6 +1,7 @@
 export interface Habit {
   _id: string
   _createdAt: string
+  _updatedAt: string
   name: string
   bestStreak: number
   currentStreak: number
