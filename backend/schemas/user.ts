@@ -35,6 +35,22 @@ export default defineType({
       },
     }),
     // defineField({
+    //   name: 'mainTasks',
+    //   title: 'mainTasks',
+    //   type: 'array',
+    //   of: [
+    //     {
+    //       name: 'task',
+    //       title: 'task',
+    //       type: 'object',
+    //       fields: [
+    //         {name: 'date', type: 'string', title: 'date'},
+    //         {name: 'title', type: 'string', title: 'title'},
+    //       ],
+    //     },
+    //   ],
+    // }),
+    // defineField({
     //   name: 'image',
     //   title: 'Image',
     //   type: 'image',

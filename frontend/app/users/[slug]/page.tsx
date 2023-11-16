@@ -41,7 +41,6 @@ async function getUser(slug: string) {
     }
   )
   const user = await res.json()
-  console.log(user, slug)
   return user.result
 }
 

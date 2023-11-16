@@ -188,7 +188,6 @@ const options: AuthOptions = {
     },
     async session({ session, token }) {
       // Send properties to the client, like an access_token and user id from a provider.
-      // console.log({ token, session })
       try {
         if (token) {
           // @ts-ignore
@@ -208,7 +207,6 @@ const options: AuthOptions = {
         // })
         // //@ts-ignore
         // session.user.id = user._id
-        // console.log({ session, token })
         // session.accessToken = token.accessToken
         return session
       } catch (error) {

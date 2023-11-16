@@ -4,11 +4,5 @@ export default function checkTheTaskIfCompleted(
   dates: TaskByDate[],
   currentDate: string
 ): boolean {
-  let isDone = false
-  dates.forEach((date) => {
-    if (date.date === currentDate) {
-      isDone = true
-    }
-  })
-  return isDone
+  return Boolean(dates.find((d) => d.date === currentDate))
 }

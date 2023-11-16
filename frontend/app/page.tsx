@@ -15,6 +15,10 @@ import { createHabitData, editHabit } from "@/lib/serverActions"
 import getUpdatedDatesForGoogleTask from "@/lib/habit/getUpdatedDatesForGoogleTask"
 
 async function getHabits(email: string, token: string) {
+  // *[_type == "habit" && dates[].date match "11/16/2023"] {
+  //   "dates": dates[].date
+  // }
+
   const projectId = process.env.NEXT_PUBLIC_PROJECT_ID
   const apiVersion = process.env.NEXT_PUBLIC_API_VERSION
   const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET
@@ -56,7 +60,7 @@ async function getHabits(email: string, token: string) {
     token
   )
   // const lists = await gatGoogleTaskLists(token)
-  // const mainTasksListId = "Z21pcUlJUUlmelVBZzN6VA"
+  // await getGoogleMainTasks(token)
   return habitsWithGoogle
 }
 async function getHabitsWIthGoogleTasks(habits: Habit[], token: string) {
@@ -119,17 +123,24 @@ async function getHabitsWIthGoogleTasks(habits: Habit[], token: string) {
       ...googleTasksHabits,
       ...habits.filter((habit) => habit.category._id !== googleCatId),
     ]
-    return habitsWithGoogle.sort(
-      (a, b) =>
-        new Date(a.dates?.at(-1)?.date as string).getTime() -
-        new Date(b.dates?.at(-1)?.date as string).getTime()
-    )
+    return habitsWithGoogle
   } catch (error) {
     console.log(error)
   }
 }
 
-// async function getGoogleMainTasks(token: string) {}
+// async function getGoogleMainTasks(token: string) {
+//   const mainTasksListId = "Z21pcUlJUUlmelVBZzN6VA"
+//   const res = await fetch(
+//     `https://tasks.googleapis.com/tasks/v1/lists/${mainTasksListId}/tasks?showCompleted=true&maxResults=100&showHidden=true`,
+//     {
+//       method: "GET",
+//       headers: { Authorization: `Bearer ${token}` },
+//     }
+//   )
+//   const googleTasks: GoogleHabits = await res.json()
+//   console.log(googleTasks)
+// }
 
 // async function gatGoogleTaskLists(token: string): Promise<void> {
 //   try {

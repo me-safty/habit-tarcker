@@ -3,6 +3,7 @@ import { Habit } from "@/types"
 import HabitBox from "./HabitBox"
 import { useMemo } from "react"
 import { useAppSelector } from "./Habits"
+import checkTheTaskIfCompleted from "@/lib/checkTheTaskIfCompleted"
 
 export default function HabitsBox({
   habits,
@@ -18,17 +19,22 @@ export default function HabitsBox({
       habits[0]?.categories
         .map((category) => ({
           ...category,
-          habits: habits.filter(
-            (habit) =>
-              habit?.category?._id === category._id &&
-              new Date(calenderDate).getTime() + 86400000 > // 86400000 = one day by ms
-                new Date(habit._createdAt).getTime()
-          ),
+          habits: habits
+            .filter(
+              (habit) =>
+                habit?.category?._id === category._id &&
+                new Date(calenderDate).getTime() + 86400000 > // 86400000 = one day by ms
+                  new Date(habit._createdAt).getTime()
+            )
+            .sort(
+              (a, b) =>
+                +checkTheTaskIfCompleted(a.dates, calenderDate) -
+                +checkTheTaskIfCompleted(b.dates, calenderDate)
+            ),
         }))
         .reverse(),
     [calenderDate, habits]
   )
-
   return (
     <section className="overflow-hidden mb-20">
       {categoriesWithHabits
