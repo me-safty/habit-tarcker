@@ -12,7 +12,7 @@ export interface Habit {
   category: Category
   categories: Category[]
   user: User
-  // isDeleted?: boolean
+  isDeleted?: boolean
 }
 export interface Category {
   _rev?: string // = the id of the habit

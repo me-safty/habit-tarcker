@@ -11,7 +11,7 @@ import { redirect } from "next/navigation"
 import NoHabitsYet from "@/components/habits/NoHabitsYet"
 import calcStreak from "@/lib/calcStreak"
 import transformGoogleTaskToHabit from "@/lib/transformGoogleTasksToHabit"
-import { createHabitData } from "@/lib/serverActions"
+import { createHabitData, editHabit } from "@/lib/serverActions"
 import getUpdatedDatesForGoogleTask from "@/lib/habit/getUpdatedDatesForGoogleTask"
 
 async function getHabits(email: string, token: string) {
@@ -55,6 +55,8 @@ async function getHabits(email: string, token: string) {
     habits.result.habits,
     token
   )
+  // const lists = await gatGoogleTaskLists(token)
+  // const mainTasksListId = "Z21pcUlJUUlmelVBZzN6VA"
   return habitsWithGoogle
 }
 async function getHabitsWIthGoogleTasks(habits: Habit[], token: string) {
@@ -106,21 +108,17 @@ async function getHabitsWIthGoogleTasks(habits: Habit[], token: string) {
       })
     const deletedHabits = googleDBHabits.filter(
       (DBHabit) =>
+        DBHabit?.isDeleted === false &&
         googleTasksHabits.find((gHabit) => DBHabit._id === gHabit._id) ===
-        undefined
+          undefined
     )
     if (deletedHabits.length > 0) {
-      // deletedHabits.forEach((habit) => deleteHabit(habit._id))
-      // deletedHabits.forEach((habit) => editHabit({ ...habit, isDeleted: true }))
+      deletedHabits.forEach((habit) => editHabit({ ...habit, isDeleted: true }))
     }
-    // console.log(habits.map((h) => [h.name, h._id, h.dates?.map((d) => d.date)]))
     const habitsWithGoogle = [
       ...googleTasksHabits,
       ...habits.filter((habit) => habit.category._id !== googleCatId),
     ]
-    // console.log(
-    //   habits.filter((h) => h.name.split(" ")[0] === "صلاه").map((h) => h.name)
-    // )
     return habitsWithGoogle.sort(
       (a, b) =>
         new Date(a.dates?.at(-1)?.date as string).getTime() -
@@ -131,20 +129,19 @@ async function getHabitsWIthGoogleTasks(habits: Habit[], token: string) {
   }
 }
 
-// async function addGoogleHabitsByCategoryId(
-//   token: string,
-//   listId: string
-// ): Promise<void> {
+// async function getGoogleMainTasks(token: string) {}
+
+// async function gatGoogleTaskLists(token: string): Promise<void> {
 //   try {
 //     const res = await fetch(
-//       `https://tasks.googleapis.com/tasks/v1/lists/${listId}/tasks?showCompleted=true&showHidden=true`,
+//       "https://tasks.googleapis.com/tasks/v1/users/@me/lists",
 //       {
-//         // const res = await fetch("https://tasks.googleapis.com/tasks/v1/users/@me/lists", {
 //         method: "GET",
 //         headers: { Authorization: `Bearer ${token}` },
 //       }
 //     )
-//     const googleHabits: GoogleHabits = await res.json()
+//     const googleLists: GoogleCategories = await res.json()
+//     console.log(googleLists)
 //   } catch (error) {
 //     console.log(error)
 //   }

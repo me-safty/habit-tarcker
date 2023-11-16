@@ -195,7 +195,7 @@ export async function editHabit(editedHabit: Habit) {
       name: editedHabit.name,
       bestStreak: editedHabit.bestStreak,
       currentStreak: editedHabit.currentStreak,
-      // isDeleted: editedHabit.isDeleted,
+      isDeleted: editedHabit.isDeleted ? editedHabit.isDeleted : false,
       slug: {
         _type: "slug",
         current: editedHabit.slug.current,
