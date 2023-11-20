@@ -13,11 +13,11 @@ import bin from "@/public/trash.svg"
 import edit from "@/public/edit.svg"
 import CategorySelectBox from "../categorySelectBox"
 
-interface TaskPageProps {
+interface HabitPageProps {
   habitData: Habit
 }
 
-export default function TaskPage({ habitData }: TaskPageProps) {
+export default function HabitPage({ habitData }: HabitPageProps) {
   const popup = useRef<HTMLDivElement>(null)
   const editPopup = useRef<HTMLDivElement>(null)
   const router = useRouter()

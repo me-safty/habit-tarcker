@@ -1,5 +1,5 @@
 "use client"
-import { Habit } from "@/types"
+import { Category, Habit } from "@/types"
 import HabitBox from "./HabitBox"
 import { useMemo } from "react"
 import { useAppSelector } from "./Habits"
@@ -8,15 +8,17 @@ import checkTheTaskIfCompleted from "@/lib/checkTheTaskIfCompleted"
 export default function HabitsBox({
   habits,
   expandView,
+  categories,
 }: {
   habits: Habit[]
   expandView: boolean
+  categories: Category[]
 }) {
   const calenderDate = useAppSelector((state) => state.habits.calenderDate)
 
   const categoriesWithHabits = useMemo(
     () =>
-      habits[0]?.categories
+      categories
         .map((category) => ({
           ...category,
           habits: habits
@@ -33,7 +35,7 @@ export default function HabitsBox({
             ),
         }))
         .reverse(),
-    [calenderDate, habits]
+    [calenderDate, categories, habits]
   )
   return (
     <section className="overflow-hidden mb-20">

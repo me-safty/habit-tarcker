@@ -2,7 +2,7 @@
 
 import { revalidateTag } from "next/cache"
 import getCurrentDate from "./getCurrentDate"
-import { Habit, TaskByDate } from "@/types"
+import { Habit, TaskByDate, User } from "@/types"
 import { createClient } from "next-sanity"
 import calcStreak from "./calcStreak"
 
@@ -221,6 +221,25 @@ export async function createCategory(name: string) {
     await sanityClint.create({
       _type: "category",
       name,
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function editUser(user: User) {
+  try {
+    await sanityClint.createOrReplace({
+      _id: user._id,
+      _type: "user",
+      name: user.name,
+      email: user.email,
+      imglink: user.imglink,
+      slug: {
+        _type: "slug",
+        current: user.slug.current,
+      },
+      googleListId: user.googleListId,
     })
   } catch (error) {
     console.log(error)

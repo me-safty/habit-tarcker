@@ -15,6 +15,11 @@ export default defineType({
       title: 'Email',
       type: 'string',
     }),
+    defineField({
+      name: 'googleListId',
+      title: 'googleListId',
+      type: 'string',
+    }),
     // defineField({
     //   name: 'hashedPassword',
     //   title: 'HashPassword',

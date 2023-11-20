@@ -3,7 +3,7 @@ import getCurrentDate from "./getCurrentDate"
 
 // A function that takes an array of dates as a parameter and returns the number of consecutive days in the array
 export default function calcStreak(dates: TaskByDate[]): number {
-  if (dates.length > 0) {
+  if (dates?.length > 0) {
     // Create a new Date object for today
     const yesterday = new Date(getCurrentDate())
     // Get the day of the month (1-31)

@@ -3,15 +3,15 @@ import Preloader from "@/components/Preloader"
 import calcDoneHabits from "@/lib/calcDoneHabits"
 import getCurrentDate from "@/lib/getCurrentDate"
 import { store } from "@/store"
-import { setDoneHabits, setHabits } from "@/store/habitsSlice"
-import { GoogleHabits, Habit } from "@/types"
+import { setCategories, setDoneHabits, setHabits } from "@/store/habitsSlice"
+import { Category, GoogleCategories, GoogleHabits, Habit, User } from "@/types"
 import { getServerSession } from "next-auth"
 import options from "./api/auth/[...nextauth]/options"
 import { redirect } from "next/navigation"
 import NoHabitsYet from "@/components/habits/NoHabitsYet"
 import calcStreak from "@/lib/calcStreak"
 import transformGoogleTaskToHabit from "@/lib/transformGoogleTasksToHabit"
-import { createHabitData, editHabit } from "@/lib/serverActions"
+import { createHabitData, editHabit, editUser } from "@/lib/serverActions"
 import getUpdatedDatesForGoogleTask from "@/lib/habit/getUpdatedDatesForGoogleTask"
 
 async function getHabits(email: string, token: string) {
@@ -24,7 +24,10 @@ async function getHabits(email: string, token: string) {
   const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET
   const query = `
   *[_type == "user" && email == $email][0] {
-    _id,
+    "user": {
+      ...
+    },
+    "categories": *[_type == "category" ],
     "habits": *[_type == "habit" && user._ref == ^._id] {
       _id,
       _createdAt,
@@ -35,7 +38,6 @@ async function getHabits(email: string, token: string) {
       slug,
       category ->,
       user ->,
-      "categories": *[_type == "category" ]
     }
   }
 `
@@ -51,20 +53,52 @@ async function getHabits(email: string, token: string) {
       },
     }
   )
-  const habits = await res.json()
+  const response = await res.json()
+  const habits: Habit[] = response.result.habits
+  const categories: Category[] = response.result.categories
+  const user: User = response.result.user
   if (!habits) {
     return
   }
-  const habitsWithGoogle = await getHabitsWIthGoogleTasks(
-    habits.result.habits,
-    token
-  )
-  // const lists = await gatGoogleTaskLists(token)
+  let listId
+  if (user?.googleListId) {
+    listId = user?.googleListId
+  } else {
+    const lists = await gatGoogleTaskLists(token)
+    listId = lists?.items.find((list) => list.title === "Tasks")?.id as string
+    if (listId) {
+      await editUser({ ...user, googleListId: listId })
+    }
+  }
+  if (listId) {
+    return {
+      habits: await getHabitsWIthGoogleTasks(
+        habits,
+        categories,
+        user,
+        token,
+        listId
+      ),
+      categories,
+      user,
+    }
+  } else {
+    return {
+      habits,
+      categories,
+      user,
+    }
+  }
   // await getGoogleMainTasks(token)
-  return habitsWithGoogle
 }
-async function getHabitsWIthGoogleTasks(habits: Habit[], token: string) {
-  const listId = "MTc3NDA5Mjg2NTQzMjM3Mzk0MzY6MDow"
+
+async function getHabitsWIthGoogleTasks(
+  habits: Habit[],
+  categories: Category[],
+  user: User,
+  token: string,
+  listId: string
+) {
   const filteredValues = ["id", "title", "status", "due"].join()
   try {
     const res = await fetch(
@@ -97,8 +131,8 @@ async function getHabitsWIthGoogleTasks(habits: Habit[], token: string) {
               ...task,
               dates,
             },
-            habits[0].user,
-            habits[0].categories
+            user,
+            categories
           )
           createHabitData(
             newHabit.name,
@@ -142,21 +176,21 @@ async function getHabitsWIthGoogleTasks(habits: Habit[], token: string) {
 //   console.log(googleTasks)
 // }
 
-// async function gatGoogleTaskLists(token: string): Promise<void> {
-//   try {
-//     const res = await fetch(
-//       "https://tasks.googleapis.com/tasks/v1/users/@me/lists",
-//       {
-//         method: "GET",
-//         headers: { Authorization: `Bearer ${token}` },
-//       }
-//     )
-//     const googleLists: GoogleCategories = await res.json()
-//     console.log(googleLists)
-//   } catch (error) {
-//     console.log(error)
-//   }
-// }
+async function gatGoogleTaskLists(token: string) {
+  try {
+    const res = await fetch(
+      "https://tasks.googleapis.com/tasks/v1/users/@me/lists",
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    )
+    const googleLists: GoogleCategories = await res.json()
+    return googleLists
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 export default async function Home() {
   const session: any = await getServerSession(options)
@@ -164,12 +198,16 @@ export default async function Home() {
   if (!session || session.error) {
     redirect("/api/auth/signin?callbackUrl=/")
   }
-  const habits = (await getHabits(
+  const data = (await getHabits(
     session?.user?.email as string,
     session?.accessToken
-  )) as Habit[]
-  const habitsWithStreak = habits
-    ? habits.map((habit) => ({
+  )) as {
+    habits: Habit[]
+    user: User
+    categories: Category[]
+  }
+  const habitsWithStreak = data?.habits
+    ? data.habits.map((habit) => ({
         ...habit,
         currentStreak: calcStreak(habit.dates),
       }))
@@ -179,12 +217,20 @@ export default async function Home() {
   const doneHabits = calcDoneHabits(habitsWithStreak, currentDate)
   store.dispatch(setHabits(habitsWithStreak))
   store.dispatch(setDoneHabits(doneHabits))
+  store.dispatch(setCategories(data.categories))
 
   return (
     <main className="container flex justify-center">
-      <Preloader habits={habitsWithStreak} doneHabits={doneHabits} />
+      <Preloader
+        habits={habitsWithStreak}
+        categories={data.categories}
+        doneHabits={doneHabits}
+      />
       {habitsWithStreak.length > 0 ? (
-        <Habits habitsData={habitsWithStreak} />
+        <Habits
+          habitsData={habitsWithStreak}
+          categoriesData={data.categories}
+        />
       ) : (
         <NoHabitsYet />
       )}

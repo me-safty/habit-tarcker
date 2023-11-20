@@ -47,7 +47,7 @@ export default async function page({ params }: { params: { slug: string } }) {
 
   const habit: Habit = await getHabit(params.slug)
   // @ts-ignore
-  if (session.user?.email !== habit.user.email) {
+  if (session.user?.email !== habit?.user.email) {
     redirect("/")
   }
 

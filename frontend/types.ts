@@ -35,6 +35,7 @@ export interface User {
   imglink: string
   hashedPassword: string
   habits: Habit[]
+  googleListId: string
   slug: {
     current: string
   }
