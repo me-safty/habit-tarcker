@@ -18,11 +18,13 @@ export default function calcStreak(dates: TaskByDate[]): number {
       .map((date) => new Date(date.date))
       .sort((a, b) => a.getTime() - b.getTime())
     // Loop through the date objects from the end
+    let differenceBetweenCurrentDay =
+      (yesterday.getTime() - dateObjects.at(-1)!.getTime()) /
+      (1000 * 60 * 60 * 24)
+    if (differenceBetweenCurrentDay > 1) {
+      return 0
+    }
     for (let i = dateObjects.length - 1; i > 0; i--) {
-      let differenceBetweenCurrentDay =
-        (yesterday.getTime() - dateObjects.at(-1)!.getTime()) /
-        (1000 * 60 * 60 * 24)
-
       // Get the difference in days between the current date and the previous date
       if (differenceBetweenCurrentDay <= 1) {
         let diff =

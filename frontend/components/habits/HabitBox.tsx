@@ -9,6 +9,7 @@ import calcStreak from "@/lib/calcStreak"
 import { useAppDispatch, useAppSelector } from "./Habits"
 import { setDoneHabits } from "@/store/habitsSlice"
 import { cn } from "@/lib/utils"
+import newDateObject from "@/lib/habit/newDateObject"
 
 export default function HabitBox({
   habit,
@@ -40,11 +41,7 @@ export default function HabitBox({
       //spared the array to make a new array without the reference to the old one
       if (isCompleted === false) {
         const newDates = [...dates]
-        newDates.push({
-          date: calenderDate,
-          _type: "dateOfHabit",
-          _key: `${Math.random().toString(32).slice(2)}-${calenderDate}`,
-        })
+        newDates.push(newDateObject(calenderDate))
         return newDates
       } else {
         return dates.filter((d) => d.date !== calenderDate)

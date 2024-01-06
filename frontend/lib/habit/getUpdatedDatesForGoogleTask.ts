@@ -2,17 +2,14 @@ import { GoogleHabit, Habit, TaskByDate } from "@/types"
 import checkTheTaskIfCompleted from "../checkTheTaskIfCompleted"
 import getCurrentDate from "../getCurrentDate"
 import { markHabit } from "../serverActions"
+import newDateObject from "./newDateObject"
 
 export default function getUpdatedDatesForGoogleTask(
   task: GoogleHabit,
   googleDBHabit?: Habit
 ): TaskByDate[] | undefined {
   const currentDate = getCurrentDate(task.due)
-  const newDate = {
-    date: currentDate,
-    _type: "dateOfHabit",
-    _key: `${Math.random().toString(32).slice(2)}-${currentDate}`,
-  }
+  const newDate = newDateObject(currentDate)
   if (googleDBHabit) {
     const isCompleted = checkTheTaskIfCompleted(
       googleDBHabit.dates,
