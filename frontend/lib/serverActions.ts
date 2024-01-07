@@ -40,27 +40,7 @@ export async function markHabit(data: FormDate, targetDate?: string) {
 			currentStreak,
 			bestStreak,
 		}
-		await sanityClint.createOrReplace({
-			_type: "habit",
-			_id: updatedHabit._id,
-			name: updatedHabit.name,
-			bestStreak: updatedHabit.bestStreak,
-			user: {
-				_type: "reference",
-				_ref: updatedHabit.user._id,
-			},
-			currentStreak: updatedHabit.currentStreak,
-			slug: {
-				_type: "slug",
-				current: updatedHabit.slug.current,
-			},
-			isDeleted: false,
-			dates: updatedHabit.dates,
-			category: {
-				_type: "reference",
-				_ref: updatedHabit.category._id,
-			},
-		})
+		await editHabitDB(updatedHabit)
 		revalidateTag("habits")
 		console.log("added")
 	} else {
@@ -76,27 +56,7 @@ export async function markHabit(data: FormDate, targetDate?: string) {
 			currentStreak,
 			bestStreak,
 		}
-		await sanityClint.createOrReplace({
-			_type: "habit",
-			_id: updatedHabit._id,
-			name: updatedHabit.name,
-			bestStreak: updatedHabit.bestStreak,
-			currentStreak: updatedHabit.currentStreak,
-			slug: {
-				_type: "slug",
-				current: updatedHabit.slug.current,
-			},
-			dates: updatedHabit.dates,
-			isDeleted: false,
-			user: {
-				_type: "reference",
-				_ref: updatedHabit.user._id,
-			},
-			category: {
-				_type: "reference",
-				_ref: updatedHabit.category._id,
-			},
-		})
+		await editHabitDB(updatedHabit)
 		revalidateTag("habits")
 		console.log("removed")
 	}
@@ -141,7 +101,8 @@ export async function createHabitData(
 	habitId: string,
 	userId: string,
 	categoryId: string,
-	dates?: TaskByDate[]
+	dates?: TaskByDate[],
+	isGoogleTaskHabit: boolean = false
 ) {
 	try {
 		await sanityClint.create({
@@ -159,6 +120,7 @@ export async function createHabitData(
 				_type: "slug",
 				current: Date.now().toString(),
 			},
+			isGoogleTaskHabit,
 			dates,
 			category: {
 				_type: "reference",
@@ -183,27 +145,7 @@ export async function deleteHabit(id: string) {
 
 export async function editHabit(editedHabit: Habit) {
 	try {
-		await sanityClint.createOrReplace({
-			_type: "habit",
-			_id: editedHabit._id,
-			name: editedHabit.name,
-			bestStreak: editedHabit.bestStreak,
-			currentStreak: editedHabit.currentStreak,
-			isDeleted: editedHabit.isDeleted ? editedHabit.isDeleted : false,
-			slug: {
-				_type: "slug",
-				current: editedHabit.slug.current,
-			},
-			dates: editedHabit.dates,
-			user: {
-				_type: "reference",
-				_ref: editedHabit.user._id,
-			},
-			category: {
-				_type: "reference",
-				_ref: editedHabit.category._id,
-			},
-		})
+		await editHabitDB(editedHabit)
 		revalidateTag("habits")
 		console.log("edited")
 	} catch (error) {
@@ -234,6 +176,37 @@ export async function editUser(user: User) {
 				current: user.slug.current,
 			},
 			googleListId: user.googleListId,
+		})
+	} catch (error) {
+		console.log(error)
+	}
+}
+
+export async function editHabitDB(habit: Habit) {
+	try {
+		await sanityClint.createOrReplace({
+			_type: "habit",
+			_id: habit._id,
+			name: habit.name,
+			bestStreak: habit.bestStreak,
+			currentStreak: habit.currentStreak,
+			isDeleted: habit.isDeleted ? habit.isDeleted : false,
+			isGoogleTaskHabit: habit.isGoogleTaskHabit
+				? habit.isGoogleTaskHabit
+				: false,
+			slug: {
+				_type: "slug",
+				current: habit.slug.current,
+			},
+			dates: habit.dates,
+			user: {
+				_type: "reference",
+				_ref: habit.user._id,
+			},
+			category: {
+				_type: "reference",
+				_ref: habit.category._id,
+			},
 		})
 	} catch (error) {
 		console.log(error)

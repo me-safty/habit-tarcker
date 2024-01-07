@@ -5,10 +5,10 @@ import { getServerSession } from "next-auth"
 import { redirect } from "next/navigation"
 
 async function getHabit(slug: string) {
-  const projectId = process.env.NEXT_PUBLIC_PROJECT_ID
-  const apiVersion = process.env.NEXT_PUBLIC_API_VERSION
-  const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET
-  const query = `
+	const projectId = process.env.NEXT_PUBLIC_PROJECT_ID
+	const apiVersion = process.env.NEXT_PUBLIC_API_VERSION
+	const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET
+	const query = `
   *[_type == "habit" && slug.current == $slug][0] {
     _id,
     _createdAt,
@@ -17,43 +17,45 @@ async function getHabit(slug: string) {
     currentStreak,
     dates,
     slug,
+    isDeleted,
+    isGoogleTaskHabit,
     category ->,
     user ->,
-    "categories": *[_type == "category" ]
+    "categories": *[_type == "category"]
   }
   `
-  const res = await fetch(
-    `https://${projectId}.api.sanity.io/v${apiVersion}/data/query/${dataset}?query=${encodeURIComponent(
-      query
-    )}&$slug="${slug}"`,
-    {
-      method: "GET",
-      cache: "no-cache",
-      next: {
-        tags: ["habitPage"],
-      },
-    }
-  )
-  const habits = await res.json()
-  return habits.result
+	const res = await fetch(
+		`https://${projectId}.api.sanity.io/v${apiVersion}/data/query/${dataset}?query=${encodeURIComponent(
+			query
+		)}&$slug="${slug}"`,
+		{
+			method: "GET",
+			cache: "no-cache",
+			next: {
+				tags: ["habitPage"],
+			},
+		}
+	)
+	const habits = await res.json()
+	return habits.result
 }
 
 export default async function page({ params }: { params: { slug: string } }) {
-  const session = await getServerSession(options)
+	const session = await getServerSession(options)
 
-  if (!session) {
-    redirect("/api/auth/signin?callbackUrl=/")
-  }
+	if (!session) {
+		redirect("/api/auth/signin?callbackUrl=/")
+	}
 
-  const habit: Habit = await getHabit(params.slug)
-  // @ts-ignore
-  if (session.user?.email !== habit?.user.email) {
-    redirect("/")
-  }
+	const habit: Habit = await getHabit(params.slug)
+	// @ts-ignore
+	if (session.user?.email !== habit?.user.email) {
+		redirect("/")
+	}
 
-  return (
-    <main className="container flex flex-col items-center justify-center">
-      <HabitPage habitData={habit} />
-    </main>
-  )
+	return (
+		<main className="container flex flex-col items-center justify-center">
+			<HabitPage habitData={habit} />
+		</main>
+	)
 }

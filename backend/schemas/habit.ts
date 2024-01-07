@@ -27,6 +27,12 @@ export default defineType({
       initialValue: false,
     }),
     defineField({
+      name: 'isGoogleTaskHabit',
+      title: 'isGoogleTaskHabit',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
