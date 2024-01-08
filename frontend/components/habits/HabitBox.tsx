@@ -1,15 +1,15 @@
 "use client"
-import { markHabit } from "@/lib/serverActions"
-import checkTheTaskIfCompleted from "@/lib/checkTheTaskIfCompleted"
-import getCurrentDate from "@/lib/getCurrentDate"
-import { Habit, TaskByDate } from "@/types"
-import Link from "next/link"
-import { useEffect, useMemo, useState, useTransition } from "react"
-import calcStreak from "@/lib/calcStreak"
-import { useAppDispatch, useAppSelector } from "./Habits"
+
+import { Habit } from "@/types"
 import { setDoneHabits } from "@/store/habitsSlice"
+import { useAppDispatch, useAppSelector } from "./Habits"
+import { useEffect, useState, useTransition } from "react"
+import Link from "next/link"
+import checkTheTaskIfCompleted from "@/lib/checkTheTaskIfCompleted"
 import { cn } from "@/lib/utils"
-import newDateObject from "@/lib/habit/newDateObject"
+import getCurrentDate from "@/lib/getCurrentDate"
+import { markHabit } from "@/lib/serverActions"
+import markHabitDone from "@/lib/habit/markHabitDone"
 
 export default function HabitBox({
 	habit,
@@ -20,6 +20,7 @@ export default function HabitBox({
 }) {
 	const dispatch = useAppDispatch()
 	const calenderDate = useAppSelector((state) => state.habits.calenderDate)
+	// const habits = useAppSelector((state) => state.habits.allHabits)
 	let doneHabits = useAppSelector((state) => state.habits.doneHabits)
 
 	const [isPending, startTransition] = useTransition()
@@ -36,24 +37,11 @@ export default function HabitBox({
 		}
 	}, [habit, calenderDate, currentDate])
 
-	const cashedStreak = useMemo(() => {
-		function calcExpectedNewDates(dates: TaskByDate[]): TaskByDate[] {
-			//spared the array to make a new array without the reference to the old one
-			if (isCompleted === false) {
-				const newDates = [...dates]
-				newDates.push(newDateObject(calenderDate))
-				return newDates
-			} else {
-				return dates.filter((d) => d.date !== calenderDate)
-			}
-		}
-		return calcStreak(calcExpectedNewDates(habit.dates))
-	}, [habit.dates, calenderDate, isCompleted])
 	return (
 		<section
 			className={`${expanded ? "ps-1 pe-2" : ""} ${
 				isDone ? "opacity-80" : "opacity-100"
-			} text-white rounded-lg bg-[color:var(--mainColor)] py-2 flex items-center justify-between`}
+			} text-white transition duration-500 rounded-lg bg-[color:var(--mainColor)] py-2 flex items-center justify-between`}
 		>
 			<button
 				aria-label="complete-the-habit"
@@ -68,11 +56,21 @@ export default function HabitBox({
 						alert("this is a google task")
 					} else {
 						setIsDone((p) => !p)
-						setStreak(cashedStreak)
-						dispatch(setDoneHabits(isDone ? doneHabits - 1 : doneHabits + 1))
-						startTransition(() =>
-							markHabit({ habit, isCompleted }, calenderDate)
+						markHabitDone(
+							habit,
+							isDone,
+							(updatedHabits) => {
+								// dispatch(
+								// 	setHabits(
+								// 		habits.map((h) => (habit._id === h._id ? updatedHabits : h))
+								// 	)
+								// )
+								setStreak(updatedHabits.currentStreak)
+							},
+							calenderDate
 						)
+						dispatch(setDoneHabits(isDone ? doneHabits - 1 : doneHabits + 1))
+						startTransition(() => markHabit(habit, isCompleted, calenderDate))
 					}
 				}}
 				type="submit"

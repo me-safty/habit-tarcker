@@ -1,11 +1,9 @@
 "use server"
 
 import { revalidateTag } from "next/cache"
-import getCurrentDate from "./getCurrentDate"
 import { Habit, TaskByDate, User } from "@/types"
 import { createClient } from "next-sanity"
-import calcStreak from "./calcStreak"
-import newDateObject from "./habit/newDateObject"
+import markHabitDone from "./habit/markHabitDone"
 
 const config = {
 	dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
@@ -17,49 +15,20 @@ const config = {
 
 const sanityClint = createClient(config)
 
-interface FormDate {
-	habit: Habit
-	isCompleted: boolean
-}
-
-export async function markHabit(data: FormDate, targetDate?: string) {
-	const currentDate = getCurrentDate(targetDate)
-	// const data: FormDate = JSON.parse(e.get("habit") as string)
-	if (data.isCompleted === false) {
-		const newDates = [...data.habit.dates, newDateObject(currentDate)]
-		const currentStreak = calcStreak(newDates)
-
-		const bestStreak =
-			data.habit.bestStreak > currentStreak
-				? data.habit.bestStreak
-				: currentStreak
-
-		const updatedHabit: Habit = {
-			...data.habit,
-			dates: newDates,
-			currentStreak,
-			bestStreak,
-		}
-		await editHabitDB(updatedHabit)
-		revalidateTag("habits")
-		console.log("added")
-	} else {
-		const newDates = data.habit.dates.filter((d) => d.date !== currentDate)
-		const currentStreak = calcStreak(newDates)
-		const bestStreak =
-			data.habit.bestStreak > currentStreak
-				? data.habit.bestStreak
-				: currentStreak
-		const updatedHabit: Habit = {
-			...data.habit,
-			dates: newDates,
-			currentStreak,
-			bestStreak,
-		}
-		await editHabitDB(updatedHabit)
-		revalidateTag("habits")
-		console.log("removed")
-	}
+export async function markHabit(
+	habit: Habit,
+	isCompleted: boolean,
+	targetDate?: string
+) {
+	await markHabitDone(
+		habit,
+		isCompleted,
+		async (updatedHabit) => await editHabitDB(updatedHabit),
+		targetDate,
+		() => console.log("added"),
+		() => console.log("removed")
+	)
+	revalidateTag("habits")
 }
 
 export async function createHabit(e: FormData) {
@@ -79,6 +48,7 @@ export async function createHabit(e: FormData) {
 				_ref: userId,
 			},
 			isDeleted: false,
+			isGoogleTaskHabit: false,
 			slug: {
 				_type: "slug",
 				current: Date.now().toString(),

@@ -30,10 +30,7 @@ async function getHabit(slug: string) {
 		)}&$slug="${slug}"`,
 		{
 			method: "GET",
-			cache: "no-cache",
-			next: {
-				tags: ["habitPage"],
-			},
+			cache: "no-store",
 		}
 	)
 	const habits = await res.json()
