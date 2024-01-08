@@ -1,7 +1,7 @@
 "use client"
 
 import { Habit } from "@/types"
-import { setDoneHabits } from "@/store/habitsSlice"
+import { setDoneHabits, setHabits } from "@/store/habitsSlice"
 import { useAppDispatch, useAppSelector } from "./Habits"
 import { useEffect, useState, useTransition } from "react"
 import Link from "next/link"
@@ -20,7 +20,7 @@ export default function HabitBox({
 }) {
 	const dispatch = useAppDispatch()
 	const calenderDate = useAppSelector((state) => state.habits.calenderDate)
-	// const habits = useAppSelector((state) => state.habits.allHabits)
+	const habits = useAppSelector((state) => state.habits.allHabits)
 	let doneHabits = useAppSelector((state) => state.habits.doneHabits)
 
 	const [isPending, startTransition] = useTransition()
@@ -60,11 +60,11 @@ export default function HabitBox({
 							habit,
 							isDone,
 							(updatedHabits) => {
-								// dispatch(
-								// 	setHabits(
-								// 		habits.map((h) => (habit._id === h._id ? updatedHabits : h))
-								// 	)
-								// )
+								dispatch(
+									setHabits(
+										habits.map((h) => (habit._id === h._id ? updatedHabits : h))
+									)
+								)
 								setStreak(updatedHabits.currentStreak)
 							},
 							calenderDate
