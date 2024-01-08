@@ -61,15 +61,18 @@ export default function HabitBox({
 					isDone ? "bg-[color:var(--checkColor)]" : ""
 				}`}
 				onClick={() => {
-					if (habit.isGoogleTaskHabit !== true) {
+					if (
+						habit.isGoogleTaskHabit === true &&
+						currentDate === calenderDate
+					) {
+						alert("this is a google task")
+					} else {
 						setIsDone((p) => !p)
 						setStreak(cashedStreak)
 						dispatch(setDoneHabits(isDone ? doneHabits - 1 : doneHabits + 1))
 						startTransition(() =>
 							markHabit({ habit, isCompleted }, calenderDate)
 						)
-					} else {
-						alert("this is a google task")
 					}
 				}}
 				type="submit"
@@ -92,7 +95,12 @@ export default function HabitBox({
 					</p>
 					{expanded && (
 						<div className="flex flex-col items-end text-sm">
-							<p className="mr-[1px]">
+							<p className="mr-[1px] flex items-center justify-center">
+								{habit.isGoogleTaskHabit && (
+									<span className="px-[8px] mx-1 text-[9px] bg-[#69696949] rounded-md">
+										Google
+									</span>
+								)}
 								<span
 									className={cn(
 										"w-full inline-block text-center font-semibold",
