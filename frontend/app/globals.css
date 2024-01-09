@@ -3,51 +3,51 @@
 @tailwind utilities;
 
 :root {
-  --bodyColor: #141414;
-  --mainColor: #333;
-  --secondaryColor: #202020;
-  --checkColor: #f8b400;
+	--bodyColor: #141414;
+	--mainColor: #333;
+	--secondaryColor: #202020;
+	--checkColor: #f8b400;
 }
 
 html {
-  overflow-x: hidden;
+	overflow-x: hidden;
 }
 body {
-  background: var(--bodyColor);
+	background: var(--bodyColor);
 }
 
 *::-webkit-scrollbar-thumb {
-  border-radius: 20px;
-  background-color: rgb(207 207 207 / 27%);
+	border-radius: 20px;
+	background-color: rgb(207 207 207 / 27%);
 }
 *::-webkit-scrollbar {
-  width: 0.3rem;
-  height: 0.3rem;
-  background-color: #5b5b5b2d;
-  border-radius: 20px;
+	width: 0.3rem;
+	height: 0.3rem;
+	background-color: #5b5b5b2d;
+	border-radius: 20px;
 }
 
 /* container  */
 .container {
-  padding: 0 15px;
-  margin: 0 auto;
+	padding: 0 15px;
+	margin: 0 auto;
 }
 /* small */
 @media (min-width: 768px) {
-  .container {
-    width: 750px;
-  }
+	.container {
+		width: 750px;
+	}
 }
 /* medium */
 @media (min-width: 992px) {
-  .container {
-    width: 970px;
-  }
+	.container {
+		width: 970px;
+	}
 }
 /* large */
 @media (min-width: 1200px) {
-  .container {
-    width: 1170px;
-  }
+	.container {
+		width: 1170px;
+	}
 }
 /* container  */

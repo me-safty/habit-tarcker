@@ -27,7 +27,7 @@ export default function DoneHabitsBox() {
 					priority
 				/>
 			</div>
-			<div className="mb-8 flex-1 flex flex-col relative justify-center items-center">
+			<div className="mb-4 flex-1 flex flex-col relative justify-center items-center">
 				<p className="">You almost Done!</p>
 				<div className="w-32 h-1 my-1 relative bg-[#3d3d3d] rounded-lg">
 					<span
