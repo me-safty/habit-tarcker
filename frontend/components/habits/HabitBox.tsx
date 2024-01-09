@@ -39,9 +39,11 @@ export default function HabitBox({
 
 	return (
 		<section
-			className={`${expanded ? "ps-1 pe-2" : ""} ${
-				isDone ? "opacity-80" : "opacity-100"
-			} text-white transition duration-500 rounded-lg bg-[color:var(--mainColor)] py-2 flex items-center justify-between`}
+			className={cn(
+				expanded ? "ps-1 pe-2" : "",
+				isDone ? "opacity-80" : "opacity-100",
+				"text-white rounded-lg bg-[color:var(--mainColor)] py-2 flex items-center justify-between"
+			)}
 		>
 			<button
 				aria-label="complete-the-habit"
